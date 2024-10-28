@@ -1,0 +1,13 @@
+{
+  "name": "@gugbab-integrated-admin-poc/tsconfig",
+  "version": "0.0.1",
+  "description": "gugbab-integrated-admin-poc tsconifg package",
+  "author": "gugbab",
+  "keywords": [
+    "gugbab"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
