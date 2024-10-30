@@ -1,0 +1,1 @@
+window.process = {env: {}};window.process.env = {"NEXT_PUBLIC_API_URL":"http://localhost:4100","NEXT_PUBLIC_SHORT_ENV":"DEV"}

@@ -1,0 +1,40 @@
+const { createServer: https } = require('https');
+const { createServer: http } = require('http');
+const { networkInterfaces } = require('os');
+const { parse } = require('url');
+const fs = require('fs');
+const path = require('path');
+const next = require('next');
+
+const networkInterface = networkInterfaces();
+
+const ports = {
+  http: 4100,
+  https: 4200,
+};
+
+
+const dev = process.env.NODE_ENV !== 'production';
+const hostname = 'local.gugbab.co.kr';
+const port = ports.https;
+
+const app = next({ dev, hostname, port });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  const localAddress = networkInterface['en0']?.find(({ family }) => family === 'IPv4')?.['address'];
+  const strings = {
+    ready: '[ \x1b[32mready\x1b[0m ]',
+    http: '\x1b[43mHTTP\x1b[0m',
+    https: '\x1b[44mHTTPS\x1b[0m',
+  };
+
+  http((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    return handle(req, res, parsedUrl);
+  }).listen(ports.http, err => {
+    if (err) throw err;
+    console.log(`${strings.http}  ${strings.ready} on http://localhost:${ports.http}`);
+    console.log(`${strings.http}  ${strings.ready} on http://${localAddress}:${ports.http}`);
+  });
+});
