@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
+    "dev:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin dev",
     "build": "turbo run build",
     "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
     "typecheck": "turbo run typecheck",
+    "typecheck:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin typecheck",
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
     "clear-install": "bash scripts/clear-install/index.sh"
   },
