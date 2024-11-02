@@ -1,0 +1,45 @@
+{
+  "name": "@gugbab-integrated-admin-poc/ui-sass",
+  "version": "0.0.0",
+  "description": "gugbab-integrated-admin-poc ui-sass package",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "author": "gugbab",
+  "keywords": [
+    "gugbab"
+  ],
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.umd.cjs",
+      "import": "./dist/index.js"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "pnpm build --watch",
+    "build": "tsc && vite build",
+    "typecheck": "tsc -b tsconfig.json"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
+    "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "sass": "^1.80.6",
+    "vite": "^5.4.9",
+    "vite-plugin-dts": "^4.3.0",
+    "vite-tsconfig-paths": "^5.0.1"
+  }
+}

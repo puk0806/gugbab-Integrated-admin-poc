@@ -8,9 +8,11 @@
     "dev:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin dev",
     "build": "turbo run build",
     "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
+    "build:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass build",
     "typecheck": "turbo run typecheck",
     "typecheck:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin typecheck",
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
+    "typecheck:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass typecheck",
     "clear-install": "bash scripts/clear-install/index.sh"
   },
   "keywords": [],

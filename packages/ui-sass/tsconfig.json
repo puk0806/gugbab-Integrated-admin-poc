@@ -1,0 +1,14 @@
+{
+  "extends": "@gugbab-integrated-admin-poc/tsconfig/react-library.json",
+  "include": ["src/**/*"],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components": ["components/index.ts"],
+      "@styles": ["styles/index.ts"],
+      "@types": ["types/index.ts"],
+      "@utils": ["utils/index.ts"]
+    }
+  }
+}

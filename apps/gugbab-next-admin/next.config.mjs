@@ -17,9 +17,9 @@ const nextConfig = {
       },
     ];
   },
-  // sassOptions: {
-  //   includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'node_modules/@gugbab-integrated-admin-poc/ui-sass')],
-  // },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'node_modules/@gugbab-integrated-admin-poc/ui-sass')],
+  },
   transpilePackages: ["@gugbab-integrated-admin-poc/ui-vanilla-extract"],
   output: "standalone",
   webpack: (config) => {

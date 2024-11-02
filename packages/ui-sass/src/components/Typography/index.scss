@@ -1,0 +1,84 @@
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+@use "public/styles/abstracts/mixins";
+
+.typography {
+  $self: #{&};
+  vertical-align: baseline;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  &#{$self}--H1 {
+    font-size: font.$font-size-32;
+    letter-spacing: -0.5;
+    line-height: font.toRem(44px);
+  }
+  &#{$self}--H2 {
+    font-size: font.$font-size-28;
+    letter-spacing: -0.5;
+    line-height: font.toRem(36px);
+  }
+  &#{$self}--H3 {
+    font-size: font.$font-size-24;
+    letter-spacing: -0.5;
+    line-height: font.toRem(32px);
+  }
+  &#{$self}--H4 {
+    font-size: font.$font-size-20;
+    letter-spacing: -0.5;
+    line-height: font.toRem(8px);
+  }
+  &#{$self}--B1 {
+    font-size: font.$font-size-18;
+    letter-spacing: 0;
+    line-height: font.toRem(28px);
+  }
+  &#{$self}--B2 {
+    font-size: font.$font-size-16;
+    letter-spacing: 0;
+    line-height: font.toRem(24px);
+  }
+  &#{$self}--B3 {
+    font-size: font.$font-size-14;
+    letter-spacing: 0;
+    line-height: font.toRem(22px);
+  }
+  &#{$self}--C1 {
+    font-size: font.$font-size-13;
+    letter-spacing: 0;
+    line-height: font.toRem(20px);
+  }
+  &#{$self}--C2 {
+    font-size: font.$font-size-12;
+    letter-spacing: 0;
+    line-height: font.toRem(16px);
+  }
+  &#{$self}--C3 {
+    font-size: font.$font-size-10;
+    letter-spacing: 0;
+    line-height: font.toRem(16px);
+  }
+
+  &#{$self}--underline {
+    text-decoration: underline;
+  }
+
+  $font-weights: (
+    "regular": 400,
+    "medium": 600,
+    "bold": 700,
+  );
+  @each $weight, $weightSize in $font-weights {
+    &#{$self}--#{$weight} {
+      font-weight: $weightSize;
+    }
+  }
+
+  @include mixins.colorClass($self);
+
+  &#{$self}--is-ellipsis-1 {
+    @include mixins.ellipsisSingle();
+  }
+  &#{$self}--is-ellipsis-2 {
+    @include mixins.ellipsisMulti();
+  }
+}
