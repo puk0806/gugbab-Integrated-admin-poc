@@ -1,0 +1,33 @@
+{
+  "name": "@gugbab-integrated-admin-poc/storybook",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "storybook dev -p 5000",
+    "typecheck": "tsc -b tsconfig.json",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",
+    "@gugbab-integrated-admin-poc/ui-vanilla-extract": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
+    "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
+    "@storybook/addon-essentials": "^8.0.6",
+    "@storybook/addon-interactions": "^8.0.6",
+    "@storybook/addon-links": "^8.0.6",
+    "@storybook/react": "^8.0.6",
+    "@storybook/react-vite": "^8.0.6",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vanilla-extract/vite-plugin": "^4.0.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "chromatic": "^11.5.5",
+    "eslint": "^8.57.0",
+    "storybook": "^8.0.6",
+    "vite-tsconfig-paths": "^4.3.2"
+  }
+}

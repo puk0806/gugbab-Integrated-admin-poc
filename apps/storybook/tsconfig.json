@@ -1,0 +1,26 @@
+{
+  "extends": "@gugbab-integrated-admin-poc/tsconfig/react-library.json",
+  "include": [".", "stories/**/*.ts", "stories/**/*.tsx"],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@ui-sass/styles": ["../../packages/ui-sass/src/styles/index.ts"],
+      "@ui-sass/components": ["../../packages/ui-sass/src/components/index.ts"],
+      "@ui-sass/types": ["../../packages/ui/src-sass/types/index.ts"],
+      "@ui-sass/utils": ["../../packages/ui/src-sass/utils/index.ts"],
+      "@ui-vanilla-extract/styles": [
+        "../../packages/ui-vanilla-extract/src/styles/index.ts"
+      ],
+      "@ui-vanilla-extract/components": [
+        "../../packages/ui-vanilla-extract/src/components/index.ts"
+      ],
+      "@ui-vanilla-extract/types": [
+        "../../packages/ui/src-vanilla-extract/types/index.ts"
+      ],
+      "@ui-vanilla-extract/utils": [
+        "../../packages/ui/src-vanilla-extract/utils/index.ts"
+      ]
+    }
+  }
+}

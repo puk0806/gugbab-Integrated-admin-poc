@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
 import { Tag, TypographyProps } from '@types';
-import { font, palette } from '@styles';
 import { classnames } from '@utils';
+import { font, palette } from '@styles';
 import * as styles from './index.css';
 
 const Typography = <E extends Tag = 'span'>({
