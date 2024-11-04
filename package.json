@@ -7,9 +7,10 @@
     "dev": "turbo run dev",
     "dev:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin dev",
     "dev:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook dev",
+    "dev:ui:vanilla": "pnpm --filter  @gugbab-integrated-admin-poc/ui-vanilla-extract dev",
     "build": "turbo run build",
-    "build:app":"pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin build",
-    "build:storybook":"pnpm --filter @gugbab-integrated-admin-poc/storybook build",
+    "build:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin build",
+    "build:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook build",
     "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
     "build:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass build",
     "typecheck": "turbo run typecheck",
@@ -28,6 +29,6 @@
     "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
     "prettier": "^3.1.1",
     "turbo": "^2.2.3",
-    "typescript": "^5.6.3"
+    "typescript": "^5.3.3"
   }
 }

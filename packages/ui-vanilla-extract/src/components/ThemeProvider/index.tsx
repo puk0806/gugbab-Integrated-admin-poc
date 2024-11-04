@@ -1,5 +1,5 @@
-import { ThemeProviderProps } from '@types';
 import { useEffect } from 'react';
+import { ThemeProviderProps } from '@types';
 
 const ThemeProvider = ({ children, theme }: ThemeProviderProps) => {
   useEffect(() => {
