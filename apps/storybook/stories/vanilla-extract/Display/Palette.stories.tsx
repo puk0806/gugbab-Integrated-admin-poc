@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Typography } from '@ui-vanilla-extract/components';
 import { Meta, StoryObj } from '@storybook/react';
-import { palette } from '@ui-vanilla-extract/styles';
+import { palette, Typography } from '@gugbab-integrated-admin-poc/ui-vanilla-extract';
 
 interface PaletteProps {
   color?: keyof typeof palette;

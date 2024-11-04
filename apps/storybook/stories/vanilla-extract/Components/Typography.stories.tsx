@@ -1,6 +1,5 @@
-import { TypographyProps } from '@gugbab-integrated-admin-poc/ui-vanilla-extract';
+import { Typography, TypographyProps } from '@gugbab-integrated-admin-poc/ui-vanilla-extract';
 import { Meta, StoryObj } from '@storybook/react';
-import { Typography } from '@ui-vanilla-extract/components';
 
 const story: Meta<TypographyProps> = {
   component: Typography,
