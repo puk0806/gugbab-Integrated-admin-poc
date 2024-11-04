@@ -57,3 +57,5 @@ dist-ssr
 .turbo/
 
 storybook-static/
+
+tsconfig.tsbuildinfo
