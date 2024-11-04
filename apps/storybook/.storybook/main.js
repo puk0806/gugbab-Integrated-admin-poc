@@ -37,7 +37,7 @@ const config = {
           },
           {
             find: "@ui-sass/utils",
-            replacement: `${UI_SASS_PATH}/src/types`,
+            replacement: `${UI_SASS_PATH}/src/utils`,
           },
 
           {
@@ -54,7 +54,7 @@ const config = {
           },
           {
             find: "@ui-vanilla-extract/utils",
-            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/types`,
+            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/utils`,
           },
         ],
       },
