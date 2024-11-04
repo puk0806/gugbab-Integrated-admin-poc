@@ -23,39 +23,34 @@ const config = {
       ...config,
       resolve: {
         alias: [
-          {
-            find: "@ui-sass/styles",
-            replacement: `${UI_SASS_PATH}/src/styles`,
-          },
-          {
-            find: "@ui-sass/components",
-            replacement: `${UI_SASS_PATH}/src/components`,
-          },
-          {
-            find: "@ui-sass/types",
-            replacement: `${UI_SASS_PATH}/src/types`,
-          },
-          {
-            find: "@ui-sass/utils",
-            replacement: `${UI_SASS_PATH}/src/utils`,
-          },
-
-          {
-            find: "@ui-vanilla-extract/styles",
-            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/styles`,
-          },
-          {
-            find: "@ui-vanilla-extract/components",
-            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/components`,
-          },
-          {
-            find: "@ui-vanilla-extract/types",
-            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/types`,
-          },
-          {
-            find: "@ui-vanilla-extract/utils",
-            replacement: `${UI_VANILLA_EXTRACT_PATH}/src/utils`,
-          },
+          // {
+          //   find: "@ui-sass/components",
+          //   replacement: `${UI_SASS_PATH}/src/components`,
+          // },
+          // {
+          //   find: "@ui-sass/types",
+          //   replacement: `${UI_SASS_PATH}/src/types`,
+          // },
+          // {
+          //   find: "@ui-sass/utils",
+          //   replacement: `${UI_SASS_PATH}/src/utils`,
+          // },
+          // {
+          //   find: "@ui-vanilla-extract/styles",
+          //   replacement: `${UI_VANILLA_EXTRACT_PATH}/src/styles`,
+          // },
+          // {
+          //   find: "@ui-vanilla-extract/components",
+          //   replacement: `${UI_VANILLA_EXTRACT_PATH}/src/components`,
+          // },
+          // {
+          //   find: "@ui-vanilla-extract/types",
+          //   replacement: `${UI_VANILLA_EXTRACT_PATH}/src/types`,
+          // },
+          // {
+          //   find: "@ui-vanilla-extract/utils",
+          //   replacement: `${UI_VANILLA_EXTRACT_PATH}/src/utils`,
+          // },
         ],
       },
       define: {

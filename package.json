@@ -14,8 +14,8 @@
     "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
     "build:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass build",
     "typecheck": "turbo run typecheck",
-    "typecheck:app": "pnpm --filter @gugbab-integrated-admin-poc/storybook typecheck",
-    "typecheck:storybook": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin typecheck",
+    "typecheck:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin typecheck",
+    "typecheck:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook typecheck",
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
     "typecheck:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass typecheck",
     "clear-install": "bash scripts/clear-install/index.sh"
@@ -29,6 +29,6 @@
     "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
     "prettier": "^3.1.1",
     "turbo": "^2.2.3",
-    "typescript": "^5.3.3"
+    "typescript": "5.3.3"
   }
 }
