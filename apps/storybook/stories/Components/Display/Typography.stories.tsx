@@ -1,8 +1,7 @@
-import { TypographyProps } from '@types';
 import { Typography } from '@components';
 import { Meta, StoryObj } from '@storybook/react';
 
-const story: Meta<TypographyProps> = {
+const story: Meta<typeof Typography> = {
   title: 'Components/Typography',
   component: Typography,
   tags: ['autodocs'],
@@ -11,7 +10,7 @@ const story: Meta<TypographyProps> = {
 
 export default story;
 
-export const Default: StoryObj<TypographyProps> = {
+export const Default: StoryObj<typeof Typography> = {
   args: {
     children: 'Typography',
   },
