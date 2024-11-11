@@ -1,2 +1,5 @@
 @use "./palette";
 @use "./font";
+
+@forward "./partials/utils";
+@forward "./partials/color";

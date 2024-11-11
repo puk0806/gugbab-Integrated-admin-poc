@@ -1,25 +1,25 @@
 import { ElementType, memo } from 'react';
-import { Tag, TypographyProps } from '@types';
+import { TypographyTags, TypographyProps, PolymorphicComponentProps } from '@types';
 import { bem } from '@utils';
 
 const cn = bem('typography');
 
-const Typography = <E extends Tag = 'span'>({
+const Typography = <T extends TypographyTags = 'span'>({
   children,
   color,
   component,
   isEllipsisOneLine,
   isEllipsisTwoLine,
   underline,
-  variant = 'B2',
-  weight = 'medium',
-  ...otherProps
-}: TypographyProps<E>) => {
+  variant = 'B1',
+  weight = 'regular',
+  ...props
+}: PolymorphicComponentProps<T, TypographyProps>) => {
   const Component = (component || 'span') as ElementType;
 
   return (
     <Component
-      {...otherProps}
+      {...props}
       className={cn(undefined, {
         [`${variant}`]: variant,
         regular: weight === 'regular',

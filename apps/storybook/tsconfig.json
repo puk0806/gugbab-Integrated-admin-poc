@@ -5,21 +5,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      // "@ui-sass/components": ["../../packages/ui-sass/src/components/index.ts"],
-      // "@ui-sass/types": ["../../packages/ui-sass/src/types/index.ts"],
-      // "@ui-sass/utils": ["../../packages/ui-sass/src/utils/index.ts"],
-      // "@ui-vanilla-extract/styles": [
-      //   "../../packages/ui-vanilla-extract/src/styles/index.ts"
-      // ],
-      // "@ui-vanilla-extract/components": [
-      //   "../../packages/ui-vanilla-extract/src/components/index.ts"
-      // ],
-      // "@ui-vanilla-extract/types": [
-      //   "../../packages/ui-vanilla-extract/src/types/index.ts"
-      // ],
-      // "@ui-vanilla-extract/utils": [
-      //   "../../packages/ui-vanilla-extract/src/utils/index.ts"
-      // ]
+      "@components": ["../../packages/ui-sass/src/components/index.ts"],
+      "@types": ["../../packages/ui-sass/src/types/index.ts"],
+      "@utils": ["../../packages/ui-sass/src/utils/index.ts"],
+      
     }
   }
 }

@@ -1,7 +1,9 @@
-import { Typography, TypographyProps } from '@gugbab-integrated-admin-poc/ui-vanilla-extract';
+import { TypographyProps } from '@types';
+import { Typography } from '@components';
 import { Meta, StoryObj } from '@storybook/react';
 
 const story: Meta<TypographyProps> = {
+  title: 'Components/Typography',
   component: Typography,
   tags: ['autodocs'],
   parameters: {},

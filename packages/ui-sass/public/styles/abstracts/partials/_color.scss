@@ -1,0 +1,140 @@
+@use "sass:selector";
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+
+@mixin colorNameLoop($self, $colorname) {
+  @each $name, $color in $colorname {
+    &#{$self}--#{$name} {
+      color: $color;
+    }
+  }
+}
+
+@mixin colorClass($self) {
+  $color-primary: (
+    "primary": palette.$Primary,
+  );
+
+  $color-logo: (
+    "logo-main-red": palette.$Logo-MainRed,
+    "logo-sub-lime": palette.$Logo-SubLime,
+  );
+
+  $color-secondary: (
+    "secondary-navy": palette.$Secondary-Navy,
+    "secondary-navy-blue": palette.$Secondary-NavyBlue,
+    "secondary-green": palette.$Secondary-Green,
+  );
+
+  $color-accent: (
+    "accent-yellow": palette.$Accent-Yellow,
+    "accent-negative-red": palette.$Accent-NegativeRed,
+    "accent-red": palette.$Accent-Red,
+    "accent-orange": palette.$Accent-Orange,
+  );
+
+  $color-grayscale-gray: (
+    "grayscale-gray900": palette.$Grayscale-Gray900,
+    "grayscale-gray800": palette.$Grayscale-Gray800,
+    "grayscale-gray700": palette.$Grayscale-Gray700,
+    "grayscale-gray500": palette.$Grayscale-Gray500,
+    "grayscale-gray400": palette.$Grayscale-Gray400,
+    "grayscale-gray300": palette.$Grayscale-Gray300,
+    "grayscale-gray200": palette.$Grayscale-Gray200,
+    "grayscale-gray100": palette.$Grayscale-Gray100,
+    "grayscale-gray50": palette.$Grayscale-Gray50,
+  );
+
+  $color-red: (
+    "redscale-red900": palette.$Redscale-Red900,
+    "redscale-red700": palette.$Redscale-Red700,
+    "redscale-red600": palette.$Redscale-Red600,
+    "redscale-red500": palette.$Redscale-Red500,
+    "redscale-red400": palette.$Redscale-Red400,
+    "redscale-red300": palette.$Redscale-Red300,
+    "redscale-red200": palette.$Redscale-Red200,
+    "redscale-red100": palette.$Redscale-Red100,
+    "redscale-red50": palette.$Redscale-Red50,
+  );
+
+  $color-status: (
+    "white": palette.$White,
+    "black": palette.$Black,
+    "gray": palette.$Gray,
+    "disable": palette.$Disable,
+    "contents-bg": palette.$ContentsBG,
+  );
+
+  @include colorNameLoop($self, $color-logo);
+  @include colorNameLoop($self, $color-secondary);
+  @include colorNameLoop($self, $color-accent);
+  @include colorNameLoop($self, $color-grayscale-gray);
+  @include colorNameLoop($self, $color-red);
+  @include colorNameLoop($self, $color-status);
+}
+
+@mixin backgroundColorNameLoop($self, $colorname) {
+  @each $name, $color in $colorname {
+    &#{$self}--#{$name} {
+      background-color: $color;
+    }
+  }
+}
+
+@mixin backgroundColorClass($self) {
+  $color-logo: (
+    "logo-main-red": palette.$Logo-MainRed,
+    "logo-sub-lime": palette.$Logo-SubLime,
+  );
+
+  $color-secondary: (
+    "secondary-navy": palette.$Secondary-Navy,
+    "secondary-green": palette.$Secondary-Green,
+  );
+
+  $color-accent: (
+    "accent-yellow": palette.$Accent-Yellow,
+    "accent-negative-red": palette.$Accent-NegativeRed,
+    "accent-red": palette.$Accent-Red,
+    "accent-orange": palette.$Accent-Orange,
+  );
+
+  $color-grayscale-gray: (
+    "grayscale-gray900": palette.$Grayscale-Gray900,
+    "grayscale-gray800": palette.$Grayscale-Gray800,
+    "grayscale-gray700": palette.$Grayscale-Gray700,
+    "grayscale-gray500": palette.$Grayscale-Gray500,
+    "grayscale-gray400": palette.$Grayscale-Gray400,
+    "grayscale-gray300": palette.$Grayscale-Gray300,
+    "grayscale-gray200": palette.$Grayscale-Gray200,
+    "grayscale-gray100": palette.$Grayscale-Gray100,
+    "grayscale-gray50": palette.$Grayscale-Gray50,
+  );
+
+  $color-red: (
+    "redscale-red900": palette.$Redscale-Red900,
+    "redscale-red700": palette.$Redscale-Red700,
+    "redscale-red600": palette.$Redscale-Red600,
+    "redscale-red500": palette.$Redscale-Red500,
+    "redscale-red400": palette.$Redscale-Red400,
+    "redscale-red300": palette.$Redscale-Red300,
+    "redscale-red200": palette.$Redscale-Red200,
+    "redscale-red100": palette.$Redscale-Red100,
+    "redscale-red50": palette.$Redscale-Red50,
+  );
+
+  $color-status: (
+    "white": palette.$White,
+    "black": palette.$Black,
+    "gray": palette.$Gray,
+    "disable": palette.$Disable,
+    "contents-bg": palette.$ContentsBG,
+  );
+
+  @include backgroundColorNameLoop($self, $color-logo);
+  @include backgroundColorNameLoop($self, $color-secondary);
+  @include backgroundColorNameLoop($self, $color-accent);
+  @include backgroundColorNameLoop($self, $color-grayscale-gray);
+  @include backgroundColorNameLoop($self, $color-red);
+  @include backgroundColorNameLoop($self, $color-status);
+}

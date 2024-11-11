@@ -19,12 +19,15 @@
     "./index.css": "./dist/index.css"
   },
   "files": [
-    "dist/**"
+    "dist/**",
+    "public/styles/abstracts",
+    "public/styles/components.css"
   ],
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc && vite build",
-    "typecheck": "tsc -b tsconfig.json"
+    "typecheck": "tsc -b tsconfig.json",
+    "sass-compile": "sh ./scripts/sass-compile.sh"
   },
   "peerDependencies": {
     "react": "^18.3.1",

@@ -4,6 +4,7 @@
   "description": "gugbab integrated admin poc",
   "main": "index.js",
   "scripts": {
+    "compile:storybook:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass sass-compile",
     "dev": "turbo run dev",
     "dev:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin dev",
     "dev:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook dev",
