@@ -13,5 +13,7 @@ export default story;
 export const Default: StoryObj<typeof Typography> = {
   args: {
     children: 'Typography',
+    variant: 'D1',
+    weight: 'medium',
   },
 };

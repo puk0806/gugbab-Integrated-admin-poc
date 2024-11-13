@@ -18,6 +18,17 @@ const config = {
   docs: {
     autodocs: true,
   },
+  typescript: {
+    check: true,
+    // react-docgen-typescript not working atm
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      propFilter: (prop) =>
+        prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
+    },
+  },
   async viteFinal(config) {
     return mergeConfig({
       ...config,
@@ -42,6 +53,11 @@ const config = {
       },
       css: {
         postcss: null,
+        preprocessorOptions: {
+          scss: {
+            includePaths: [resolve(UI_SASS_PATH)],
+          },
+        },
       },
     });
   },
