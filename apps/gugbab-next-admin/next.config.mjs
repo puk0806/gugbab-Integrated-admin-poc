@@ -1,10 +1,10 @@
-import path from 'path';
-import { URL } from 'url';
-import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
+import path from "path";
+import { URL } from "url";
+// import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
-const withVanillaExtract = createVanillaExtractPlugin();
+// const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -18,7 +18,10 @@ const nextConfig = {
     ];
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'node_modules/@gugbab-integrated-admin-poc/ui-sass')],
+    includePaths: [
+      path.join(__dirname, "styles"),
+      path.join(__dirname, "node_modules/@gugbab-integrated-admin-poc/ui-sass"),
+    ],
   },
   transpilePackages: ["@gugbab-integrated-admin-poc/ui-sass"],
   output: "standalone",
@@ -34,4 +37,5 @@ const nextConfig = {
   },
 };
 
-export default withVanillaExtract(nextConfig);
+// export default withVanillaExtract(nextConfig);
+export default nextConfig;

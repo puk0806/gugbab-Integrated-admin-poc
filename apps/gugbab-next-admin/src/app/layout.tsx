@@ -1,5 +1,6 @@
 import Script from "next/script";
 import "./globals.css";
+import "@gugbab-integrated-admin-poc/ui-sass/public/styles/components.css"
 
 export const metadata = {
   title: "Next.js",

@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: './dist',
     lib: {
       entry: './src/index.ts',
-      name: 'ui',
+      name: 'ui-vanilla-extract',
       fileName: 'index',
     },
     rollupOptions: {
