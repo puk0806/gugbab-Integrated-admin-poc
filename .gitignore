@@ -43,4 +43,6 @@ storybook-static
 memo.md
 **/__ENV.js
 
-tsconfig.tsbuildinfo
+# typescript
+*.tsbuildinfo
+**/next-env.d.ts

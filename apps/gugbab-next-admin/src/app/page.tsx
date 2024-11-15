@@ -1,12 +1,9 @@
-"use client";
+import { cookies } from "next/headers";
+import RootClient from "./client";
 
-// import { Typography } from "@gugbab-integrated-admin-poc/ui-sass";
-import { Typography } from "@gugbab-integrated-admin-poc/ui-vanilla-extract";
+export default function RootPage() {
+  const environment = globalThis.process?.env.NEXT_PUBLIC_SHORT_ENV;
+  const cookieStore = cookies();
 
-export default function Home() {
-  return (
-    <main>
-      <Typography>test</Typography>
-    </main>
-  );
+  return <RootClient environment={environment!} />;
 }

@@ -20,7 +20,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'node_modules/@gugbab-integrated-admin-poc/ui-sass')],
   },
-  transpilePackages: ["@gugbab-integrated-admin-poc/ui-vanilla-extract"],
+  transpilePackages: ["@gugbab-integrated-admin-poc/ui-sass"],
   output: "standalone",
   webpack: (config) => {
     config.resolve.alias["~"] = path.resolve(__dirname + "/src");

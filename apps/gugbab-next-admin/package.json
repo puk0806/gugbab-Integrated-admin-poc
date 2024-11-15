@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "cross-env-shell APP_ENV=local pnpm start",
-    "build": "next build",
+    "build": "cross-env-shell APP_ENV=local && env-cmd -f ./env/.env.local next build --debug",
+    "build:copy": "sh ./scripts/postbuild.sh",
+    "build:dev": "pnpm run build && pnpm run build:copy",
     "start": "cross-env-shell node scripts/pre-start.js next-env -e ${APP_ENV} -m development && node server.js",
     "lint": "next lint",
     "typecheck": "tsc -b tsconfig.json"
