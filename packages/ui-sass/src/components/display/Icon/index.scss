@@ -1,0 +1,8 @@
+@use "public/styles/abstracts/palette";
+@use "public/styles/abstracts/mixins";
+
+.icon {
+  $self: #{&};
+  position: relative;
+  @include mixins.colorClass($self);
+}

@@ -216,6 +216,9 @@ importers:
 
   packages/ui-sass:
     dependencies:
+      '@gugbab-integrated-admin-poc/icons':
+        specifier: workspace:*
+        version: link:../icons
       react:
         specifier: ^18.3.1
         version: 18.3.1

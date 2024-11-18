@@ -8,6 +8,7 @@
     "dev": "turbo run dev",
     "dev:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin dev",
     "dev:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook dev",
+    "dev:ui:sass": "pnpm --filter  @gugbab-integrated-admin-poc/ui-sass dev",
     "dev:ui:vanilla": "pnpm --filter  @gugbab-integrated-admin-poc/ui-vanilla-extract dev",
     "build": "turbo run build",
     "build:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin build",
