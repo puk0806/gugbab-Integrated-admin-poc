@@ -1,0 +1,17 @@
+{
+  "inputDir": "src/svgs",
+  "outputDir": "./dist",
+  "normalize": true,
+  "fontHeight": 300,
+  "fontTypes": ["woff2", "woff"],
+  "assetTypes": ["css", "html"],
+  "templates": {
+    "css": "src/templates/css.hbs",
+    "html": "src/templates/html.hbs"
+  },
+  "pathOptions": {
+    "woff2": "dist/icons.woff2",
+    "woff": "dist/icons.woff",
+    "html": "dist/icons.html"
+  }
+}

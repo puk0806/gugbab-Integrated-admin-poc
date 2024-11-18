@@ -1,0 +1,32 @@
+@font-face {
+    font-family: "{{ name }}";
+    src: {{{ fontSrc }}};
+    font-display: block;
+}
+
+i.{{ prefix }} {
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-feature-settings: normal;
+    font-variant: normal;
+    font-family: icons!important;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: top;
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-size: cover;
+}
+
+i.{{ prefix }}::before {
+    vertical-align: top;
+}
+
+{{# each codepoints }}
+.{{ ../prefix }}--{{ @key }}::before {
+    content: '\\{{ codepoint this }}';
+}
+{{/ each }}

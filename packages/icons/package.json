@@ -1,0 +1,28 @@
+{
+  "name": "@gugbab-integrated-admin-poc/icons",
+  "version": "0.0.1",
+  "description": "gugbab-integrated-admin-poc icons package",
+  "sideEffects": false,
+  "main": "dist/index.ts",
+  "module": "dist/index.ts",
+  "files": [
+    "dist/**"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "sh scripts/generate-constants.sh && fantasticon",
+    "prebuild": "node scripts/prebuild.js",
+    "postbuild": "sh scripts/add-static-images.sh && pnpm cleancss -b --batch-suffix '' dist/*.css",
+    "svgfix": "sh scripts/svgfix.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
+    "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
+    "clean-css-cli": "^5.6.3",
+    "fantasticon": "^2.0.0",
+    "oslllo-svg-fixer": "^5.0.0"
+  }
+}

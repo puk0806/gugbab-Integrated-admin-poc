@@ -19,6 +19,8 @@
     "typecheck:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook typecheck",
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
     "typecheck:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass typecheck",
+    "generate-icons":"pnpm --filter @gugbab-integrated-admin-poc/icons build",
+    "fix-svg":"pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
     "clear-install": "bash scripts/clear-install/index.sh"
   },
   "keywords": [],
