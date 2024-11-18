@@ -1,0 +1,169 @@
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+
+.button {
+  $self: #{&};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  border: 0;
+  padding: 0 24px;
+  border-radius: 8px;
+
+  &:disabled {
+    cursor: auto;
+  }
+
+  &#{$self}--is-full-width {
+    width: 100%;
+  }
+
+  &#{$self}--xlarge {
+    height: font.toRem(52px);
+
+    & > .icon {
+      font-size: font.toRem(20px);
+    }
+    .icon + .typography {
+      margin-left: 4px;
+    }
+    .typography + .icon {
+      margin-left: 4px;
+    }
+    &#{$self}--has-left-icon {
+      .icon:first-of-type {
+        margin-left: -4px;
+      }
+    }
+    &#{$self}--has-right-icon {
+      .icon:last-of-type {
+        margin-right: -4px;
+      }
+    }
+  }
+
+  &#{$self}--large {
+    height: font.toRem(48px);
+
+    & > .icon {
+      font-size: font.toRem(20px);
+    }
+
+    .icon + .typography {
+      margin-left: 4px;
+    }
+    .typography + .icon {
+      margin-left: 4px;
+    }
+    &#{$self}--has-left-icon {
+      .icon:first-of-type {
+        margin-left: -4px;
+      }
+    }
+    &#{$self}--has-right-icon {
+      .icon:last-of-type {
+        margin-right: -4px;
+      }
+    }
+  }
+
+  &#{$self}--medium {
+    height: font.toRem(40px);
+
+    & > i {
+      font-size: font.toRem(20px);
+    }
+    .icon + .typography {
+      margin-left: 4px;
+    }
+    .typography + .icon {
+      margin-left: 4px;
+    }
+    &#{$self}--has-left-icon {
+      .icon:first-of-type {
+        margin-left: -4px;
+      }
+    }
+    &#{$self}--has-right-icon {
+      .icon:last-of-type {
+        margin-right: -4px;
+      }
+    }
+  }
+
+  &#{$self}--small {
+    border-radius: 4px;
+    height: font.toRem(32px);
+    padding: 0 12px;
+
+    & > i {
+      font-size: font.toRem(16px);
+    }
+    .icon + .typography {
+      margin-left: 2px;
+    }
+    .typography + .icon {
+      margin-left: 2px;
+    }
+    &#{$self}--has-left-icon {
+      .icon:first-of-type {
+        margin-left: -2px;
+      }
+    }
+    &#{$self}--has-right-icon {
+      .icon:last-of-type {
+        margin-right: -2px;
+      }
+    }
+  }
+
+  &#{$self}--primary {
+    color: #ffffff;
+    background-color: palette.$Primary;
+    border: 1px solid palette.$Primary;
+
+    &:active {
+      background-color: palette.$Primary;
+      border: 1px solid palette.$Primary;
+    }
+
+    &:disabled,
+    &:disabled:active {
+      background-color: palette.$Grayscale-Gray300;
+      border: 1px solid palette.$Grayscale-Gray300;
+    }
+  }
+
+  &#{$self}--secondary {
+    color: palette.$Grayscale-Gray900;
+    background-color: #ffffff;
+    border: 1px solid palette.$Grayscale-Gray300;
+
+    &:active {
+      background-color: palette.$Grayscale-Gray50;
+      border: 1px solid palette.$Grayscale-Gray300;
+    }
+
+    &:disabled,
+    &:disabled:active {
+      color: palette.$Grayscale-Gray300;
+      background-color: #ffffff;
+      border-color: palette.$Grayscale-Gray200;
+    }
+  }
+
+  &#{$self}--black {
+    color: palette.$White;
+    background-color: palette.$Grayscale-Gray900;
+    border: 1px solid palette.$Grayscale-Gray900;
+
+    &:disabled,
+    &:disabled:active {
+      color: palette.$White;
+      background-color: palette.$Grayscale-Gray300;
+      border-color: palette.$Grayscale-Gray300;
+    }
+  }
+}
