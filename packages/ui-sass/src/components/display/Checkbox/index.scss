@@ -1,0 +1,171 @@
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+
+.checkbox {
+  $self: #{&};
+  $defaultSize: font.toRem(20px);
+  $defaultSpacing: 12px;
+  $noneSpacing: 8px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+
+  input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+
+    &:checked ~ span i {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    &:focus-visible + label {
+      outline: 1px dotted palette.$Grayscale-Gray300;
+    }
+  }
+
+  label {
+    z-index: 1;
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    cursor: pointer;
+
+    .typography {
+      padding-left: $defaultSpacing;
+      line-height: $defaultSize !important;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      word-break: break-word;
+      user-select: none;
+    }
+
+    &:before {
+      z-index: 2;
+      flex: none;
+      display: inline-block;
+      content: "";
+      width: calc($defaultSize - 2px);
+      height: calc($defaultSize - 2px);
+      border: 1px solid palette.$Grayscale-Gray300;
+      border-radius: 2px;
+      //background-color: palette.$White;
+    }
+  }
+
+  > span i {
+    display: none;
+    color: palette.$Grayscale-Gray300;
+  }
+
+  /** borderType circle 처리 */
+  &#{$self}--border-circle {
+    label:before {
+      border-radius: 50%;
+    }
+  }
+
+  /** borderType none 처리 */
+  &#{$self}--border-none {
+    label {
+      span {
+        padding-left: $noneSpacing;
+      }
+      &:before {
+        border: none;
+      }
+    }
+  }
+
+  /** reverse 처리 */
+  &#{$self}--reverse {
+    width: 100%;
+    display: flex;
+
+    label {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      width: 100%;
+      span {
+        padding-right: $defaultSpacing;
+        padding-left: 0;
+      }
+    }
+
+    input[type="checkbox"]:checked ~ span i {
+      left: auto;
+      right: 0;
+    }
+
+    &#{$self}--border-none {
+      label span {
+        position: relative;
+        padding-left: 0;
+        padding-right: $noneSpacing;
+      }
+    }
+  }
+
+  /** disabled 처리 */
+  &#{$self}--disabled {
+    label:before {
+      background-color: palette.$Grayscale-Gray400;
+      opacity: 0.3;
+    }
+    input[type="checkbox"]:checked ~ span i {
+      color: palette.$White;
+      z-index: 1;
+    }
+  }
+
+  /** checkbox hidden 처리 */
+  &#{$self}--hidden-checkbox {
+    label {
+      &:before {
+        display: none;
+      }
+      span {
+        padding: 0;
+      }
+    }
+    > span i {
+      display: none !important;
+    }
+  }
+
+  /** label hidden 처리 */
+  &#{$self}--hidden-label {
+    width: $defaultSize;
+    height: $defaultSize;
+    input {
+      width: 0;
+      height: 0;
+    }
+
+    label {
+      width: $defaultSize;
+      height: $defaultSize;
+      position: absolute;
+      left: 0;
+      top: 0;
+      span {
+        position: absolute !important;
+        overflow: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        border: 0 !important;
+        clip: rect(1px, 1px, 1px, 1px);
+      }
+    }
+  }
+
+  #{$self}__icon {
+    z-index: 0;
+  }
+}
