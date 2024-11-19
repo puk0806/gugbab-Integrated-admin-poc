@@ -1,0 +1,9 @@
+@use "public/styles/abstracts/palette";
+@use "public/styles/abstracts/mixins";
+
+.checkbox-group {
+  $self: #{&};
+  display: flex;
+  flex-wrap: wrap;
+  @include mixins.designInput($self, "checkbox");
+}

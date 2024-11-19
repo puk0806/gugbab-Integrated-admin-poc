@@ -4,6 +4,7 @@ import { Checkbox } from '@components';
 import { useForm } from 'react-hook-form';
 
 const meta: Meta<typeof Checkbox> = {
+  title: 'Components/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
   parameters: {

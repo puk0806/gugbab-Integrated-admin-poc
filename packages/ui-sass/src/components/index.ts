@@ -1,4 +1,6 @@
 export { default as Button } from './display/Button';
+export { default as Checkbox } from './display/Checkbox';
+export { default as CheckboxGroup } from './display/CheckboxGroup';
 export { default as Icon } from './display/Icon';
 export { default as Typography } from './display/Typography';
 

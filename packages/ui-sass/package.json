@@ -25,9 +25,10 @@
     "postbuild": "sh ./scripts/postbuild.sh"
   },
   "peerDependencies": {
+    "@gugbab-integrated-admin-poc/icons": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@gugbab-integrated-admin-poc/icons": "workspace:*"
+    "react-hook-form": "^7.51.1"
   },
   "devDependencies": {
     "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
