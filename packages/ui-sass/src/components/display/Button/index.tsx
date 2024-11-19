@@ -1,7 +1,7 @@
 import type { ElementType } from 'react';
 import type { ButtonComponent, ButtonProps } from '@types';
 import { forwardRef, useMemo } from 'react';
-import { bem } from '@utils';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { Icon, Typography } from '../../index';
 
 const cn = bem('button');

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { bem } from '@utils';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { IrProps } from '@types';
 
 const cn = bem('ir');

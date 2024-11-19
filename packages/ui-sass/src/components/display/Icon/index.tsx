@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import { memo } from 'react';
-import { bem } from '@utils';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { IconProps } from '@types';
 import { Ir } from '../../../index';
 

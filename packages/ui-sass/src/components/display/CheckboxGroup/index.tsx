@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useController } from 'react-hook-form';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { CheckboxGroupProps } from '@types';
-import { bem } from '@utils';
 
 const cn = bem('checkbox-group');
 

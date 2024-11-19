@@ -1,6 +1,6 @@
 import { ElementType, memo } from 'react';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { TypographyTags, TypographyProps, PolymorphicComponentProps } from '@types';
-import { bem } from '@utils';
 
 const cn = bem('typography');
 

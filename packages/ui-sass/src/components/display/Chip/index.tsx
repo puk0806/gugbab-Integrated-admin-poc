@@ -1,6 +1,6 @@
 import { memo } from 'react';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { ChipProps } from '@types';
-import { bem } from '@utils';
 import Typography from '../Typography';
 
 const cn = bem('chip');

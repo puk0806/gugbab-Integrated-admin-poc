@@ -1,0 +1,24 @@
+{
+  "name": "@gugbab-integrated-admin-poc/utils",
+  "version": "0.0.1",
+  "description": "gugbab-integrated-admin-poc ui-sass utils",
+  "sideEffects": false,
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc -b tsconfig.json",
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
+    "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
+    "@types/node": "18.16.1",
+    "tslib": "^2.5.2",
+    "tsup": "^8.0.2"
+  }
+}

@@ -63,7 +63,7 @@ export const Default: StoryObj<${pascalComponentName}Props> = {
   const ExportPublicSnippet = `@import "../../src/components/display/${pascalComponentName}";`;
 
   const ComponentTemplate = `import { ${pascalComponentName}Props } from '@types';
-import { bem } from '@utils';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 
 const cn = bem('${pascalComponentName}');
 

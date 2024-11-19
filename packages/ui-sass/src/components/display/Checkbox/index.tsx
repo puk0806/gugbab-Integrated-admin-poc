@@ -1,6 +1,6 @@
 import type { ForwardedRef } from 'react';
 import { forwardRef, memo, useId } from 'react';
-import { bem } from '@utils';
+import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { CheckboxProps } from '@types';
 import Typography from '../Typography';
 import Icon from '../Icon';
