@@ -1,0 +1,83 @@
+@use "public/styles/abstracts/palette";
+@use 'public/styles/abstracts/font';
+
+$red: palette.$Secondary-Red;
+$accent-red: palette.$Accent-Red;
+$green: palette.$Secondary-Green;
+$navi: palette.$Secondary-Navy;
+$negative-red: palette.$Accent-NegativeRed;
+$orange: palette.$Accent-Orange;
+$gray700: palette.$Grayscale-Gray700;
+$gray900: palette.$Grayscale-Gray900;
+
+$chip-all-colors: "red" $red,
+"accent-red" $accent-red,
+"green" $green,
+"navi" $navi,
+"negative-red" $negative-red,
+"orange" $orange,
+"gray700" $gray700,
+"gray900" $gray900;
+
+// name, font-color, border-color, bg-color
+$light-outlined-color: "red" $red transparentize($red, 0.5) palette.$Redscale-Red50,
+"accent-red" $accent-red transparentize($accent-red, 0.5) #FFF8F6,
+"green" $green transparentize($green, 0.6) #F4FFFB,
+"navi" $navi transparentize($navi, 0.5) #F2F6FF,
+"negative-red" $negative-red transparentize($negative-red, 0.5) #FFF5F5,
+"orange" $orange transparentize($orange, 0.6) #FFFAF1,
+"gray700" $gray700 palette.$Grayscale-Gray300 #FFF,
+"gray900" $gray900 palette.$Grayscale-Gray400 #FFF;
+
+.chip {
+  $self: #{&};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: font.toRem(24px);
+  min-height: font.toRem(24px);
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-align: center;
+
+  &#{$self}--filled {
+    .typography {
+      color: palette.$White;
+    }
+
+    @each $name, $color in $chip-all-colors {
+      &#{$self}--#{$name} {
+        background-color: $color;
+      }
+    }
+  }
+
+  &#{$self}--light-outlined {
+    @each $name, $fontColor, $borderColor, $bgColor in $light-outlined-color {
+      &#{$self}--#{$name} {
+        border-color: $borderColor;
+        background-color: $bgColor;
+        .typography {
+          color: $fontColor;
+        }
+      }
+    }
+  }
+
+  &#{$self}--outlined {
+    border-radius: 28px;
+    padding: 4px 12px;
+    background-color: palette.$White;
+
+    @each $name, $color in $chip-all-colors {
+      &#{$self}--#{$name} {
+        border-color: $color;
+        .typography {
+          color: $color;
+        }
+      }
+    }
+  }
+}

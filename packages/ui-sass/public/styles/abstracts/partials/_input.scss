@@ -1,0 +1,92 @@
+@use "public/styles/abstracts/palette";
+
+/**
+  사용 컴포넌트 : Checkbox, Radio
+*/
+
+@mixin designInput($self, $name) {
+  .#{$name}:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  &#{$self}--tab-full-width,
+  &#{$self}--tab {
+    display: flex;
+    align-items: flex-start;
+    .#{$name} {
+      margin-right: 0 !important;
+
+      label {
+        position: relative;
+        z-index: 0;
+        border: 1px solid palette.$Grayscale-Gray300;
+        padding: 12px 28px;
+        text-align: center;
+      }
+
+      &:not(:first-child) {
+        margin-left: -1px;
+      }
+
+      &:first-child label {
+        border-radius: 8px 0 0 8px;
+      }
+
+      &:last-child label {
+        border-radius: 0 8px 8px 0;
+      }
+
+      input[type="#{$name}"]:checked + label {
+        border: 1px solid palette.$Grayscale-Gray900;
+        z-index: 1;
+      }
+    }
+  }
+
+  &#{$self}--tab-full-width {
+    display: flex;
+    width: 100%;
+    .#{$name} {
+      flex: 1;
+      display: flex;
+      width: 100%;
+
+      label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
+
+  &#{$self}--chip {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    .#{$name} {
+      margin-right: 0;
+      &:not(:last-child) {
+        margin-right: 16px;
+      }
+
+      label {
+        border: 1px solid palette.$Grayscale-Gray300;
+        padding: 3px 11px;
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      input[type="#{$name}"]:checked + label {
+        border: 1px solid palette.$Grayscale-Gray900;
+        z-index: 1;
+        background-color: palette.$Primary;
+        color: palette.$White;
+      }
+    }
+  }
+
+  &#{$self}--column {
+    flex-direction: column;
+  }
+}
