@@ -1,0 +1,40 @@
+.custom-image {
+  $self: &;
+  display: inline-block;
+  font-size: 0;
+
+  &#{$self}--intrinsic {
+    & > img {
+      max-width: 100%;
+    }
+
+    @at-root #{$self}--has-ratio > img {
+      height: 100%;
+    }
+  }
+
+  &#{$self}--responsive {
+    width: 100%;
+
+    & > img {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  &#{$self}--fill {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+
+    & > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+  }
+}

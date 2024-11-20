@@ -46,6 +46,10 @@ const config = {
             find: "@utils",
             replacement: `${UI_SASS_PATH}/src/utils`,
           },
+          {
+            find: "@hooks",
+            replacement: `${UI_SASS_PATH}/src/hooks`,
+          },
         ],
       },
       define: {

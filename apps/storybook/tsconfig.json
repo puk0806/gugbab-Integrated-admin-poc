@@ -8,7 +8,7 @@
       "@components": ["../../packages/ui-sass/src/components/index.ts"],
       "@types": ["../../packages/ui-sass/src/types/index.ts"],
       "@utils": ["../../packages/ui-sass/src/utils/index.ts"],
-      
+      "@hooks/*": ["../../packages/ui-sass/src/hooks/*"],
     }
   }
 }
