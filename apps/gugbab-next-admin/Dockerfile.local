@@ -1,0 +1,27 @@
+FROM node:20-alpine AS base
+
+FROM base AS builder
+# RUN apk add --no-cache libc6-compat
+# RUN apk update && apk add bash
+
+WORKDIR /app
+RUN pnpm add -g turbo
+COPY . .
+RUN pnpm install
+RUN pnpm run build:app
+
+
+FROM base AS runner
+WORKDIR /app
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
+COPY --from=builder /app/apps/gugbab-next-admin/next.config.mjs .
+COPY --from=builder /app/apps/gugbab-next-admin/package.json .
+COPY --from=builder --chown=nextjs:nodejs /app/apps/gugbab-next-admin/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/gugbab-next-admin/.next/static ./apps/gugbab-next-admin/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/gugbab-next-admin/public ./apps/gugbab-next-admin/public
+
+EXPOSE 30200
+ENV PORT 30200
+CMD node apps/gugbab-next-admin/server.js

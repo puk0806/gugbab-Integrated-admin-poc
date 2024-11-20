@@ -6,11 +6,11 @@ cp -r public $STANDALONE_PATH
 mkdir $STANDALONE_PATH/config
 cp -r env $STANDALONE_PATH/config/env
 cp -r .next/static $STANDALONE_PATH/.next
-cp -r scripts/prestart $STANDALONE_PATH
+cp -r scripts/pre-start $STANDALONE_PATH
 
 pwd
 
-cd $STANDALONE_PATH/prestart
+cd $STANDALONE_PATH/pre-start
 yarn add pnpm
 pnpm install
 

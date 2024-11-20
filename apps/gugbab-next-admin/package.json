@@ -7,6 +7,9 @@
     "build": "cross-env-shell APP_ENV=local && env-cmd -f ./env/.env.local next build --debug",
     "build:copy": "sh ./scripts/postbuild.sh",
     "build:dev": "pnpm run build && pnpm run build:copy",
+    "build:docker": "docker build -t gugbab-next-admin -f Dockerfile ../../",
+    "start:dev": "node .next/standalone/apps/search/server.js",
+    "start:docker": "docker run -d -p 30200:30200 --name gugbab-next-admin gugbab-next-admin",
     "start": "cross-env-shell node scripts/pre-start.js next-env -e ${APP_ENV} -m development && node server.js",
     "lint": "next lint",
     "typecheck": "tsc -b tsconfig.json"

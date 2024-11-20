@@ -12,6 +12,8 @@
     "dev:ui:vanilla": "pnpm --filter  @gugbab-integrated-admin-poc/ui-vanilla-extract dev",
     "build": "turbo run build",
     "build:app": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin build",
+    "build:docker": "docker build -t gugbab-next-admin -f ./apps/gugbab-next-admin/Dockerfile .",
+    "start:docker": "docker run -d -p 30200:30200 --name gugbab-next-admin gugbab-next-admin",
     "build:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook build",
     "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
     "build:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass build",
