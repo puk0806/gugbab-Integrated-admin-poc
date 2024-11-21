@@ -1,7 +1,9 @@
 const { existsSync, readFileSync, writeFileSync } = require('node:fs');
 const { resolve } = require('node:path');
+const fs = require("fs");
 const dotenv = require('dotenv');
 const yargs = require('yargs/yargs');
+const findUp = require("find-up");
 const { hideBin } = require('yargs/helpers');
 
 const NOW = new Date().getTime();
@@ -78,6 +80,8 @@ yargs(hideBin(process.argv))
     async args => {
       const appEnv = args.e || args.env || 'dev';
       const appSlot = args.s || args.slot;
+      const appMode = args.m || args.mode || "development";
+
       const parsedEnv = await parseEnv(appEnv, appSlot);
       addClientEnv(parsedEnv);
       await addServerEnv(appEnv, appSlot);
