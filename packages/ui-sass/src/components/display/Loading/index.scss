@@ -1,0 +1,123 @@
+@use "public/styles/abstracts/palette";
+
+@keyframes spinnerAnimation {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(2);
+  }
+}
+
+.loading {
+  $self: #{&};
+
+  $progressColor: palette.$Redscale-Red300;
+
+  z-index: 9999;
+
+  & &__content {
+    padding: 40px 40px 46px;
+    background-color: palette.$White;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 234px;
+    &--remove-box {
+      background: transparent;
+
+      #{$self}__loader {
+        flex-direction: column-reverse;
+      }
+
+      #{$self}__animation {
+        padding-top: 0;
+      }
+
+      #{$self}__message {
+        padding-top: 24px;
+      }
+    }
+  }
+
+  & &__loader {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & &__message {
+    text-align: center;
+  }
+
+  & &__animation {
+    margin: 30px auto 0px;
+    width: 128px;
+    min-height: 108px;
+
+    img {
+      width: 100%;
+      height: auto;
+      border: none;
+    }
+  }
+
+  & &__spinner {
+    padding-top: 30px;
+    text-align: center;
+    span:not(.ir) {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background-color: $progressColor;
+      border-radius: 50%;
+      animation: spinnerAnimation 1.5s linear infinite;
+      opacity: 0;
+      &:nth-child(1) {
+        animation-delay: 0.4s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.6s;
+        margin: 0 17px;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.8s;
+      }
+    }
+  }
+
+  & &__progressbar {
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+    height: 10px;
+    background-color:  palette.$Redscale-Red50;
+    border-radius: 9px;
+    overflow: hidden;
+    > span:not(.ir) {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      border-radius: inherit;
+      height: 100%;
+      background-color: $progressColor;
+    }
+  }
+
+  &#{$self}--dimmed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s;
+  }
+}

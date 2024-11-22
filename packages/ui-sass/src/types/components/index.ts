@@ -9,6 +9,7 @@ export type { CheckboxGroupProps } from './display/CheckboxGroup';
 export type { ChipProps } from './display/Chip';
 export type { IconProps } from './display/Icon';
 export type { ImageProps } from './display/Image';
+export type { LoadingProps } from './display/Loading';
 export type { TypographyTags, TypographySizeTypes, TypographyProps } from './display/Typography';
 
 // utils
