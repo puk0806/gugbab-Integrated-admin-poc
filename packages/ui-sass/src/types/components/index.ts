@@ -13,4 +13,5 @@ export type { LoadingProps } from './display/Loading';
 export type { TypographyTags, TypographySizeTypes, TypographyProps } from './display/Typography';
 
 // utils
+export type { HighlightedTextProps } from './utils/HighlightedText';
 export type { IrProps } from './utils/Ir';

@@ -13,3 +13,5 @@ export function stringify(value: unknown): string {
     }
   }
 }
+
+export const quoteRegexSpecialCharacters = (value: string) => value.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
