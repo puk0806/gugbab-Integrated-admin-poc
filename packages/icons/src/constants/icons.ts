@@ -24,6 +24,7 @@ const icons = [
   'redo',
   'setting',
   'system_down',
+  'system_search',
   'system_up',
 ] as const;
 

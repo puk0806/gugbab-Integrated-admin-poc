@@ -1,0 +1,168 @@
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+
+.text-field {
+  $self: #{&};
+  width: 100%;
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  & &__container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    &--transform {
+      #{$self}__field {
+        height: font.toRem(32px);
+      }
+    }
+
+    &--focus {
+      input {
+        &::placeholder {
+          opacity: 1;
+        }
+      }
+
+      .text-field__label--transform {
+        transition: all ease 0.5s;
+        top: -20px;
+        left: -10px;
+        .typography {
+          transition: inherit;
+        }
+      }
+    }
+  }
+
+  & &__field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    border: 1px solid palette.$Grayscale-Gray300;
+    border-radius: 4px;
+    //overflow: hidden;
+    height: font.toRem(32px);
+    padding: 0 10px;
+    line-height: 1;
+
+    &:focus-within {
+      outline: none;
+      border: 1px solid palette.$Grayscale-Gray900;
+      #{$self}__clear {
+        display: inline-flex;
+      }
+    }
+
+    &--readonly,
+    &--disabled {
+      background-color: palette.$Grayscale-Gray50 !important;
+      border-color: palette.$Grayscale-Gray50 !important;
+      color: palette.$Grayscale-Gray400;
+      input {
+        color: palette.$Grayscale-Gray400;
+      }
+    }
+
+    &--error {
+      border-color: palette.$Accent-NegativeRed !important;
+    }
+
+    &--reverse {
+      flex-direction: row-reverse;
+      #{$self}__utils {
+        padding: 0 8px 0 0;
+      }
+    }
+  }
+
+  & &__label {
+    transition: all ease 0.5s;
+
+    &--transform {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      z-index: 1;
+      .typography {
+        color: palette.$Grayscale-Gray400;
+        font-weight: normal;
+        letter-spacing: 0;
+        transition: inherit;
+      }
+    }
+  }
+
+  & &__input {
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: font.toRem(13px);
+  }
+
+  & &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    & input::placeholder {
+      font-size: font.toRem(13px);
+      color: palette.$Grayscale-Gray400;
+    }
+    input {
+      flex: 1;
+      outline: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    &--right-align {
+      input {
+        text-align: right;
+      }
+
+      #{$self}__label {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+
+  & &__clear {
+    display: none;
+    align-items: center;
+    padding-left: 5px;
+    &--search,
+    &--keep {
+      display: inline-flex;
+    }
+  }
+
+  & &__utils {
+    display: flex;
+    flex: none;
+    align-items: center;
+    padding: 0 0 0 5px;
+  }
+
+  & &__button {
+    margin-left: 8px;
+    .button {
+      padding: 0 14px;
+    }
+  }
+
+  p {
+    margin-top: 8px;
+  }
+}
