@@ -1,0 +1,29 @@
+.title {
+  $self: #{&};
+
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+
+  & &__main {
+    display: flex;
+    align-items: center;
+    /*    > p > span,
+    > p mark {
+      font-weight: inherit;
+    }*/
+  }
+
+  & &__desc {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    > * {
+      margin-left: 8px;
+    }
+  }
+}

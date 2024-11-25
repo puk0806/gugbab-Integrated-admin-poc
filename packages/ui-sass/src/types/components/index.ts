@@ -10,6 +10,7 @@ export type { ChipProps } from './display/Chip';
 export type { IconProps } from './display/Icon';
 export type { ImageProps } from './display/Image';
 export type { LoadingProps } from './display/Loading';
+export type { TitleProps } from './display/Title';
 export type { TypographyTags, TypographySizeTypes, TypographyProps } from './display/Typography';
 
 // utils
