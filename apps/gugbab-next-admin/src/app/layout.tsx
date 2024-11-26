@@ -1,6 +1,7 @@
 import Script from "next/script";
-import "./globals.css";
-import "@gugbab-integrated-admin-poc/ui-sass/public/styles/components.css"
+import "./_styles/globals.css";
+import "@gugbab-integrated-admin-poc/ui-sass/public/styles/components.css";
+import { TanstackProvider } from "./_providers";
 
 export const metadata = {
   title: "Next.js",
@@ -17,7 +18,9 @@ export default function RootLayout({
       <head>
         <Script src="/__ENV.js" strategy="beforeInteractive" />
       </head>
-      <body>{children}</body>
+      <body>
+        <TanstackProvider>{children}</TanstackProvider>
+      </body>
     </html>
   );
 }

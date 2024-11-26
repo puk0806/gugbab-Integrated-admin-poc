@@ -21,7 +21,10 @@
     "next": "^14.2.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "yargs": "^17.7.2"
+    "react-hook-form": "^7.51.1",
+    "yargs": "^17.7.2",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",

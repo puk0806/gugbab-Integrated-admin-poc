@@ -9,8 +9,11 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:import/recommended',
     'plugin:react-hooks/recommended',
+    'next/core-web-vitals',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
-  plugins: ['react', '@typescript-eslint', 'import', 'sort-destructure-keys'],
+  plugins: ['react', '@typescript-eslint', 'import', 'sort-destructure-keys', 'react-hooks'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: { jsx: true },
     ecmaVersion: 12,

@@ -1,4 +1,20 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals","@gugbab-integrated-admin-poc/eslint-config"]
+  // "extends": ["next/core-web-vitals","@gugbab-integrated-admin-poc/eslint-config"],
+  "extends": ["@gugbab-integrated-admin-poc/eslint-config/react.js"],
+  "rules": {
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          { "target": "./src/widgets", "from": "./src/app" },
+          { "target": "./src/features", "from": "./src/app" },
+          { "target": "./src/features", "from": "./src/widgets" },
+          { "target": "./src/shared", "from": "./src/app" },
+          { "target": "./src/shared", "from": "./src/widgets" },
+          { "target": "./src/shared", "from": "./src/features" },
+        ]
+      }
+    ]
+  }
 }
