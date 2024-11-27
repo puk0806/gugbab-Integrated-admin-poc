@@ -1,1 +1,1 @@
-export * from "./lib/errorMessage";
+export * from "./errorMessage";
