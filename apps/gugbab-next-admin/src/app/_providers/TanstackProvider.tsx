@@ -3,8 +3,7 @@
 import { PropsWithChildren, useState } from 'react';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ErrorResponse } from '@app/shared/types';
-import { useQueryError } from '@app/shared/hooks';
+import { ErrorResponse, useQueryError } from '@app/shared/error';
 
 declare module '@tanstack/react-query' {
   interface Register {

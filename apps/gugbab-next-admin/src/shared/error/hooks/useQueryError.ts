@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ErrorResponse } from "../../types";
-import { getErrorMessage } from "../../consts";
+import { ErrorResponse } from "../types";
+import { getErrorMessage } from "../consts";
 
 export default function useQueryError() {
   const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
