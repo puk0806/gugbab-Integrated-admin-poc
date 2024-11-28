@@ -10,23 +10,25 @@ export default function useQueryError() {
 
   const handleError = useCallback(
     async (error: ErrorResponse) => {
-      if (!timerRef.current && error.status) {
-        timerRef.current = setTimeout(() => {
-          if (verifyErrorCodes.includes(error.status)) {
-            error.status !== 404 && alert(getErrorMessage(`${error.status}`));
-
-            if (error.status === 401) {
-              router.replace('/login');
-            } else if (error.status === 403) {
-              router.replace('/');
-            } else if (error.status === 500) {
-              router.replace('/');
-            }
-          }
-
-          timerRef.current = undefined;
-        }, 50);
+      if (timerRef.current || !error.status) {
+        return;
       }
+
+      timerRef.current = setTimeout(() => {
+        if (verifyErrorCodes.includes(error.status)) {
+          error.status !== 404 && alert(getErrorMessage(`${error.status}`));
+
+          if (error.status === 401) {
+            router.replace('/login');
+          } else if (error.status === 403) {
+            router.replace('/');
+          } else if (error.status === 500) {
+            router.replace('/');
+          }
+        }
+
+        timerRef.current = undefined;
+      }, 50);
     },
     [router, verifyErrorCodes],
   );

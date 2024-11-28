@@ -1,5 +1,6 @@
 export * from './classnames';
 export * from './format';
+export * from './classNamesWithRoot';
 export * from './keyword';
 export * from './math';
 export * from './number';
