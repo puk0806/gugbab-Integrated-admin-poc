@@ -1,0 +1,7 @@
+@use "public/styles/abstracts/palette";
+
+.flex {
+  $self: #{&};
+  display: flex;
+  width: 100%;
+}
