@@ -1,7 +1,7 @@
 'use client';
 
-import { PropsWithChildren, useState } from 'react';
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PropsWithChildren } from 'react';
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ErrorResponse, useQueryError } from '@app/shared/error';
 
@@ -11,29 +11,45 @@ declare module '@tanstack/react-query' {
   }
 }
 
-const TanstackProvider = ({ children }: PropsWithChildren) => {
+function makeQueryClient() {
   const { handleError } = useQueryError();
 
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            staleTime: 1000 * 10,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
-          },
-          mutations: {
-            onError: handleError,
-          },
-        },
-        queryCache: new QueryCache({
-          onError: handleError,
-        }),
-      }),
-  );
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        staleTime: 1000 * 10,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+      mutations: {
+        onError: handleError,
+      },
+    },
+    mutationCache: new MutationCache({
+      onError: handleError,
+    }),
+    queryCache: new QueryCache({
+      onError: handleError,
+    }),
+  });
+}
+
+let browserQueryClient: QueryClient | undefined = undefined;
+
+function getQueryClient() {
+  if (typeof window === 'undefined') {
+    // Server: always make a new query client
+    return makeQueryClient();
+  } else {
+    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+    return browserQueryClient;
+  }
+}
+
+const TanstackProvider = ({ children }: PropsWithChildren) => {
+  const queryClient = getQueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
