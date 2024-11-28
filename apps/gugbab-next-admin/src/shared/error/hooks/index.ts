@@ -1,1 +1,1 @@
-export {default as useQueryError} from "./useQueryError";
+export { default as useQueryError } from './useQueryError';

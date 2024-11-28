@@ -9,7 +9,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:import/recommended',
     'plugin:react-hooks/recommended',
-    'next/core-web-vitals',
+    // 'next/core-web-vitals',
     'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   plugins: ['react', '@typescript-eslint', 'import', 'sort-destructure-keys', 'react-hooks'],
@@ -18,6 +18,10 @@ module.exports = {
     ecmaFeatures: { jsx: true },
     ecmaVersion: 12,
     sourceType: 'module',
+  },
+  globals: {
+    React: true,
+    JSX: true,
   },
   env: {
     browser: true,
