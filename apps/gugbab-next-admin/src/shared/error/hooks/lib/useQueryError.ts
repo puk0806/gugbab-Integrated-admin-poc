@@ -17,14 +17,19 @@ export default function useQueryError() {
 
       timerRef.current = setTimeout(() => {
         if (verifyErrorStatusCodes.some(errorStatusCode => errorStatusCode === error.status)) {
-          error.status !== 404 && alert(getErrorMessage(error.status as ErrorStatusCode));
-
-          if (error.status === 401) {
-            router.replace('/login');
-          } else if (error.status === 403) {
-            router.replace('/');
-          } else if (error.status === 500) {
-            router.replace('/');
+          switch (error.status) {
+            case 401:
+              alert(getErrorMessage(error.status as ErrorStatusCode));
+              router.replace('/login');
+              break;
+            case 403:
+            case 500:
+              alert(getErrorMessage(error.status as ErrorStatusCode));
+              router.replace('/');
+              break;
+            case 404:
+            default:
+              break;
           }
         }
 
