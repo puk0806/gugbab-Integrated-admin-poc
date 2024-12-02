@@ -1,0 +1,9 @@
+@use "public/styles/abstracts/palette";
+
+.default-header {
+  display: flex;
+  min-height: 50px;
+  padding: 24px 20px;
+  width: 100%;
+  border-bottom: 1px solid palette.$Grayscale-Gray300;
+}

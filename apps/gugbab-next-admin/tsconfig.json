@@ -17,7 +17,9 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@app/feature/*": ["src/feature/*"],
       "@app/shared/*": ["src/shared/*"],
+      "@app/widgets/*": ["src/widgets/*"]
     },
     "allowJs": true
   },
@@ -28,10 +30,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next"
-  ],
+  "exclude": ["node_modules", ".next"],
   "engines": {
     "node": ">=20",
     "packageManager": "pnpm@9.12.2"
