@@ -1,4 +1,4 @@
-import DefaultLayout from '@app/widgets/layout/ui/lib/DefaultLayout';
+import DefaultLayout from '@app/widgets/layout/ui/DefaultLayout';
 import LoginClient from './client';
 
 export default function LoginPage() {
