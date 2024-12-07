@@ -31,6 +31,8 @@ function LoginForm(props: LoginFormProps) {
     mode: 'onBlur',
   });
 
+  const onSubmit = async (data: LoginSchema) => {};
+
   return (
     <div className={cx()}>
       <form>
