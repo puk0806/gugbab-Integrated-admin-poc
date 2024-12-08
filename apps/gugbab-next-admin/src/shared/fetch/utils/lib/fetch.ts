@@ -1,6 +1,7 @@
 import { parseCookie, stringifyQuery } from '@gugbab-integrated-admin-poc/utils';
+import { AUTH_COOKIE } from '@app/shared/auth';
 import { FetchPrint, MethodInit } from '../../types';
-import { AUTH_COOKIE, methods } from '../../consts';
+import { methods } from '../../consts';
 import { formatHeader } from './request';
 
 export const apiFetch = (() => {

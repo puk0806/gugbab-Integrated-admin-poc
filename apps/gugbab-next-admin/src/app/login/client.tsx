@@ -1,7 +1,7 @@
 'use client';
 
 import { classNamesWithRoot } from '@gugbab-integrated-admin-poc/utils';
-import { LoginForm } from 'src/features/auth';
+import { LoginForm } from 'src/features/login';
 import styles from './index.module.scss';
 
 export default function LoginClient() {

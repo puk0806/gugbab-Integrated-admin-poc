@@ -1,9 +1,9 @@
 const { existsSync, readFileSync, writeFileSync } = require('node:fs');
 const { resolve } = require('node:path');
-const fs = require("fs");
+const fs = require('fs');
 const dotenv = require('dotenv');
 const yargs = require('yargs/yargs');
-const findUp = require("find-up");
+const findUp = require('find-up');
 const { hideBin } = require('yargs/helpers');
 
 const NOW = new Date().getTime();
@@ -37,17 +37,17 @@ async function addServerEnv(appEnv, appSlot) {
 }
 
 async function rewriteRouters(parsedEnv) {
-  const { NEXT_PUBLIC_API_URL } = parsedEnv;
+  const { NEXT_PUBLIC_FRONT_URL } = parsedEnv;
 
-  const routersFilePath = await findUp(".next/routes-manifest.json");
-  const routersData = JSON.parse(fs.readFileSync(routersFilePath, "utf-8"));
+  const routersFilePath = await findUp('.next/routes-manifest.json');
+  const routersData = JSON.parse(fs.readFileSync(routersFilePath, 'utf-8'));
   const result = {
     ...routersData,
     rewrites: [
       {
-        source: "/proxy/:path*",
-        destination: `${NEXT_PUBLIC_API_URL}/:path*`,
-        regex: "^/proxy(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$",
+        source: '/proxy/:path*',
+        destination: `${NEXT_PUBLIC_FRONT_URL}/:path*`,
+        regex: '^/proxy(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$',
       },
     ],
   };
@@ -80,12 +80,12 @@ yargs(hideBin(process.argv))
     async args => {
       const appEnv = args.e || args.env || 'dev';
       const appSlot = args.s || args.slot;
-      const appMode = args.m || args.mode || "development";
+      const appMode = args.m || args.mode || 'development';
 
       const parsedEnv = await parseEnv(appEnv, appSlot);
       addClientEnv(parsedEnv);
       await addServerEnv(appEnv, appSlot);
-      appMode === "production" && (await rewriteRouters(parsedEnv));
+      appMode === 'production' && (await rewriteRouters(parsedEnv));
 
       return parsedEnv;
     },
