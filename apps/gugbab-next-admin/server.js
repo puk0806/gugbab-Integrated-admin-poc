@@ -17,8 +17,8 @@ const certDir = path.resolve(process.cwd(), './cert/local-cert.pem');
 const keyDir = path.resolve(process.cwd(), './cert/local-key.pem');
 
 const httpsOptions = {
-  // key: fs.readFileSync(keyDir),
-  // cert: fs.readFileSync(certDir),
+  key: fs.readFileSync(keyDir),
+  cert: fs.readFileSync(certDir),
   requestCert: false,
   rejectUnauthorized: false,
 };
