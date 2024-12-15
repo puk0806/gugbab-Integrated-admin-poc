@@ -1,7 +1,8 @@
 {
   "root": true,
-  // "extends": ["next/core-web-vitals","@gugbab-integrated-admin-poc/eslint-config"],
-  "extends": ["@gugbab-integrated-admin-poc/eslint-config/react.js", "plugin:prettier/recommended"],
+  "extends": [
+    "@gugbab-integrated-admin-poc/eslint-config/jest.js",
+    "@gugbab-integrated-admin-poc/eslint-config/react.js"],
   "rules": {
     "import/no-restricted-paths": [
       "error",
