@@ -24,9 +24,11 @@
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
     "typecheck:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass typecheck",
     "typecheck:utils": "pnpm --filter @gugbab-integrated-admin-poc/utils typecheck",
+    "test": "turbo run test",
+    "test:app": "turbo  --filter @gugbab-integrated-admin-poc/gugbab-next-admin test",
     "generate-component": "bash scripts/generate-component/index.sh",
-    "generate-icons":"pnpm --filter @gugbab-integrated-admin-poc/icons build",
-    "fix-svg":"pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
+    "generate-icons": "pnpm --filter @gugbab-integrated-admin-poc/icons build",
+    "fix-svg": "pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
     "clear-install": "bash scripts/clear-install/index.sh"
   },
   "keywords": [],

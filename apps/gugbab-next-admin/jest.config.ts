@@ -17,7 +17,7 @@ const config: Config = {
   collectCoverageFrom: ['<rootDir>/src/shared/**/*.{ts,tsx,js,jsx}'],
   verbose: true,
   coverageReporters: ['text', 'lcov'],
-  testRegex: '<rootDir>/src/shared/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$',
+  testRegex: '/src/shared/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$',
 };
 
 export default config;
