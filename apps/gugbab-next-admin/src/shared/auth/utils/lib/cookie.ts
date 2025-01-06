@@ -1,23 +1,21 @@
 export type CookieOptions = {
   Secure?: boolean;
   Path?: string;
-  SameSite?: "Strict" | "Lax" | "None";
+  SameSite?: 'Strict' | 'Lax' | 'None';
   HttpOnly?: boolean;
-  "Max-Age"?: number;
+  'Max-Age'?: number;
   Expires?: string;
   Domain?: string;
 };
 
 export const defaultCookieOptions: CookieOptions = {
   Secure: true,
-  Path: "/",
-  SameSite: "None",
-  Domain: ".gugbab.co.kr",
+  Path: '/',
+  SameSite: 'None',
+  Domain: '.gugbab.co.kr',
 };
 
-export const setCookies = (
-  cookies: { key: string; value: string; options?: CookieOptions }[],
-) =>
+export const setCookies = (cookies: { key: string; value: string; options?: CookieOptions }[]) =>
   cookies
     .map(
       ({ key, options, value }) =>
@@ -26,6 +24,6 @@ export const setCookies = (
           ...options,
         })
           .map(([key, value]) => `${key}=${value}`)
-          .join("; ")}`,
+          .join('; ')}`,
     )
-    .join(", ");
+    .join(', ');
