@@ -1,4 +1,9 @@
 import type { Config } from 'jest';
+import nextJest from 'next/jest';
+
+const createJestConfig = nextJest({
+  dir: './',
+});
 
 const config: Config = {
   testEnvironment: 'jsdom',
@@ -21,4 +26,4 @@ const config: Config = {
   testRegex: '/src/shared/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$',
 };
 
-export default config;
+export default createJestConfig(config);
