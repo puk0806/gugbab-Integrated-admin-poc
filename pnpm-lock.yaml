@@ -44,6 +44,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.59.16
         version: 5.59.20(@tanstack/react-query@5.59.20(react@18.3.1))(react@18.3.1)
+      cookies-next:
+        specifier: ^5.0.2
+        version: 5.0.2(next@14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.80.6))
       next:
         specifier: ^14.2.6
         version: 14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.80.6)
@@ -3036,6 +3039,15 @@ packages:
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
+
+  cookie@1.0.2:
+    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
+    engines: {node: '>=18'}
+
+  cookies-next@5.0.2:
+    resolution: {integrity: sha512-Ft5yXMbN6wMfgLiL5TMyPnxsjkW6UEjZw0YMoDMiF3F6iYdFPjiJEMugx/sivUr8G+0xPG80lBYqI2b+VquSuw==}
+    peerDependencies:
+      next: '>=15.0.0'
 
   create-jest@29.7.0:
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==}
@@ -9046,6 +9058,13 @@ snapshots:
       upper-case: 2.0.2
 
   convert-source-map@2.0.0: {}
+
+  cookie@1.0.2: {}
+
+  cookies-next@5.0.2(next@14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.80.6)):
+    dependencies:
+      cookie: 1.0.2
+      next: 14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.80.6)
 
   create-jest@29.7.0(@types/node@20.17.6)(ts-node@10.9.2(@swc/core@1.9.2(@swc/helpers@0.5.5))(@types/node@20.17.6)(typescript@5.3.3)):
     dependencies:
