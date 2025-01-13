@@ -32,10 +32,11 @@ prefix_verbs = [
     "Fix",
     "Modify",
     "Improve",
-    "Simplify",
     "Refactor",
-    "Merge",
+    "Simplify",
     "Move",
+    "Rename"
+    "Merge",
 ]
 services_pattern = "|".join(services)
 verbs_pattern = "|".join(prefix_verbs)

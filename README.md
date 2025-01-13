@@ -156,3 +156,73 @@ pnpm clear-install
 # Commit Push Check Git Hook
 pnpm use-hook
 ```
+
+## Git Commit Naming
+
+---
+
+### 구조
+
+- body 와 footer 는 생략 가능
+
+```
+service : Service
+
+type: Subject
+
+body
+
+footer
+```
+
+### Service
+
+```
+app: 통합 어드민 애플리케이션
+storybook: 디자인 시스템 Storybook
+ui: 공통 UI 라이브러리
+utils: 공통 유틸리티 패키지
+icons: 아이콘 웹폰트 패키지
+eslint:프로젝트 eslint 설정 패키지
+tsconfig:프로젝트 ts 설정 패키지
+all: 공통 설정 수정
+```
+
+### Type
+
+```
+Add: 새로운 기능 추가
+Remove: 파일 및 코드 삭제
+Fix: 버그 수정
+Modify: 기존 코드의 기능을 추가하거나 변경
+Improve: 호환성, 테스트 커버리지, 성능, 검증 기능, 접근성 등의 향상
+Refactor: 중복 코드 제거나 변수명 변경, 가독성 향상 등 기존 코드 개선
+Simplify: Refactor와 유사하지만 약한 수정, 코드 단순화
+Move: 코드나 파일 이동
+Rename: 코드나 파일 이름 변경
+Merge: 코드 병합
+```
+
+### Subject
+
+- 제목. 코드 변경사항에 대한 짧은 요약
+- 마침표 및 특수 기호는 사용하지 않음
+- 영문으로 표기하는 경우 동사를 가장 앞에 두고 첫 글자는 대문자로 표기
+
+### Body
+
+- 한 줄에 72자 이내로 작성
+- 어떻게 보다는 무엇을, 왜 변경했는지를 작성
+- 최대한 자세히 작성
+
+### Footer
+
+- issue tracker id 를 명시할 때 사용
+- 여러 개의 이슈를 참조할 때는 콤마로 구분하여 사용
+
+```
+Fixes: 이슈 수정 중
+Resolves: 이슈를 해결했을 때
+Ref: 참고할 이슈가 있을 때
+Related to: 해당 커밋에 관련된 이슈가 있을 때
+```
