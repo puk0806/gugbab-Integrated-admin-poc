@@ -226,3 +226,97 @@ Resolves: 이슈를 해결했을 때
 Ref: 참고할 이슈가 있을 때
 Related to: 해당 커밋에 관련된 이슈가 있을 때
 ```
+
+## Application 프로젝트 구조
+
+- [Feature-Sliced Design(FSD)](https://feature-sliced.design/) 아키텍처를 기반으로 구축한 Next POC 프로젝트
+- **관심사의 분리**: 기능(Feature)별로 코드를 구성하여 관심사를 명확히 분리합니다.
+- **레이어 기반 구조**: 애플리케이션을 여러 레이어(`app`, `widgets`, `features`, `shared`)로 나누어 구성합니다.
+  - 표준 FSD에서 권장하는 `processes`, `entities` 레이어는 **미사용**합니다.
+- **단방향 의존성**: 상위 레이어는 하위 레이어에 의존할 수 있지만, 하위 레이어가 상위 레이어에 의존하는 것은 지양합니다.
+- **App Router 사용**: Next.js App Router를 사용함으로써 별도의 `pages` 폴더 대신 `app` 폴더에서 라우팅과 UI를 정의합니다.
+
+### Application 폴더 구조
+
+```
+.
+├── src
+│   ├── app
+│   │   ├── _providers
+│   │   ├── _styles
+│   │   ├── api
+│   │   ├── login
+│   │   │   ├── page.tsx
+│   │   │   ├── client.tsx
+│   │   │   ├── index.module.scss
+│   │   │   └── ...
+│   │   ├── page.tsx
+│   │   ├── client.tsx
+│   │   └── ...
+│   ├── widgets
+│   │   ├── layout
+│   │   │   ├── ui
+│   │   │   └── ...
+│   │   └── ...
+│   ├── features
+│   │   ├── login
+│   │   │   ├── ui
+│   │   │   ├── api
+│   │   │   ├── types
+│   │   │   ├── index.ts
+│   │   │   └── ...
+│   │   └── ...
+│   └── shared
+│       ├── fetch
+│       │   ├── consts
+│       │   ├── types
+│       │   ├── utils
+│       │   ├── index.ts
+│       │   └── ...
+│       └── ...
+├── server.js
+├── next.config.mjs
+├── jest.config.ts
+├── DockerFile
+├── package.json
+├── .eslintrc.json
+├── tsconfig.json
+└── ...
+```
+
+### 각 레이어 설명
+
+- app
+  - Next.js App Router가 동작하는 최상위 레이어입니다.
+  - 전역 스타일(\_styles), 전역 프로바이더(\_providers), 라우팅(page.tsx 등), 전역 타입 선언 등을 포함합니다.
+- widgets
+  - 페이지를 구성하는 독립적인 UI 블록입니다.
+  - Header, Footer, Sidebar, Layout 등 여러 곳에서 재사용될 수 있는 UI 컨테이너를 정의합니다.
+    features
+  - 비즈니스 가치를 전달하는 사용자 시나리오와 기능을 다룹니다.
+  - 로그인, 회원가입, 게시물 작성 등 하나의 기능으로 묶이는 UI 및 로직을 포함합니다.
+    shared
+  - 특정 비즈니스 로직에 종속되지 않은, 범용적이고 재사용 가능한 코드를 모아둡니다.
+
+### 의존성 규칙
+
+#### can use
+
+- app : shared, features,widgets
+- widgets : shared, features
+- features : shared
+
+#### can be used by
+
+- shared : feature, widgets, app
+- feature : widgets, app
+- widgets : app
+
+### 각 세그먼트 설명
+
+- api - 서버 요청/응답 처리를 담당합니다
+- ui - 특정 슬라이스(폴더) 내에서 사용하는 UI 컴포넌트를 관리합니다.
+- types - 타입스크립트 타입 정의를 모아둡니다
+- hooks - 커스텀 React 훅을 정의합니다
+- utils - 해당 슬라이스에서만 사용되는 유틸 함수나 헬퍼 함수를 정의합니다.
+- consts - 상수(Constant)들을 정의합니다.
