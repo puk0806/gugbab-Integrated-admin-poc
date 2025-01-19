@@ -104,7 +104,7 @@ def validate_message(message):
 
     >>> validate_message('Random message')
     False
-    >>> validate_message('Add this')
+    >>> validate_message('[app] Add Test Commit')
     True
     """
     default_pattern = rf"^(\[({services_pattern})\] )?({verbs_pattern})"

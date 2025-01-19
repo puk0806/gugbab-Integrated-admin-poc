@@ -49,3 +49,5 @@ memo.md
 
 githooks.config.json
 .codegpt
+
+__pycache__
