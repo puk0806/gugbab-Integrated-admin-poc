@@ -45,20 +45,42 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 ```
 
 ### 2. local https ssl 인증
-
+#### 2-1 Mac 환경
 1. mkcert 설치
    - `brew install mkcert`
+
 2. 인증서 설치 (설치 이후 브라우저 전체 재시작 필요)
    - `mkcert -install`
+   
 3. 인증서 설치 폴더 이동
    - `cd apps/gugbab-next-admin`
+
 4. 인증서 발급
    - `mkcert -key-file cert/local-key.pem -cert-file cert/local-cert.pem gugbab.co.kr local.gugbab.co.kr`
+   
 5. 호스트 추가
    - 호스트 설정파일 열기
      `sudo vim /private/etc/hosts`
    - 호스트 추가
      `127.0.0.1 local.gugbab.co.kr`
+
+#### 2-2 Window 환경
+1. chocolatey 설치 ([다운로드](https://chocolatey.org/))
+
+2. mkcert 설치
+    - `choco install mkcert`
+3. 인증서 설치 폴더 이동
+   - `cd apps/gugbab-next-admin`
+
+4. 인증서 발급
+   - `mkcert -key-file cert/local-key.pem -cert-file cert/local-cert.pem gugbab.co.kr local.gugbab.co.kr`
+   
+5. 호스트 추가
+   - 호스트 설정파일 열기
+     `sudo vim /private/etc/hosts`
+   - 호스트 추가
+     `127.0.0.1 local.gugbab.co.kr`
+
 
 ### 3. 패키지 설치
 
@@ -66,7 +88,13 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 pnpm install --frozen-lockfile
 ```
 
-### 4. Git Hook 설정
+### 4. UI Package 빌드
+
+```
+pnpm build:ui:sass
+```
+
+### 5. Git Hook 설정
 
 1. terminal 아래 명령어 실행
 ```
@@ -301,10 +329,10 @@ Related to: 해당 커밋에 관련된 이슈가 있을 때
 - widgets
   - 페이지를 구성하는 독립적인 UI 블록입니다.
   - Header, Footer, Sidebar, Layout 등 여러 곳에서 재사용될 수 있는 UI 컨테이너를 정의합니다.
-    features
+- features
   - 비즈니스 가치를 전달하는 사용자 시나리오와 기능을 다룹니다.
   - 로그인, 회원가입, 게시물 작성 등 하나의 기능으로 묶이는 UI 및 로직을 포함합니다.
-    shared
+- shared
   - 특정 비즈니스 로직에 종속되지 않은, 범용적이고 재사용 가능한 코드를 모아둡니다.
 
 ### 의존성 규칙
