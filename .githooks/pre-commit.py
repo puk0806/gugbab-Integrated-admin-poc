@@ -9,11 +9,9 @@ if not changed_files:
     sys.exit(0)
 
 try:
-    # Prettify all selected files
     files = " ".join([f"'{file}'" for file in changed_files])
-    subprocess.run(f"npx prettier --ignore-unknown --write {files}", shell=True)
+    subprocess.run(f"npx eslint --fix {files}", shell=True, check=True)
 
-    # Add back the modified/prettified files to staging
     subprocess.run(f"git add {files_str}", shell=True)
 except subprocess.CalledProcessError as e:
     print(f"An error occurred: {e.output}")

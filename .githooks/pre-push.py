@@ -19,61 +19,59 @@ def lint_files(modified_files):
         if os.path.splitext(file)[-1].lower() in allowed_extensions
     ]
 
+    if not files:
+        print("Lint 대상 파일이 없습니다.")
+        return
+
     try:
-        command = f"pnpm run eslint --no-error-on-unmatched-pattern {' '.join(files)} --ext {','.join(allowed_extensions)}"
-        result = subprocess.run(
-            command,
-            shell=True,
-            check=True,
-            text=True,
-            capture_output=True,
-            cwd=BASE_PATH,
-        )
-        print("ESLint finished successfully.")
-        print(result.stdout)
+        for file in files:
+            print(f"Linting {file} ...")
+            subprocess.run(f"npx eslint --fix '{file}'", shell=True, check=True)
+
+        files_str = " ".join(f"'{file}'" for file in files)
+        subprocess.run(f"git add {files_str}", shell=True, check=True)
+
+        print("모든 파일에 대해 ESLint 검사가 완료되었습니다.")
     except subprocess.CalledProcessError as e:
-        print("ESLint reported an error:")
-        print(e.stderr, e.stdout)
+        print(f"ESLint 실행 중 오류 발생: {e}")
         sys.exit(e.returncode)
 
 
-def type_check(target):
+def type_check():
     try:
-        return subprocess.run(f"pnpm run {target}:typecheck", shell=True).returncode
+        print("Running global type check...")
+        result = subprocess.run("pnpm run typecheck", shell=True, cwd=BASE_PATH)
+        return result.returncode
     except subprocess.CalledProcessError as e:
         print(e)
         return e.returncode
 
 
-for line in sys.stdin.readlines():
-    local_ref, local_sha1, remote_ref, remote_sha1 = line.strip().split()
+if __name__ == "__main__":
+    for line in sys.stdin.readlines():
+        local_ref, local_sha1, remote_ref, remote_sha1 = line.strip().split()
 
-    if local_sha1 == ZERO:
-        print("Skipping deleted branch:", local_ref)
-        continue
+        if local_sha1 == ZERO:
+            print("Skipping deleted branch:", local_ref)
+            continue
 
-    if remote_sha1 == ZERO:
-        print(f"Processing new branch: {local_ref}")
-        # Empty tree hash to master
-        compare_range = f"master...{local_sha1}"
-    else:
-        print(f"Processing existing branch: {local_ref}")
-        compare_range = f"{remote_sha1}...{local_sha1}"
+        if remote_sha1 == ZERO:
+            print(f"Processing new branch: {local_ref}")
+            compare_range = f"master...{local_sha1}"
+        else:
+            print(f"Processing existing branch: {local_ref}")
+            compare_range = f"{remote_sha1}...{local_sha1}"
 
-    modified_files = get_modified_files_by_user(compare_range, author=current_user)
+        modified_files = get_modified_files_by_user(compare_range, author=current_user)
+        print("modified_files : ", modified_files)
 
-    print("modified_files : ", modified_files)
+        # 코드 퀄리티 검사
+        if check_quality_before_push:
+            lint_files(modified_files)
 
-    # 코드 퀄리티 검사
-    if check_quality_before_push:
-        lint_files(modified_files)
-
-    # 타입 검사
-    if check_type_before_push:
-        # 변경된 모든 파일들에 대해 병렬로 타입 검사 수행
-        with multiprocessing.Pool(4) as pool:
-            results = list(pool.map(type_check, modified_files))
-
-        if not all(x == 0 or x is None for x in results):
-            print("타입 체크에 실패했습니다.")
-            sys.exit(1)
+        # 타입 검사
+        if check_type_before_push:
+            type_result = type_check()
+            if type_result != 0:
+                print("타입 체크에 실패했습니다.")
+                sys.exit(1)
