@@ -1,7 +1,7 @@
 {
   "name": "@gugbab-integrated-admin-poc/storybook",
   "version": "0.0.0",
-  "description": "",
+  "description": "gugbab-integrated-admin-poc storybook",
   "scripts": {
     "dev": "storybook dev -p 5000",
     "typecheck": "tsc -b tsconfig.json",

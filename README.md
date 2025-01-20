@@ -68,8 +68,17 @@ pnpm install --frozen-lockfile
 
 ### 4. Git Hook 설정
 
+1. terminal 아래 명령어 실행
 ```
 pnpm use-hook
+```
+
+2. 생성된 githooks.config.json파일에 아래 내용 적용하기
+```
+{
+  "checkQualityBeforePush": true,
+  "checkTypeBeforePush": true
+}
 ```
 
 ## Script Description

@@ -1,7 +1,7 @@
 {
   "name": "@gugbab-integrated-admin-poc/utils",
   "version": "0.0.1",
-  "description": "gugbab-integrated-admin-poc ui-sass utils",
+  "description": "gugbab-integrated-admin-poc utils",
   "sideEffects": false,
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
