@@ -88,10 +88,11 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 pnpm install --frozen-lockfile
 ```
 
-### 4. UI Package 빌드
+### 4. Utils,UI Package 빌드
 
 ```
-pnpm build:ui:sass
+pnpm build:utils
+pnpm build:ui
 ```
 
 ### 5. Git Hook 설정
