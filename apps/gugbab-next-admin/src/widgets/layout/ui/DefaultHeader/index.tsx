@@ -13,7 +13,7 @@ function DefaultHeader({ breadcrumb, title }: DefaultHeaderProps) {
 
   return (
     <div className={cx()}>
-      <Flex gap={20} justify="space-between">
+      <Flex gap={20}>
         <Typography component="h1" variant="H2" weight="medium">
           {title}
         </Typography>
