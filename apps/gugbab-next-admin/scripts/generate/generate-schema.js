@@ -1,0 +1,437 @@
+const fs = require('fs');
+const path = require('path');
+const { exec } = require('child_process');
+const { getJson } = require('../utils/fetch');
+const { formatName, toPascalCase } = require('../utils/string');
+const { parseRawType } = require('../utils/parse');
+
+const DOC_URI = {
+  cart: path.join(__dirname, 'temp', 'cart.json'),
+  common: path.join(__dirname, 'temp', 'common.json'),
+};
+
+const TARGET_DIR = `./src/shared/api/types/lib/temp`;
+
+const store = {
+  data: {},
+  files: {
+    components: {
+      file: '',
+      filePath: `${TARGET_DIR}/components/index.ts`,
+    },
+  },
+  enums: [],
+  components: [],
+};
+
+function getComment({ description, example }) {
+  return `/**
+ * ${description || ''}
+ * @example ${example || ''}
+ **/`;
+}
+
+function parseObject(key, { $ref, description, example, items, type }) {
+  if ($ref) {
+    const schemaKey = $ref.split('/').pop();
+    const fieldName = formatName(schemaKey);
+    parseComponents({ fieldName, schemaKey });
+    return `${getComment({ description, example })}
+${key}: ${fieldName};`;
+  }
+
+  if (type === 'array') {
+    if (items.$ref) {
+      const schemaKey = items.$ref.split('/').pop();
+      const fieldName = formatName(schemaKey);
+      parseComponents({ fieldName, schemaKey });
+      return `${getComment({ description, example })}
+${key}: ${fieldName}[];`;
+    }
+
+    if (items.type) {
+      const rawType = parseRawType(items.type);
+      return `${getComment({ description, example })}
+${key}: ${rawType}[];`;
+    }
+  }
+
+  const rawType = parseRawType(type);
+  return `${getComment({ description, example })}
+${key}: ${rawType};`;
+}
+
+function parseComponents({ fieldName, schemaKey }) {
+  const component = store.data.components.schemas[schemaKey];
+  if (!component) {
+    console.log('not find componet');
+    return;
+  }
+
+  if (store.components.includes(fieldName)) {
+    return;
+  }
+
+  if (store.enums.includes(fieldName)) {
+    return;
+  }
+
+  const { description, enum: enums, example, properties, type } = component;
+
+  if (enums) {
+    const unionEnum = `${enums.map(value => `'${value}'`).join(' | ')}`;
+    const enumTypeText = `${getComment({ description, example })}
+export type ${fieldName} = ${unionEnum};\n\n`;
+    store.enums.push(fieldName);
+    store.files.enum.file += enumTypeText;
+    return;
+  }
+
+  if (type === 'object') {
+    if (!properties) {
+      const value = `Record<string, never>`;
+      const componentTypeText = `${getComment({ description, example })}
+export type ${fieldName} = ${value};\n\n`;
+      store.components.push(fieldName);
+      store.files.components.file += componentTypeText;
+      return;
+    }
+
+    const componentTypeText = `${getComment({ description, example })}
+export interface ${fieldName} {
+  ${Object.entries(properties ?? {})
+    .map(([key, value]) => {
+      return parseObject(key, value);
+    })
+    .join('\n')}
+}\n\n`;
+    store.components.push(fieldName);
+    store.files.components.file += componentTypeText;
+    return;
+  }
+
+  console.log('TODO: parseComponents에서 type이 object 또는 enum(string) 이 아닌 case');
+  return;
+}
+
+function parseParameters({ method, parameters, pascalApiUrl, urlInfoComment }) {
+  if (!parameters) {
+    return '';
+  }
+
+  return `/**
+ * Parameter of ${urlInfoComment}
+ */
+export interface ${pascalApiUrl}${toPascalCase(method)}Parameters {
+${parameters
+  .map(({ description: originDescription, example: originExample, name, required, schema }) => {
+    console.log('schema >>>>>>>>>', schema);
+
+    const description = originDescription || schema?.description;
+    const example = originExample || schema?.example;
+
+    if (!!schema && schema.$ref) {
+      const schemaKey = schema.$ref.split('/').pop();
+      const component = store.data.components.schemas[schemaKey];
+      if (!component) {
+        console.log('not find componet');
+        return `${getComment({ description, example })} // FIXME not found component`;
+      }
+
+      parseComponents({ fieldName: formatName(schemaKey), schemaKey });
+      const { description: originDescription, enum: enums, example: originExample, properties, type } = component;
+      const _description = description || originDescription;
+      const _example = example || originExample;
+
+      if (enums) {
+        const unionEnum = `${enums.map(value => `'${value}'`).join(' | ')}`;
+        return `${getComment({ description: _description, example: _example })}
+  ${name}${required ? '' : '?'}: ${unionEnum};`;
+      }
+
+      if (type === 'object') {
+        if (!properties) {
+          return;
+        }
+
+        return `${Object.entries(properties ?? {})
+          .map(([key, value]) => {
+            return parseObject(key, value);
+          })
+          .join('\n')}`;
+      }
+    }
+
+    return `${getComment({ description, example })}
+  ${name}${required ? '' : '?'}: string;`;
+  })
+  .join('\n')}
+}
+`;
+}
+
+function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
+  if (!body?.content) {
+    return '';
+  }
+
+  const bodyContent = body.content['*/*'] || body.content['application/json'];
+  if (!bodyContent?.schema) {
+    return '';
+  }
+
+  const comment = `/**
+ * ${toPascalCase(type)} body of ${urlInfoComment}
+ **/\n`;
+
+  if (bodyContent.schema.type === 'string') {
+    return `${comment}export type ${toPascalCase(type)} = string;\n`;
+  }
+
+  if (bodyContent.schema.$ref) {
+    const schemaKey = bodyContent.schema.$ref.split('/').pop();
+    const refName = formatName(schemaKey);
+    parseComponents({ fieldName: refName, schemaKey });
+
+    return `${comment}export type ${pascalApiUrl}${toPascalCase(method)}${toPascalCase(type)} = ${refName};\n`;
+  }
+
+  console.log('TODO: parseBody에서 string or $ref외에 다른 타입오는  case');
+  return `${comment}// FIXME: You should manually check this`;
+}
+
+// function parseRequest({ data, fieldName, method, pascalApiUrl, path }) {
+function parseRequest(props) {
+  const { data, fieldName, method, pascalApiUrl, path } = props;
+
+  console.log('data >>>>>>>>>>>>>>>', data);
+  console.log('fieldName >>>>>>', fieldName);
+  console.log('method >>>>>>', method);
+  console.log('pascalApiUrl >>>>>>', pascalApiUrl);
+  console.log('path >>>>>>', path);
+
+  if (!data) {
+    return;
+  }
+
+  const {
+    parameters,
+    requestBody,
+    responses: { 200: responseBody },
+    summary,
+    tags,
+  } = data;
+  const urlInfoComment = `(${method}) ${path}\n * - ${tags}-${summary}`;
+
+  // return [];
+
+  return [
+    parseParameters({
+      method,
+      parameters,
+      pascalApiUrl,
+      urlInfoComment,
+      fieldName,
+    }),
+    parseBody({
+      type: 'request',
+      method,
+      body: requestBody,
+      pascalApiUrl,
+      urlInfoComment,
+    }),
+    parseBody({
+      type: 'response',
+      method,
+      body: { ...responseBody },
+      pascalApiUrl,
+      urlInfoComment,
+    }),
+  ].join('\n');
+}
+
+function parsePath({ path }) {
+  console.log('store.data.paths[path] >>>>', store.data.paths[path]);
+  const { delete: del, get, patch, post, put } = store.data.paths[path];
+  const pathArr = path.split('/');
+  const directoryArr = pathArr.slice(1, pathArr.length).reduce((acc, cur) => {
+    if (!cur) {
+      return acc;
+    }
+
+    if (cur.includes('{') || cur.includes('}')) {
+      return acc;
+    }
+
+    return acc.concat([cur]);
+  }, []);
+
+  const directory = directoryArr.slice(0, directoryArr.length - 1).join('/');
+  const fileName = directoryArr.pop();
+
+  const directoryPath = `${TARGET_DIR}/${directory}`;
+  const filePath = `${directoryPath}/${fileName}.ts`;
+
+  const fieldName = toPascalCase(`${directory}/${fileName}`).replace(/[/-]/g, '');
+  const pascalApiUrl = toPascalCase(pathArr.join('/').replace(/{[^}]*}/g, 'Id')).replace(/[/-]/g, '');
+
+  if (typeof store.files[fieldName] === 'undefined') {
+    store.files[fieldName] = {
+      file: '',
+      filePath,
+    };
+  }
+
+  [
+    parseRequest({ method: 'get', data: get, pascalApiUrl, fieldName, path }),
+    parseRequest({ method: 'post', data: post, pascalApiUrl, fieldName, path }),
+    parseRequest({ method: 'put', data: put, pascalApiUrl, fieldName, path }),
+    parseRequest({
+      method: 'delete',
+      data: del,
+      pascalApiUrl,
+      fieldName,
+      path,
+    }),
+    parseRequest({
+      method: 'patch',
+      data: patch,
+      pascalApiUrl,
+      fieldName,
+      path,
+    }),
+  ].forEach(x => {
+    if (!x) {
+      return;
+    }
+    const lineBreak = store.files[fieldName]['file'] === '' ? '' : '\n';
+
+    store.files[fieldName]['file'] += `${lineBreak}${x}`;
+  });
+}
+
+async function main() {
+  try {
+    // const cartData = await get(DOC_URI.cart);
+    // const commonData = await get(DOC_URI.common);
+    const cartData = await getJson(DOC_URI.cart);
+    const commonData = await getJson(DOC_URI.common);
+
+    console.log('cartData >>>>', cartData);
+    console.log('commonData >>>>', commonData);
+    // console.log('process.argv >>>>', process.argv);
+
+    const data = {
+      // ...cartData,
+      ...commonData,
+      paths: {
+        ...cartData.paths,
+        ...commonData.paths,
+      },
+      components: {
+        schemas: {
+          ...commonData.components.schemas,
+          ...cartData.components.schemas,
+        },
+      },
+    };
+    store.data = data;
+
+    //   if (!!inputPath && !Object.keys(data.paths).includes(inputPath)) {
+    //     console.log(`Not valid path: ${inputPath}`);
+    //     return;
+    //   }
+
+    //   if (inputPath) {
+    //     parsePath({ path: inputPath });
+    //   } else {
+    // for (const path in data.paths) {
+    //   parsePath({ path });
+    // }
+    //   }
+
+    for (const path in data.paths) {
+      console.log('path  >>>>', path);
+      parsePath({ path });
+    }
+
+    console.log('store >>>>>>>', store);
+    console.log('TARGET_DIR >>>>>>>', TARGET_DIR);
+
+    if (fs.existsSync(TARGET_DIR)) {
+      fs.rmSync(TARGET_DIR, { recursive: true });
+    }
+
+    fs.mkdirSync(TARGET_DIR, { recursive: true });
+
+    fs.writeFile(
+      `${TARGET_DIR}/index.ts`,
+      Object.values(store.files).reduce(
+        (acc, cur) =>
+          acc + `export * from '.${cur.filePath.replaceAll(TARGET_DIR, '').replace(/(\.ts$|\/index.ts$)/g, '')}';\n`,
+        '',
+      ),
+      'utf8',
+      err => {
+        if (err) {
+          console.error(err);
+        }
+
+        console.log(`Done writing ${TARGET_DIR}/index.ts`);
+      },
+    );
+
+    Object.entries(store.files).forEach(([key, { file, filePath }]) => {
+      const pathArr = filePath.split('/');
+      pathArr.pop();
+      const directoryPath = pathArr.join('/');
+      if (directoryPath) {
+        fs.mkdirSync(directoryPath, { recursive: true });
+      }
+
+      const relativePath = new Array(directoryPath.replaceAll(TARGET_DIR, '').split('/').length).join('../');
+      const [componentsImportText, enumsImportText] = file.split('\n').reduce(
+        (acc, cur) => {
+          const rawText = cur.split(' ');
+          for (let index = 0; index < rawText.length; index++) {
+            const text = rawText[index];
+            if (text.includes('string') || text.includes('number') || text.includes('boolean') || text.includes('*')) {
+              continue;
+            }
+
+            const componentsIndex = store.components.findIndex(
+              component => `${component};` === text || `${component}[];` === text,
+            );
+
+            if (componentsIndex > -1) {
+              acc[0].add(store.components[componentsIndex]);
+            }
+
+            const enumsIndex = store.enums.findIndex(enums => `${enums};` === text || `${enums}[];` === text);
+            if (enumsIndex > -1) {
+              acc[1].add(store.enums[enumsIndex]);
+            }
+          }
+          return acc;
+        },
+        [new Set(), new Set()],
+      );
+
+      if (enumsImportText.size > 0 && key !== 'enum') {
+        file = `import { ${[...enumsImportText].join(',')} } from '${relativePath}enum'\n` + file;
+      }
+      if (componentsImportText.size > 0 && key !== 'components') {
+        file = `import { ${[...componentsImportText].join(',')} } from '${relativePath}components'\n` + file;
+      }
+
+      fs.writeFileSync(filePath, file, 'utf-8');
+      console.log(`Done writing ${filePath}`);
+    });
+
+    exec(`npx eslint --fix ${TARGET_DIR}`, () => {});
+  } catch (error) {
+    console.log(`error`, error);
+  }
+}
+
+main();

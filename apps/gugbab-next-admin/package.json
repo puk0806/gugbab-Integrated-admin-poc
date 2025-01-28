@@ -1,4 +1,4 @@
-{
+             {
   "name": "@gugbab-integrated-admin-poc/gugbab-next-admin",
   "version": "0.1.0",
   "private": true,
@@ -13,7 +13,8 @@
     "start": "cross-env-shell node scripts/pre-start.js next-env -e ${APP_ENV} -m development && node server.js",
     "lint": "next lint",
     "typecheck": "tsc -b tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "generate-schema":"bash scripts/generate/generate-schema.sh"
   },
   "dependencies": {
     "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",

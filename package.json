@@ -26,6 +26,7 @@
     "test": "turbo run test",
     "test:app": "turbo  --filter @gugbab-integrated-admin-poc/gugbab-next-admin test",
     "compile:storybook:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass sass-compile",
+    "generate-schema": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-next-admin generate-schema",
     "generate-component": "bash scripts/generate-component/index.sh",
     "generate-icons": "pnpm --filter @gugbab-integrated-admin-poc/icons build",
     "fix-svg": "pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",

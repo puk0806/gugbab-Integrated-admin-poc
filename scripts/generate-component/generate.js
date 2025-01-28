@@ -101,7 +101,7 @@ export interface ${pascalComponentName}Props {
 
   createFiles(COMPONENT_DIR, [
     { name: 'index.tsx', content: ComponentTemplate },
-    { name: 'index.css.ts', content: StyleTemplate },
+    { name: 'index.scss', content: StyleTemplate },
   ]);
   console.log(`Files created successfully in Component`);
 
