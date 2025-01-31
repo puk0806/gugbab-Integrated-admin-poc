@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",
+    "@gugbab-integrated-admin-poc/icons": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.1"

@@ -23,6 +23,9 @@
 - pnpm 9.12.2 ([설치 가이드](https://pnpm.io/installation))
 - Python ([다운로드](https://www.python.org/downloads))
 
+기본적으로 위 환경이 필요합니다.\
+MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
+
 ## 프로젝트 구성
 
 - **apps**
@@ -88,9 +91,10 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 pnpm install --frozen-lockfile
 ```
 
-### 4. Utils,UI Package 빌드
+### 4. Icons, Utils,UI Package 빌드
 
 ```
+pnpm generate-icons
 pnpm build:utils
 pnpm build:ui
 ```

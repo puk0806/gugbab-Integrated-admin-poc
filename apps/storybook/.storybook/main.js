@@ -1,6 +1,7 @@
 import { mergeConfig } from "vite";
 import { resolve } from "path";
 const UI_SASS_PATH = resolve("../../packages/ui-sass");
+const ICONS_PATH = resolve("../../packages/icons");
 const UI_VANILLA_EXTRACT_PATH = resolve("../../packages/ui-vanilla-extract");
 
 /** @type { import('@storybook/react-vite').StorybookConfig } */
@@ -49,6 +50,10 @@ const config = {
           {
             find: "@hooks",
             replacement: `${UI_SASS_PATH}/src/hooks`,
+          },
+          {
+            find: "@icons",
+            replacement: `${ICONS_PATH}/dist`,
           },
         ],
       },

@@ -31,10 +31,6 @@ export const formatTimes = (seconds: number, minuteToSecond = 60) => {
  */
 export const formatMoney = (number: number): string => {
   /**
-   * 급여 노출 정책
-   *
-   * 메인:
-   *
    * 10만원 미만: 원 단위까지 모두 표기
    * 10만원 이상: 천 원 이하 단위 절삭하고 만 원 단위까지 표기
    *
