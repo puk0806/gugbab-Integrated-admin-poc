@@ -7,3 +7,5 @@ export * from './lib/number';
 export * from './lib/parse';
 export * from './lib/string';
 export * from './lib/url';
+
+export { default as logger } from './lib/logger';
