@@ -8,4 +8,5 @@ export * from './lib/parse';
 export * from './lib/string';
 export * from './lib/url';
 
+export { default as to } from './lib/awaitTo';
 export { default as logger } from './lib/logger';
