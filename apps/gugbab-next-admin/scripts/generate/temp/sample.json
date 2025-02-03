@@ -1,0 +1,1165 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "OneSphere API 명세",
+		"description": "OneSphere API 서버에서 제공하는 API 명세서입니다.",
+		"version": "1.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:41010",
+			"description": "Generated server url"
+		}
+	],
+	"tags": [
+		{
+			"name": "[공통] Common",
+			"description": "CommonController"
+		},
+		{
+			"name": "[AA] Guide.Sample.Oracle",
+			"description": "SampleOracleController"
+		},
+		{
+			"name": "[AA] Guide.Sample.Exception",
+			"description": "SampleExceptionController"
+		},
+		{
+			"name": "[전시] Exhibition.Card",
+			"description": "CardController"
+		}
+	],
+	"paths": {
+		"/data/guide/sample/card": {
+			"put": {
+				"tags": [
+					"[전시] Exhibition.Card"
+				],
+				"summary": "카드 정보 단건 변경(without XML)후, 변경된 데이터 조회",
+				"description": "하나의 카드 정보를 변경(mybatis XML 파일을 사용하지 않음)하고, 변경된 데이터를 조회하는 API ",
+				"operationId": "modifyExhibitionCard",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleMySqlRequestDTO"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleMySqlResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/card/xml": {
+			"put": {
+				"tags": [
+					"[전시] Exhibition.Card"
+				],
+				"summary": "카드 정보 단건 변경(use XML)후, 변경된 데이터 조회",
+				"description": "하나의 카드 정보를 변경(mybatis XML 파일을 사용함)하고, 변경된 데이터를 조회하는 API ",
+				"operationId": "modifyExhibitionCardByXML",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleMySqlRequestDTO"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleMySqlResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brand": {
+			"put": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 단건 변경(without XML)후, 변경된 데이터 조회",
+				"description": "하나의 브랜드 코드 정보를 변경할 수 있는 API (mybatis XML 파일을 사용하지 않음)",
+				"operationId": "modifyExhibitionBrand",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleOracleRequestDTO"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brand/xml": {
+			"put": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 단건 변경(use XML)",
+				"description": "하나의 브랜드 코드 정보를 변경할 수 있는 API (mybatis XML 파일을 사용함)",
+				"operationId": "modifyExhibitionBrandByXML",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleOracleRequestDTO"
+							},
+							"examples": {
+								"tbrandDescription 변경 요청 01": {
+									"description": "브랜드 설명에 '(수정)' 추가.",
+									"value": {
+										"tbrandCode": 11,
+										"tbrandDescription": "(수정)테스트용 브랜드입니다."
+									}
+								},
+								"tbrandDescription 변경 요청 02": {
+									"description": "브랜드 설명에 '(수정)' 제거.",
+									"value": {
+										"tbrandCode": 11,
+										"tbrandDescription": "테스트용 브랜드입니다."
+									}
+								}
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "SUCCESS_MODIFY",
+						"content": {
+							"application/json": {
+								"examples": {
+									"Success modified": {
+										"description": "Success modified",
+										"value": "{\n    \"header\": {\n        \"message\": \"1 건 수정되었습니다.\"\n        \"resultCode\": \"SUCCESS_MODIFY\",\n    }\n}\n"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brand/xml/and-find": {
+			"put": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 단건 변경(use XML)후, 변경된 데이터 조회",
+				"description": "하나의 브랜드 코드 정보를 변경(mybatis XML 파일을 사용함)하고, 변경된 데이터를 조회하는 API ",
+				"operationId": "modifyExhibitionBrandByXMLAndFindById",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleOracleRequestDTO"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/common/s3/pre-signed-url": {
+			"post": {
+				"tags": [
+					"[공통] Common"
+				],
+				"summary": "S3 PreSignedUrl 생성 요청",
+				"description": "S3 버킷으로 업로드 될 URL을 생성하는 API",
+				"operationId": "registerCommonS3PreSignedUrl",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/CommonS3PreSignedUrlRequestDTO"
+								}
+							},
+							"examples": {
+								"배너 이미지 단건 요청": {
+									"description": "이미지배너 uploadUrl 단건 요청.",
+									"value": [
+										{
+											"key": "/2025/01/filename.jpg",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_BANNER"
+										}
+									]
+								},
+								"배너 이미지 다건 요청": {
+									"description": "이미지배너 uploadUrl 다건 요청.",
+									"value": [
+										{
+											"key": "/2025/01/filename.jpg",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_BANNER"
+										},
+										{
+											"key": "/2025/01/filename.jpg",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_BANNER"
+										}
+									]
+								},
+								"카드 이미지 단건 요청": {
+									"description": "카드이미지 uploadUrl 단건 요청.",
+									"value": [
+										{
+											"key": "/2025/01/cardImage.png",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_CARD"
+										}
+									]
+								},
+								"카드 이미지 다건 요청": {
+									"description": "카드이미지 uploadUrl 다건 요청.",
+									"value": [
+										{
+											"key": "/2025/01/cardImage.png",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_CARD"
+										},
+										{
+											"key": "/2025/01/cardImage.jpg",
+											"expirationMinutes": 5,
+											"s3BucketTypeCodeEnum": "IMAGE_CARD"
+										}
+									]
+								}
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "SUCCESS",
+						"content": {
+							"application/json": {
+								"examples": {
+									"Success": {
+										"description": "Success",
+										"value": {
+											"header": {
+												"resultCode": "SUCCESS",
+												"message": "정상 처리되었습니다."
+											},
+											"body": {
+												"count": 1,
+												"s3PreSignedUrlInfoDTOList": [
+													{
+														"key": "/2025/01/filename.jpg",
+														"uploadUrl": "testUrl"
+													}
+												]
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/exception/unknown-server-error": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Exception"
+				],
+				"summary": "예외 발생 케이스 예제 (SAMPLE_UNKNOWN_SERVER_ERROR)",
+				"description": "시스템 오류가 발생했을 때, 개발자가 지정한 HTTP Status 500 예외가 발생한다.",
+				"operationId": "occurUnknownServerError",
+				"parameters": [
+					{
+						"name": "paramData",
+						"in": "query",
+						"description": "데이터",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"description": "데이터",
+							"example": "abc*"
+						},
+						"example": "abc*"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/exception/type-mismatch-error": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Exception"
+				],
+				"summary": "예외 발생 케이스 예제 (EXHIBITION_TYPE_MISMATCH_ERROR)",
+				"description": "필수 값의 정합성이 맞지 않을 때, 개발자가 지정한 HTTP Status 400 예외가 발생한다.",
+				"operationId": "occurTypeMismatchError",
+				"parameters": [
+					{
+						"name": "email",
+						"in": "query",
+						"description": "이메일 주소",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"description": "이메일 주소",
+							"example": "@mail.pe.kr"
+						},
+						"example": "@mail.pe.kr"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/exception/runtime": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Exception"
+				],
+				"summary": "예외 발생 케이스 예제 (RuntimeException)",
+				"description": "RuntimeException이 발생했을 때, 기본 설정 정보를 이용하여 전파되는 HTTP Status 500 예외가 발생한다.",
+				"operationId": "occurRuntimeException",
+				"parameters": [
+					{
+						"name": "parseValue",
+						"in": "query",
+						"description": "데이터",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"description": "데이터",
+							"example": "abc*"
+						},
+						"example": "abc*"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/exception/required-condition-error": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Exception"
+				],
+				"summary": "예외 발생 케이스 예제 (EXHIBITION_REQUIRED_CONDITION_ERROR)",
+				"description": "필수 값이 입력되지 않았을 때, 개발자가 지정한 HTTP Status 400 예외가 발생한다.",
+				"operationId": "occurRequiredConditionError",
+				"parameters": [
+					{
+						"name": "email",
+						"in": "query",
+						"description": "이메일 주소",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"description": "이메일 주소",
+							"example": "@mail.pe.kr"
+						},
+						"example": "@mail.pe.kr"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/exception/permission-error": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Exception"
+				],
+				"summary": "예외 발생 케이스 예제 (SAMPLE_PERMISSION_ERROR)",
+				"description": "권한이 없을 때, 개발자가 지정한 HTTP Status 403 예외가 발생한다.",
+				"operationId": "occurPermissionError",
+				"parameters": [
+					{
+						"name": "menuName",
+						"in": "query",
+						"description": "메뉴 이름",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"description": "메뉴 이름",
+							"example": "카드 등록/수정"
+						},
+						"example": "카드 등록/수정"
+					},
+					{
+						"name": "roleId",
+						"in": "query",
+						"description": "권한 아이디",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"description": "권한 아이디",
+							"example": "RC001122"
+						},
+						"example": "RC001122"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/cards/top10": {
+			"get": {
+				"tags": [
+					"[전시] Exhibition.Card"
+				],
+				"summary": "카드 정보 다건 조회",
+				"description": "브랜드 코드 Top 10 정보를 조회할 수 있는 API",
+				"operationId": "findExhibitionCardTop10",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleMySqlMultipleResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/card/{id}": {
+			"get": {
+				"tags": [
+					"[전시] Exhibition.Card"
+				],
+				"summary": "카드 정보 단건 조회",
+				"description": "카드 아이디로 카드 기본 정보를 조회하는 API",
+				"operationId": "findExhibitionCardById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleMySqlResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brands/{tbrandCode}": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 단건 조회",
+				"description": "브랜드 코드 값으로 브랜드 기본 정보를 조회할 수 있는 API",
+				"operationId": "findExhibitionBrandByCode",
+				"parameters": [
+					{
+						"name": "tbrandCode",
+						"in": "path",
+						"description": "브랜드 코드",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"description": "브랜드 코드",
+							"example": 11
+						},
+						"example": 11
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "SUCCESS_FIND",
+						"content": {
+							"application/json": {
+								"examples": {
+									"tbrandCode = 11": {
+										"description": "tbrandCode = 11",
+										"value": {
+											"header": {
+												"resultCode": "SUCCESS_FIND",
+												"message": "1 건 조회되었습니다."
+											},
+											"body": {
+												"tbrandCode": 11,
+												"tbrandEName": "TEST BRAND",
+												"tbrandKName": "테스트 브랜드",
+												"tbrandDescription": "테스트용 브랜드입니다.",
+												"lgFashionYn": "AFFILIATE_PRODUCT",
+												"useYn": "DISABLE",
+												"registerId": "bhakee",
+												"registerDateTime": "2025-01-15T19:49:19",
+												"updateDateTime": "2025-01-22T19:04:29",
+												"tbrandENameInitial": "T",
+												"tbrandKNameInitial": "ㅌ"
+											}
+										}
+									},
+									"tbrandCode = 12706": {
+										"description": "tbrandCode = 12706",
+										"value": {
+											"header": {
+												"resultCode": "SUCCESS_FIND",
+												"message": "1 건 조회되었습니다."
+											},
+											"body": {
+												"tbrandCode": 12706,
+												"tbrandEName": "seatandmore",
+												"tbrandKName": "시트앤모어",
+												"tbrandDescription": "가구",
+												"lgFashionYn": "AFFILIATE_PRODUCT",
+												"useYn": "ENABLE",
+												"registerId": "kjhbjhss",
+												"registerDateTime": "2020-04-16T16:04:49",
+												"updateDateTime": null,
+												"tbrandENameInitial": "S",
+												"tbrandKNameInitial": "ㅅ"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brands/top10": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 다건 조회(Top 10)",
+				"description": "브랜드 코드 Top 10 정보를 조회하는 API",
+				"operationId": "findExhibitionBrandTop10",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleMultipleResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/data/guide/sample/brands/by-condition": {
+			"get": {
+				"tags": [
+					"[AA] Guide.Sample.Oracle"
+				],
+				"summary": "브랜드 정보 다건 조회(자사상품 여부, 사용 여부, 등록자 기준)",
+				"description": "조회 조건에 따라 필터링된 브랜드 정보를 조회하는 API",
+				"operationId": "findExhibitionBrandByRegisterIdAndLgFashionYnAndUseYn",
+				"parameters": [
+					{
+						"name": "lgFashionYn",
+						"in": "query",
+						"description": "자사 상품 여부",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"OWN_PRODUCT",
+								"AFFILIATE_PRODUCT",
+								"COMMON_PRODUCT",
+								"UNKNOWN_PRODUCT"
+							]
+						},
+						"example": "OWN_PRODUCT"
+					},
+					{
+						"name": "useYn",
+						"in": "query",
+						"description": "사용 여부",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"ENABLE",
+								"DISABLE",
+								"UNKNOWN"
+							]
+						},
+						"example": "ENABLE"
+					},
+					{
+						"name": "registerId",
+						"in": "query",
+						"description": "등록자 아이디",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"description": "등록자 아이디",
+							"example": "jej6789"
+						},
+						"example": "jej6789"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GugbabResponseGugbabResponseHeaderObjectSampleOracleMultipleResponseDTO"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"SampleMySqlRequestDTO": {
+				"title": "카드 정보 처리 요청 DTO",
+				"required": [
+					"modifierId"
+				],
+				"type": "object",
+				"properties": {
+					"id": {
+						"minimum": 0,
+						"type": "integer",
+						"description": "카드 아이디",
+						"format": "int64",
+						"example": 226348
+					},
+					"templateType": {
+						"type": "integer",
+						"description": "템플릿 번호",
+						"format": "int64",
+						"example": 74
+					},
+					"modifierId": {
+						"type": "string",
+						"description": "변경한 아이디",
+						"example": "kseoyoon"
+					}
+				}
+			},
+			"GugbabResponseHeaderObject": {
+				"title": "OneSphere 정상처리 응답 메시지의 Header",
+				"type": "object",
+				"properties": {
+					"resultCode": {
+						"type": "string",
+						"description": "OneSphere API 응답 헤더에서 사용하는 결과 코드 값",
+						"example": "SUCCESS_FIND"
+					},
+					"message": {
+						"type": "string",
+						"description": "OneSphere API 응답 헤더로 전파되는 메시지",
+						"example": "1 건 조회되었습니다."
+					},
+					"detail": {
+						"type": "object",
+						"description": "OneSphere API 응답 헤더에서 사용하는 추가 정보 객체",
+						"example": "Success Found"
+					}
+				}
+			},
+			"GugbabResponseGugbabResponseHeaderObjectSampleMySqlResponseDTO": {
+				"title": "OneSphere 정상처리 응답 메시지",
+				"type": "object",
+				"properties": {
+					"header": {
+						"$ref": "#/components/schemas/GugbabResponseHeaderObject"
+					},
+					"body": {
+						"$ref": "#/components/schemas/SampleMySqlResponseDTO"
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PagingInfo"
+					}
+				}
+			},
+			"PagingInfo": {
+				"title": "페이징 정보",
+				"type": "object",
+				"properties": {
+					"pagingWindowSize": {
+						"type": "integer",
+						"description": "한번에 조회할 Record 수",
+						"format": "int32",
+						"example": 20
+					},
+					"rowsTotalCount": {
+						"type": "integer",
+						"description": "전체 Record 수",
+						"format": "int32",
+						"example": 1000
+					},
+					"currentPageIndex": {
+						"type": "integer",
+						"description": "현재 페이지 위치",
+						"format": "int32",
+						"example": 1
+					},
+					"pageTotalCount": {
+						"type": "integer",
+						"description": "전체 페이지 수",
+						"format": "int32",
+						"example": 23
+					},
+					"itemStartIndex": {
+						"type": "integer",
+						"description": "Record 시작 위치",
+						"format": "int32",
+						"example": 1
+					},
+					"itemEndIndex": {
+						"type": "integer",
+						"description": "Record 끝 위치",
+						"format": "int32",
+						"example": 5
+					}
+				}
+			},
+			"SampleMySqlDTO": {
+				"title": "카드 정보 DTO",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"description": "카드 아이디",
+						"format": "int32",
+						"example": 226348
+					},
+					"templateType": {
+						"type": "integer",
+						"description": "템플릿 번호",
+						"format": "int32",
+						"example": 74
+					},
+					"creatorId": {
+						"type": "string",
+						"description": "등록한 아이디",
+						"example": "kseoyoon"
+					},
+					"createYmdt": {
+						"type": "string",
+						"description": "등록 일시",
+						"format": "date-time"
+					},
+					"modifierId": {
+						"type": "string",
+						"description": "변경한 아이디",
+						"example": "kseoyoon"
+					},
+					"modifyYmdt": {
+						"type": "string",
+						"description": "변경 일시",
+						"format": "date-time"
+					}
+				}
+			},
+			"SampleMySqlResponseDTO": {
+				"title": "카드 정보 조회 응답 DTO",
+				"type": "object",
+				"properties": {
+					"count": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sampleMySqlDTO": {
+						"$ref": "#/components/schemas/SampleMySqlDTO"
+					}
+				}
+			},
+			"SampleOracleRequestDTO": {
+				"title": "브랜드 정보 처리 요청 DTO",
+				"type": "object",
+				"properties": {
+					"tbrandCode": {
+						"type": "integer",
+						"description": "브랜드 코드",
+						"format": "int64",
+						"example": 11
+					},
+					"tbrandEName": {
+						"type": "string",
+						"description": "브랜드 영문 이름",
+						"example": "TEST BRAND"
+					},
+					"tbrandKName": {
+						"type": "string",
+						"description": "브랜드 한글 이름",
+						"example": "테스트 브랜드"
+					},
+					"tbrandDescription": {
+						"type": "string",
+						"description": "브랜드 설명",
+						"example": "테스트용 브랜드입니다."
+					},
+					"lgFashionYn": {
+						"type": "string",
+						"description": "자사 상품 여부",
+						"example": "AFFILIATE_PRODUCT",
+						"enum": [
+							"OWN_PRODUCT",
+							"AFFILIATE_PRODUCT",
+							"COMMON_PRODUCT",
+							"UNKNOWN_PRODUCT"
+						]
+					},
+					"useYn": {
+						"type": "string",
+						"description": "사용 여부",
+						"example": "DISABLE",
+						"enum": [
+							"ENABLE",
+							"DISABLE",
+							"UNKNOWN"
+						]
+					},
+					"tbrandENameInitial": {
+						"type": "string",
+						"description": "브랜드 영문 이름 이니셜",
+						"example": "T"
+					},
+					"tbrandKNameInitial": {
+						"type": "string",
+						"description": "브랜드 한글 이름 이니셜",
+						"example": "ㅌ"
+					}
+				}
+			},
+			"GugbabResponseGugbabResponseHeaderObjectSampleOracleResponseDTO": {
+				"title": "OneSphere 정상처리 응답 메시지",
+				"type": "object",
+				"properties": {
+					"header": {
+						"$ref": "#/components/schemas/GugbabResponseHeaderObject"
+					},
+					"body": {
+						"$ref": "#/components/schemas/SampleOracleResponseDTO"
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PagingInfo"
+					}
+				}
+			},
+			"SampleOracleDTO": {
+				"title": "브랜드 정보 DTO",
+				"type": "object",
+				"properties": {
+					"tbrandCode": {
+						"type": "integer",
+						"description": "브랜드 코드",
+						"format": "int64",
+						"example": 11
+					},
+					"tbrandEName": {
+						"type": "string",
+						"description": "브랜드 영문 이름",
+						"example": "TEST BRAND"
+					},
+					"tbrandKName": {
+						"type": "string",
+						"description": "브랜드 한글 이름",
+						"example": "테스트 브랜드"
+					},
+					"tbrandDescription": {
+						"type": "string",
+						"description": "브랜드 설명",
+						"example": "테스트용 브랜드입니다."
+					},
+					"lgFashionYn": {
+						"type": "string",
+						"description": "자사 상품 여부",
+						"example": "AFFILIATE_PRODUCT",
+						"enum": [
+							"OWN_PRODUCT",
+							"AFFILIATE_PRODUCT",
+							"COMMON_PRODUCT",
+							"UNKNOWN_PRODUCT"
+						]
+					},
+					"useYn": {
+						"type": "string",
+						"description": "사용 여부",
+						"example": "DISABLE",
+						"enum": [
+							"ENABLE",
+							"DISABLE",
+							"UNKNOWN"
+						]
+					},
+					"registerId": {
+						"type": "string",
+						"description": "등록자 아이디",
+						"example": "bhakee"
+					},
+					"registerDateTime": {
+						"type": "string",
+						"description": "등록 일시",
+						"format": "date-time"
+					},
+					"updateDateTime": {
+						"type": "string",
+						"description": "변경 일시",
+						"format": "date-time"
+					},
+					"tbrandENameInitial": {
+						"type": "string",
+						"description": "브랜드 영문 이름 이니셜",
+						"example": "T"
+					},
+					"tbrandKNameInitial": {
+						"type": "string",
+						"description": "브랜드 한글 이름 이니셜",
+						"example": "ㅌ"
+					}
+				}
+			},
+			"SampleOracleResponseDTO": {
+				"title": "브랜드 정보 단건 조회 응답 DTO",
+				"type": "object",
+				"properties": {
+					"count": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sampleOracleDTO": {
+						"$ref": "#/components/schemas/SampleOracleDTO"
+					}
+				}
+			},
+			"CommonS3PreSignedUrlRequestDTO": {
+				"title": "S3 PresignedUrl 생성 요청 DTO",
+				"required": [
+					"key",
+					"s3BucketTypeCodeEnum"
+				],
+				"type": "object",
+				"properties": {
+					"key": {
+						"type": "string",
+						"description": "업로드객체 Key 값",
+						"example": "2024/abcd_abcdefghijklmnopqrstuvwxyz.jpg"
+					},
+					"expirationMinutes": {
+						"type": "integer",
+						"description": "url 유효시간 단위: 분",
+						"format": "int32",
+						"example": 5
+					},
+					"s3BucketTypeCodeEnum": {
+						"type": "string",
+						"description": "S3 버킷 타입",
+						"example": "IMAGE_BANNER",
+						"enum": [
+							"IMAGE_BANNER",
+							"IMAGE_CARD",
+							"IMAGE_BRAND_GROUP",
+							"IMAGE_SEARCH",
+							"IMAGE_SPLASH",
+							"IMAGE_VOD",
+							"IMAGE_LOOK_BOOK",
+							"IMAGE_LIVE",
+							"UNKNOWN"
+						]
+					}
+				}
+			},
+			"GugbabResponseGugbabResponseHeaderObjectSampleOracleDTO": {
+				"title": "OneSphere 정상처리 응답 메시지",
+				"type": "object",
+				"properties": {
+					"header": {
+						"$ref": "#/components/schemas/GugbabResponseHeaderObject"
+					},
+					"body": {
+						"$ref": "#/components/schemas/SampleOracleDTO"
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PagingInfo"
+					}
+				}
+			},
+			"GugbabResponseGugbabResponseHeaderObjectSampleMySqlMultipleResponseDTO": {
+				"title": "OneSphere 정상처리 응답 메시지",
+				"type": "object",
+				"properties": {
+					"header": {
+						"$ref": "#/components/schemas/GugbabResponseHeaderObject"
+					},
+					"body": {
+						"$ref": "#/components/schemas/SampleMySqlMultipleResponseDTO"
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PagingInfo"
+					}
+				}
+			},
+			"SampleMySqlMultipleResponseDTO": {
+				"title": "카드 정보 조회 응답 DTO",
+				"type": "object",
+				"properties": {
+					"count": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sampleMySqlDtoList": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/SampleMySqlDTO"
+						}
+					}
+				}
+			},
+			"GugbabResponseGugbabResponseHeaderObjectSampleOracleMultipleResponseDTO": {
+				"title": "OneSphere 정상처리 응답 메시지",
+				"type": "object",
+				"properties": {
+					"header": {
+						"$ref": "#/components/schemas/GugbabResponseHeaderObject"
+					},
+					"body": {
+						"$ref": "#/components/schemas/SampleOracleMultipleResponseDTO"
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PagingInfo"
+					}
+				}
+			},
+			"SampleOracleMultipleResponseDTO": {
+				"title": "브랜드 정보 다건 조회 응답 DTO",
+				"type": "object",
+				"properties": {
+					"count": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sampleOracleDtoList": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/SampleOracleDTO"
+						}
+					}
+				}
+			}
+		}
+	}
+}
