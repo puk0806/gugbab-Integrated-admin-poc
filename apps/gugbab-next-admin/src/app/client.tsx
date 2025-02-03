@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { TextField, Typography } from '@gugbab-integrated-admin-poc/ui-sass';
+import { Icon, TextField, Typography } from '@gugbab-integrated-admin-poc/ui-sass';
 
 interface RootClientProps {
   environment: string;
+  isLogin: boolean;
 }
 
 function RootClient({ environment }: RootClientProps) {
@@ -16,6 +17,7 @@ function RootClient({ environment }: RootClientProps) {
       <Typography color="secondary-navy-blue" variant="B1" weight="bold">
         Root Client
       </Typography>
+      <Icon name="close" />
       <TextField name="test" />
     </>
   );

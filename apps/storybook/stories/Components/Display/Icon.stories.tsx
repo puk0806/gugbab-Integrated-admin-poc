@@ -19,7 +19,6 @@ export const Default: Story = {
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {icons.map(icon => (
           <div key={icon} title={icon}>
-            {icon}
             <Icon irName={icon} name={icon} />
           </div>
         ))}

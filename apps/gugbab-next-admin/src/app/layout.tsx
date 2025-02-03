@@ -1,5 +1,6 @@
 import Script from 'next/script';
 import './_styles/globals.css';
+import '@gugbab-integrated-admin-poc/icons/dist/icons.css';
 import '@gugbab-integrated-admin-poc/ui-sass/public/styles/components.css';
 import { TanstackProvider } from './_providers';
 
