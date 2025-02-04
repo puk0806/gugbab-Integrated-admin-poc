@@ -6,11 +6,10 @@ const { formatName, toPascalCase } = require('../utils/string');
 const { parseRawType } = require('../utils/parse');
 
 const DOC_URI = {
-  cart: path.join(__dirname, 'temp', 'cart.json'),
-  common: path.join(__dirname, 'temp', 'common.json'),
+  sample: path.join(__dirname, 'temp', 'sample.json'),
 };
 
-const TARGET_DIR = `./src/shared/api/types/lib/temp`;
+const TARGET_DIR = `./src/shared/api/temp`;
 
 const store = {
   data: {},
@@ -18,6 +17,10 @@ const store = {
     components: {
       file: '',
       filePath: `${TARGET_DIR}/components/index.ts`,
+    },
+    enum: {
+      file: '',
+      filePath: `${TARGET_DIR}/enum/index.ts`,
     },
   },
   enums: [],
@@ -125,8 +128,6 @@ function parseParameters({ method, parameters, pascalApiUrl, urlInfoComment }) {
 export interface ${pascalApiUrl}${toPascalCase(method)}Parameters {
 ${parameters
   .map(({ description: originDescription, example: originExample, name, required, schema }) => {
-    console.log('schema >>>>>>>>>', schema);
-
     const description = originDescription || schema?.description;
     const example = originExample || schema?.example;
 
@@ -204,12 +205,6 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
 function parseRequest(props) {
   const { data, fieldName, method, pascalApiUrl, path } = props;
 
-  console.log('data >>>>>>>>>>>>>>>', data);
-  console.log('fieldName >>>>>>', fieldName);
-  console.log('method >>>>>>', method);
-  console.log('pascalApiUrl >>>>>>', pascalApiUrl);
-  console.log('path >>>>>>', path);
-
   if (!data) {
     return;
   }
@@ -251,7 +246,6 @@ function parseRequest(props) {
 }
 
 function parsePath({ path }) {
-  console.log('store.data.paths[path] >>>>', store.data.paths[path]);
   const { delete: del, get, patch, post, put } = store.data.paths[path];
   const pathArr = path.split('/');
   const directoryArr = pathArr.slice(1, pathArr.length).reduce((acc, cur) => {
@@ -312,29 +306,20 @@ function parsePath({ path }) {
 
 async function main() {
   try {
-    // const cartData = await get(DOC_URI.cart);
-    // const commonData = await get(DOC_URI.common);
-    const cartData = await getJson(DOC_URI.cart);
-    const commonData = await getJson(DOC_URI.common);
-
-    console.log('cartData >>>>', cartData);
-    console.log('commonData >>>>', commonData);
-    // console.log('process.argv >>>>', process.argv);
+    const sampleData = await getJson(DOC_URI.sample);
 
     const data = {
-      // ...cartData,
-      ...commonData,
+      ...sampleData,
       paths: {
-        ...cartData.paths,
-        ...commonData.paths,
+        ...sampleData.paths,
       },
       components: {
         schemas: {
-          ...commonData.components.schemas,
-          ...cartData.components.schemas,
+          ...sampleData.components.schemas,
         },
       },
     };
+
     store.data = data;
 
     //   if (!!inputPath && !Object.keys(data.paths).includes(inputPath)) {
@@ -351,12 +336,8 @@ async function main() {
     //   }
 
     for (const path in data.paths) {
-      console.log('path  >>>>', path);
       parsePath({ path });
     }
-
-    console.log('store >>>>>>>', store);
-    console.log('TARGET_DIR >>>>>>>', TARGET_DIR);
 
     if (fs.existsSync(TARGET_DIR)) {
       fs.rmSync(TARGET_DIR, { recursive: true });

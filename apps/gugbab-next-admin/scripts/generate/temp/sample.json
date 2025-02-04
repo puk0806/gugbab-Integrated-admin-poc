@@ -13,16 +13,16 @@
 	],
 	"tags": [
 		{
-			"name": "[공통] Common",
-			"description": "CommonController"
-		},
-		{
 			"name": "[AA] Guide.Sample.Oracle",
 			"description": "SampleOracleController"
 		},
 		{
 			"name": "[AA] Guide.Sample.Exception",
 			"description": "SampleExceptionController"
+		},
+		{
+			"name": "[AWS] S3",
+			"description": "AwsS3Controller"
 		},
 		{
 			"name": "[전시] Exhibition.Card",
@@ -209,10 +209,10 @@
 				}
 			}
 		},
-		"/data/common/s3/pre-signed-url": {
+		"/data/aws/s3/pre-signed-url": {
 			"post": {
 				"tags": [
-					"[공통] Common"
+					"[AWS] S3"
 				],
 				"summary": "S3 PreSignedUrl 생성 요청",
 				"description": "S3 버킷으로 업로드 될 URL을 생성하는 API",
@@ -223,7 +223,7 @@
 							"schema": {
 								"type": "array",
 								"items": {
-									"$ref": "#/components/schemas/CommonS3PreSignedUrlRequestDTO"
+									"$ref": "#/components/schemas/AwsS3PreSignedUrlRequestDTO"
 								}
 							},
 							"examples": {
@@ -297,10 +297,10 @@
 											},
 											"body": {
 												"count": 1,
-												"s3PreSignedUrlInfoDTOList": [
+												"preSignedUrls": [
 													{
 														"key": "/2025/01/filename.jpg",
-														"uploadUrl": "testUrl"
+														"uploadUrl": "uploadUrl"
 													}
 												]
 											}
@@ -676,13 +676,7 @@
 						"description": "자사 상품 여부",
 						"required": false,
 						"schema": {
-							"type": "string",
-							"enum": [
-								"OWN_PRODUCT",
-								"AFFILIATE_PRODUCT",
-								"COMMON_PRODUCT",
-								"UNKNOWN_PRODUCT"
-							]
+							"$ref": "#/components/schemas/InternalProductCodeEnum"
 						},
 						"example": "OWN_PRODUCT"
 					},
@@ -692,12 +686,7 @@
 						"description": "사용 여부",
 						"required": false,
 						"schema": {
-							"type": "string",
-							"enum": [
-								"ENABLE",
-								"DISABLE",
-								"UNKNOWN"
-							]
+							"$ref": "#/components/schemas/EnableCodeEnum"
 						},
 						"example": "ENABLE"
 					},
@@ -887,6 +876,23 @@
 					}
 				}
 			},
+			"EnableCodeEnum": {
+				"type": "string",
+				"enum": [
+					"ENABLE",
+					"DISABLE",
+					"UNKNOWN"
+				]
+			},
+			"InternalProductCodeEnum": {
+				"type": "string",
+				"enum": [
+					"OWN_PRODUCT",
+					"AFFILIATE_PRODUCT",
+					"COMMON_PRODUCT",
+					"UNKNOWN_PRODUCT"
+				]
+			},
 			"SampleOracleRequestDTO": {
 				"title": "브랜드 정보 처리 요청 DTO",
 				"type": "object",
@@ -913,25 +919,10 @@
 						"example": "테스트용 브랜드입니다."
 					},
 					"lgFashionYn": {
-						"type": "string",
-						"description": "자사 상품 여부",
-						"example": "AFFILIATE_PRODUCT",
-						"enum": [
-							"OWN_PRODUCT",
-							"AFFILIATE_PRODUCT",
-							"COMMON_PRODUCT",
-							"UNKNOWN_PRODUCT"
-						]
+						"$ref": "#/components/schemas/InternalProductCodeEnum"
 					},
 					"useYn": {
-						"type": "string",
-						"description": "사용 여부",
-						"example": "DISABLE",
-						"enum": [
-							"ENABLE",
-							"DISABLE",
-							"UNKNOWN"
-						]
+						"$ref": "#/components/schemas/EnableCodeEnum"
 					},
 					"tbrandENameInitial": {
 						"type": "string",
@@ -986,25 +977,10 @@
 						"example": "테스트용 브랜드입니다."
 					},
 					"lgFashionYn": {
-						"type": "string",
-						"description": "자사 상품 여부",
-						"example": "AFFILIATE_PRODUCT",
-						"enum": [
-							"OWN_PRODUCT",
-							"AFFILIATE_PRODUCT",
-							"COMMON_PRODUCT",
-							"UNKNOWN_PRODUCT"
-						]
+						"$ref": "#/components/schemas/InternalProductCodeEnum"
 					},
 					"useYn": {
-						"type": "string",
-						"description": "사용 여부",
-						"example": "DISABLE",
-						"enum": [
-							"ENABLE",
-							"DISABLE",
-							"UNKNOWN"
-						]
+						"$ref": "#/components/schemas/EnableCodeEnum"
 					},
 					"registerId": {
 						"type": "string",
@@ -1046,7 +1022,7 @@
 					}
 				}
 			},
-			"CommonS3PreSignedUrlRequestDTO": {
+			"AwsS3PreSignedUrlRequestDTO": {
 				"title": "S3 PresignedUrl 생성 요청 DTO",
 				"required": [
 					"key",
