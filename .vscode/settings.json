@@ -14,9 +14,6 @@
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.debug": true,
   "eslint.codeActionsOnSave.rules": null,

@@ -131,7 +131,7 @@ ${parameters
     const description = originDescription || schema?.description;
     const example = originExample || schema?.example;
 
-    if (!!schema && schema.$ref) {
+    if (schema.$ref) {
       const schemaKey = schema.$ref.split('/').pop();
       const component = store.data.components.schemas[schemaKey];
       if (!component) {
@@ -181,12 +181,21 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
     return '';
   }
 
+  console.log('bodyContent?.schema >>>>>>>', bodyContent?.schema);
   const comment = `/**
  * ${toPascalCase(type)} body of ${urlInfoComment}
  **/\n`;
 
   if (bodyContent.schema.type === 'string') {
     return `${comment}export type ${toPascalCase(type)} = string;\n`;
+  }
+
+  if (bodyContent.schema.type === 'array') {
+    const schemaKey = bodyContent.schema.items.$ref.split('/').pop();
+    const refName = formatName(schemaKey);
+    parseComponents({ fieldName: refName, schemaKey });
+
+    return `${comment}export type ${pascalApiUrl}${toPascalCase(method)}${toPascalCase(type)} = ${refName};\n`;
   }
 
   if (bodyContent.schema.$ref) {
@@ -201,10 +210,7 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
   return `${comment}// FIXME: You should manually check this`;
 }
 
-// function parseRequest({ data, fieldName, method, pascalApiUrl, path }) {
-function parseRequest(props) {
-  const { data, fieldName, method, pascalApiUrl, path } = props;
-
+function parseRequest({ data, fieldName, method, pascalApiUrl, path }) {
   if (!data) {
     return;
   }
@@ -217,8 +223,6 @@ function parseRequest(props) {
     tags,
   } = data;
   const urlInfoComment = `(${method}) ${path}\n * - ${tags}-${summary}`;
-
-  // return [];
 
   return [
     parseParameters({
@@ -321,19 +325,6 @@ async function main() {
     };
 
     store.data = data;
-
-    //   if (!!inputPath && !Object.keys(data.paths).includes(inputPath)) {
-    //     console.log(`Not valid path: ${inputPath}`);
-    //     return;
-    //   }
-
-    //   if (inputPath) {
-    //     parsePath({ path: inputPath });
-    //   } else {
-    // for (const path in data.paths) {
-    //   parsePath({ path });
-    // }
-    //   }
 
     for (const path in data.paths) {
       parsePath({ path });
