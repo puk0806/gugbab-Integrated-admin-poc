@@ -6,8 +6,5 @@
   "keywords": [
     "gugbab"
   ],
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  }
+  "license": "MIT"
 }

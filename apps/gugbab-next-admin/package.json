@@ -20,6 +20,7 @@
     "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",
     "@gugbab-integrated-admin-poc/utils": "workspace:*",
     "@gugbab-integrated-admin-poc/icons": "workspace:*",
+    "@gugbab-integrated-admin-poc/gugbab-types": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "@tanstack/react-query": "^5.59.16",
     "@tanstack/react-query-devtools": "^5.59.16",

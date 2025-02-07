@@ -82,7 +82,7 @@ def get_zero_hash():
     return zero_hash
 
 
-services = ["app", "storybook", "ui", "utils", "icons", "eslint", "tsconfig", "all"]
+services = ["app", "storybook", "ui", "utils", "icons", "eslint", "tsconfig", "types", "all"]
 prefix_verbs = [
     "Add",
     "Remove",

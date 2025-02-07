@@ -51,4 +51,3 @@ githooks.config.json
 .codegpt
 
 __pycache__
-**/temp/

@@ -61,7 +61,9 @@ export const apiFetch = (() => {
         throwErrorResponse(500, 'The server did not return a response');
       }
 
-      if (response.status === 204) return;
+      if (response.status === 204) {
+        return;
+      }
 
       const responseJson = await response.json();
 

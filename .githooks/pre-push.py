@@ -1,6 +1,5 @@
 import os
 import subprocess
-import multiprocessing
 import sys
 from git import get_zero_hash, get_current_user, get_modified_files_by_user
 from config import check_quality_before_push, check_type_before_push

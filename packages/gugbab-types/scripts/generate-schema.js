@@ -1,15 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const { getJson } = require('../utils/fetch');
-const { formatName, toPascalCase } = require('../utils/string');
-const { parseRawType } = require('../utils/parse');
+const { getJson } = require('./utils/fetch');
+const { formatName, toPascalCase } = require('./utils/string');
+const { parseRawType } = require('./utils/parse');
 
 const DOC_URI = {
   sample: path.join(__dirname, 'temp', 'sample.json'),
 };
 
-const TARGET_DIR = `./src/shared/api/temp`;
+const TARGET_DIR = `./src`;
 
 const store = {
   data: {},
@@ -181,7 +181,6 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
     return '';
   }
 
-  console.log('bodyContent?.schema >>>>>>>', bodyContent?.schema);
   const comment = `/**
  * ${toPascalCase(type)} body of ${urlInfoComment}
  **/\n`;
