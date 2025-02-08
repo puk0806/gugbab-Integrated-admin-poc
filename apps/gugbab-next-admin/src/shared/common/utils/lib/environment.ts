@@ -19,6 +19,12 @@ const envList: { [K in Environments]: () => string } = {
     }
     return globalThis.process?.env['PUBLIC_AUTH_URL'] || '';
   },
+  API_URL() {
+    if (typeof window !== 'undefined') {
+      return globalThis.process?.env['NEXT_PUBLIC_API_URL'] || '';
+    }
+    return globalThis.process?.env['PUBLIC_API_URL'] || '';
+  },
 };
 
 export const getEnv = (key: Environments) => envList[key]();

@@ -58,6 +58,19 @@ describe('getEnv Utility - Actual Environment Variables', () => {
     expect(getEnv('AUTH_URL')).toBe('http://localhost:4100');
   });
 
+  test('returns actual value for API_URL in browser environment', () => {
+    Object.defineProperty(global, 'window', {
+      value: {} as Window & typeof globalThis,
+      configurable: true,
+    });
+    process.env['NEXT_PUBLIC_API_URL'] = 'http://local.gugbab.co.kr:4100';
+    expect(getEnv('AUTH_URL')).toBe('http://local.gugbab.co.kr:4100');
+  });
+
+  test('returns actual value for API_URL in server environment', () => {
+    expect(getEnv('AUTH_URL')).toBe('http://localhost:4100');
+  });
+
   test('throws error when invalid key is used', () => {
     expect(() => getEnv('INVALID_KEY' as Environments)).toThrow();
   });
