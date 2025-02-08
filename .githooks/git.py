@@ -39,7 +39,7 @@ def get_changed_files(filter=""):
 
 
 def get_modified_files_by_user(compare_range, author=None):
-    cmd = f"git log --name-only --pretty=format:'%an <%ae>' {compare_range}"
+    cmd = f"git log --name-only --pretty=format:'%an <%ae>' {compare_range} --diff-filter=d"
     log_output = run_command(cmd)
     return filter_files_by_user(log_output, author=author)
 
