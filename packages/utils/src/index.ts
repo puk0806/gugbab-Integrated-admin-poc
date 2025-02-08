@@ -1,3 +1,4 @@
+export * from './lib/array';
 export * from './lib/classnames';
 export * from './lib/format';
 export * from './lib/classNamesWithRoot';
