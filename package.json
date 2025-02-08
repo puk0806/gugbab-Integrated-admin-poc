@@ -24,6 +24,7 @@
     "typecheck:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass typecheck",
     "typecheck:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract typecheck",
     "typecheck:utils": "pnpm --filter @gugbab-integrated-admin-poc/utils typecheck",
+    "typecheck:types": "pnpm --filter @gugbab-integrated-admin-poc/types typecheck",
     "test": "turbo run test",
     "test:app": "turbo  --filter @gugbab-integrated-admin-poc/gugbab-next-admin test",
     "compile:storybook:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass sass-compile",

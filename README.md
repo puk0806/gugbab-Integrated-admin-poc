@@ -36,8 +36,10 @@ MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
   - **icons**: 아이콘 웹폰트 패키지
   - **tsconfig**: 프로젝트 ts 설정 패키지
   - **ui-sass**: Sass UI 라이브러리
-  - **ui-vanilla-extract**: Vanilla Extract UI 라이브러리 (미사용)
+  - **ui-vanilla-extract**: Vanilla Extract UI 라이브러리 
+  (미사용)
   - **utils**: 공통 유틸리티 패키지
+  - **types**: Api Type 패키지
 
 ## Getting Started
 
@@ -91,12 +93,14 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 pnpm install --frozen-lockfile
 ```
 
-### 4. Icons, Utils,UI Package 빌드
+### 4. Icons,Types, Utils,UI Package 빌드
 
 ```
+pnpm generate-types
 pnpm generate-icons
 pnpm build:utils
 pnpm build:ui
+pnpm build:types
 ```
 
 ### 5. Git Hook 설정
@@ -156,6 +160,9 @@ pnpm build:ui:vanilla
 # 공통 Utils 서비스 빌드
 pnpm build:utils
 
+# Api Type 빌드
+pnpm build:types
+
 # 모든 서비스 타입 체크
 pnpm typecheck
 
@@ -174,6 +181,9 @@ pnpm typecheck:ui:vanilla
 # 공통 Utils 서비스 타입 체크
 pnpm typecheck:utils
 
+# Api Type 타입 체크
+pnpm typecheck:types
+
 # 모든 서비스 테스트
 pnpm test
 
@@ -182,6 +192,9 @@ pnpm test:app
 
 # Storybook에서 사용하기 위해 Ui Sass Compile
 pnpm compile:storybook:sass
+
+# Api Type Schema Generate
+pnpm generate-schema
 
 # 공통 컴포넌트 생성 Generate
 pnpm generate-component
@@ -225,8 +238,9 @@ storybook: 디자인 시스템 Storybook
 ui: 공통 UI 라이브러리
 utils: 공통 유틸리티 패키지
 icons: 아이콘 웹폰트 패키지
-eslint:프로젝트 eslint 설정 패키지
-tsconfig:프로젝트 ts 설정 패키지
+eslint: 프로젝트 eslint 설정 패키지
+tsconfig: 프로젝트 ts 설정 패키지
+types: 프로젝트 Api Types 패키지
 all: 공통 설정 수정
 ```
 
