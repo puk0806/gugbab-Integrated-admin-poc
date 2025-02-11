@@ -1,9 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const { exec } = require('child_process');
-const { getJson } = require('./utils/fetch');
-const { formatName, toPascalCase } = require('./utils/string');
-const { parseRawType } = require('./utils/parse');
+import fs from 'fs';
+import path from 'path';
+import { exec } from 'child_process';
+import { getJson } from './utils/fetch.js';
+import { formatName, toPascalCase } from './utils/string.js';
+import { parseRawType } from './utils/parse.js';
+
+const __dirname = new URL('.', import.meta.url).pathname;
 
 const DOC_URI = {
   sample: path.join(__dirname, 'temp', 'sample.json'),
@@ -67,7 +69,7 @@ ${key}: ${rawType};`;
 function parseComponents({ fieldName, schemaKey }) {
   const component = store.data.components.schemas[schemaKey];
   if (!component) {
-    console.log('not find componet');
+    console.log('not find component');
     return;
   }
 
@@ -135,7 +137,7 @@ ${parameters
       const schemaKey = schema.$ref.split('/').pop();
       const component = store.data.components.schemas[schemaKey];
       if (!component) {
-        console.log('not find componet');
+        console.log('not find component');
         return `${getComment({ description, example })} // FIXME not found component`;
       }
 

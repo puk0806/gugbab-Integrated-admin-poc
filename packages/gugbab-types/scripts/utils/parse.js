@@ -19,6 +19,4 @@ function parseRawType(type) {
   }
 }
 
-module.exports = {
-  parseRawType,
-};
+export { parseRawType };

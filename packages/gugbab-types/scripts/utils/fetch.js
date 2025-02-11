@@ -1,7 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-
-const https = require('https');
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
 // const
 
 /**
@@ -61,4 +60,4 @@ function getJson(localPath) {
   }
 }
 
-module.exports = { get, getJson };
+export { get, getJson };

@@ -102,12 +102,4 @@ function toValidComment(string) {
     .replace(/\n\n/g, '\n');
 }
 
-module.exports = {
-  stringify,
-  toPascalCase,
-  toCamelCase,
-  toValidName,
-  toValidFormattedName,
-  formatName,
-  toValidComment,
-};
+export { stringify, toPascalCase, toCamelCase, toValidName, toValidFormattedName, formatName, toValidComment };
