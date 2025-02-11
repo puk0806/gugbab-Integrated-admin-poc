@@ -2,21 +2,24 @@
   "name": "@gugbab-integrated-admin-poc/ui-sass",
   "version": "0.0.1",
   "description": "gugbab-integrated-admin-poc ui-sass package",
-  "sideEffects": false,
-  "module": "dist/index.js",
-  "type": "module",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.umd.cjs",
   "author": "gugbab",
   "keywords": [
     "gugbab"
   ],
   "license": "MIT",
+  "sideEffects": false,
+  "module": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.umd.cjs",
   "files": [
     "dist/**",
     "public/styles/abstracts",
     "public/styles/components.css"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc && tsup",

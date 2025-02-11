@@ -33,7 +33,8 @@
     "generate-icons": "pnpm --filter @gugbab-integrated-admin-poc/icons build",
     "fix-svg": "pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
     "clear-install": "bash scripts/clear-install/index.sh",
-    "use-hook": "git config core.hooksPath .githooks && touch githooks.config.json"
+    "use-hook": "git config core.hooksPath .githooks && touch githooks.config.json",
+    "changeset:version": "changeset version"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@gugbab-integrated-admin-poc/eslint-config": "workspace:*",
     "@gugbab-integrated-admin-poc/tsconfig": "workspace:*",
+    "@changesets/cli": "^2.27.12",
     "env-cmd": "^10.1.0",
     "prettier": "^3.1.1",
     "turbo": "^2.2.3",

@@ -2,6 +2,11 @@
   "name": "@gugbab-integrated-admin-poc/utils",
   "version": "0.0.1",
   "description": "gugbab-integrated-admin-poc utils",
+  "author": "gugbab",
+  "keywords": [
+    "gugbab"
+  ],
+  "license": "MIT",
   "sideEffects": false,
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +14,9 @@
   "files": [
     "dist/**/*"
   ],
-  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "typecheck": "tsc -b tsconfig.json",
     "build": "tsup"

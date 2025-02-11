@@ -6,12 +6,15 @@
   "keywords": [
     "gugbab"
   ],
+  "license": "MIT",
   "files": [
     "index.js",
     "node.js",
     "react.js"
   ],
-  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.3",
     "@tanstack/eslint-plugin-query": "^5.61.4",

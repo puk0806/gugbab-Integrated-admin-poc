@@ -1,15 +1,15 @@
 {
   "name": "@gugbab-integrated-admin-poc/ui-vanilla-extract",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "gugbab-integrated-admin-poc ui-vanilla-extract package",
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.umd.cjs",
   "author": "gugbab",
   "keywords": [
     "gugbab"
   ],
   "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -21,6 +21,9 @@
   "files": [
     "dist/**"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc && vite build",
