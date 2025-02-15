@@ -17,14 +17,19 @@
 ![Sass](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=Sass&logoColor=white)
 ![Vanilla Extract](https://img.shields.io/badge/Vanilla_Extract-FFD700?style=for-the-badge&logo=none&logoColor=black)
 
+---
+
 ## System Requirements
 
-- Node >= 20 ([다운로드](https://nodejs.org/ko/download))
+### 기본적으로 위 환경이 필요합니다.
+
+### MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
+
+- Node 20.17.0 ([다운로드](https://nodejs.org/ko/download))
 - pnpm 9.12.2 ([설치 가이드](https://pnpm.io/installation))
 - Python ([다운로드](https://www.python.org/downloads))
 
-기본적으로 위 환경이 필요합니다.\
-MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
+---
 
 ## 프로젝트 구성
 
@@ -36,10 +41,11 @@ MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
   - **icons**: 아이콘 웹폰트 패키지
   - **tsconfig**: 프로젝트 ts 설정 패키지
   - **ui-sass**: Sass UI 라이브러리
-  - **ui-vanilla-extract**: Vanilla Extract UI 라이브러리 
-  (미사용)
+  - **ui-vanilla-extract**: Vanilla Extract UI 라이브러리
   - **utils**: 공통 유틸리티 패키지
   - **types**: Api Type 패키지
+
+---
 
 ## Getting Started
 
@@ -50,42 +56,26 @@ git clone https://github.com/puk0806/gugbab-Integrated-admin-poc.git
 ```
 
 ### 2. local https ssl 인증
+
 #### 2-1 Mac 환경
+
 1. mkcert 설치
+
    - `brew install mkcert`
 
 2. 인증서 설치 (설치 이후 브라우저 전체 재시작 필요)
    - `mkcert -install`
-   
 3. 인증서 설치 폴더 이동
+
    - `cd apps/gugbab-next-admin`
 
 4. 인증서 발급
    - `mkcert -key-file cert/local-key.pem -cert-file cert/local-cert.pem gugbab.co.kr local.gugbab.co.kr`
-   
 5. 호스트 추가
    - 호스트 설정파일 열기
      `sudo vim /private/etc/hosts`
    - 호스트 추가
      `127.0.0.1 local.gugbab.co.kr`
-
-#### 2-2 Window 환경
-1. chocolatey 설치 ([다운로드](https://chocolatey.org/))
-
-2. mkcert 설치
-    - `choco install mkcert`
-3. 인증서 설치 폴더 이동
-   - `cd apps/gugbab-next-admin`
-
-4. 인증서 발급
-   - `mkcert -key-file cert/local-key.pem -cert-file cert/local-cert.pem gugbab.co.kr local.gugbab.co.kr`
-   
-5. 호스트 추가
-   - 호스트 설정파일 열기
-     `sudo vim /private/etc/hosts`
-   - 호스트 추가
-     `127.0.0.1 local.gugbab.co.kr`
-
 
 ### 3. 패키지 설치
 
@@ -106,17 +96,21 @@ pnpm build:types
 ### 5. Git Hook 설정
 
 1. terminal 아래 명령어 실행
+
 ```
 pnpm use-hook
 ```
 
 2. 생성된 githooks.config.json파일에 아래 내용 적용하기
+
 ```
 {
   "checkQualityBeforePush": true,
   "checkTypeBeforePush": true
 }
 ```
+
+---
 
 ## Script Description
 
@@ -212,9 +206,9 @@ pnpm clear-install
 pnpm use-hook
 ```
 
-## Git Commit Naming
-
 ---
+
+## Git Commit Naming
 
 ### 구조
 
@@ -282,6 +276,8 @@ Resolves: 이슈를 해결했을 때
 Ref: 참고할 이슈가 있을 때
 Related to: 해당 커밋에 관련된 이슈가 있을 때
 ```
+
+---
 
 ## Application 프로젝트 구조
 

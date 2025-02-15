@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
-// const
+import http from 'http';
+import { URL } from 'url';
 
 /**
  *
@@ -9,13 +10,19 @@ import https from 'https';
  * @param {string | https.RequestOptions | URL} options
  */
 function get(url, options) {
-  const { host, pathname } = new URL(url);
+  const { host, pathname, port, protocol } = new URL(url);
+
+  const requestModule = protocol === 'https:' ? https : http;
+
+  const finalHost = host.split(':')[0];
+  const finalPort = port || (protocol === 'https:' ? 443 : 80);
+
   return new Promise((resolve, reject) => {
-    const req = https.request(
+    const req = requestModule.request(
       {
-        host,
+        host: finalHost,
         path: pathname,
-        port: 443,
+        port: finalPort,
         method: 'GET',
         ...options,
       },
@@ -33,7 +40,6 @@ function get(url, options) {
         res.on('end', function () {
           try {
             const parsed = JSON.parse(Buffer.concat(body).toString());
-
             resolve(parsed);
           } catch (e) {
             reject(e);
@@ -41,14 +47,14 @@ function get(url, options) {
         });
       },
     );
+
     req.on('error', error => {
-      reject(error.message);
+      reject(error);
     });
     req.end();
   });
 }
 
-// 로컬 JSON 파일 전용
 function getJson(localPath) {
   try {
     const jsonPath = path.resolve(localPath.endsWith('.json') ? localPath : `${localPath}.json`);
