@@ -1,0 +1,112 @@
+@use "sass:math";
+@use "public/styles/abstracts/font";
+@use "public/styles/abstracts/palette";
+
+.radio {
+  $self: #{&};
+  $defaultSize: font.toRem(18px);
+  $defaultCheckSize: font.toRem(10px);
+  $defaultSpacing: 12px;
+  $smallSpacing: 8px;
+
+  position: relative;
+  display: inline-flex;
+
+  input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+
+    &:checked + label:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: $defaultCheckSize;
+      height: $defaultCheckSize;
+      border-radius: 50%;
+      left: math.div($defaultCheckSize, 2);
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: palette.$Secondary-Navy;
+    }
+
+    &:checked + label:before {
+      border-color: palette.$Secondary-Navy;
+    }
+    &:focus-visible + label {
+      outline: 1px dotted palette.$Grayscale-Gray300;
+    }
+  }
+
+  label {
+    z-index: 1;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    .typography {
+      padding-left: $defaultSpacing;
+      line-height: $defaultSize;
+      display: inline-flex;
+    }
+
+    &:before {
+      display: inline-block;
+      content: "";
+      width: $defaultSize;
+      height: $defaultSize;
+      border: 1px solid palette.$Grayscale-Gray300;
+      border-radius: 50%;
+    }
+  }
+
+  &#{$self}--reverse {
+    width: 100%;
+    label {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      flex-direction: row-reverse;
+      span {
+        padding-right: $defaultSpacing;
+        padding-left: 0;
+      }
+    }
+    input[type="radio"]:checked {
+      & + label:after {
+        left: auto;
+        right: math.div($defaultCheckSize, 2);
+      }
+    }
+  }
+
+  &#{$self}--disabled {
+    label:before {
+      opacity: 0.5;
+    }
+    input[type="radio"]:checked {
+      & + label:before {
+        border-color: palette.$Grayscale-Gray700;
+        opacity: 1;
+      }
+      & + label:after {
+        background-color: palette.$Grayscale-Gray700;
+      }
+    }
+  }
+
+  &#{$self}--hidden {
+    input[type="radio"] + label {
+      &:before,
+      &:after {
+        display: none;
+      }
+      span {
+        padding: 0;
+      }
+    }
+  }
+}

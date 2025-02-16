@@ -6,6 +6,8 @@ export { default as Flex } from './display/Flex';
 export { default as Icon } from './display/Icon';
 export { default as Image } from './display/Image';
 export { default as Loading } from './display/Loading';
+export { default as Radio } from './display/Radio';
+export { default as RadioGroup } from './display/RadioGroup';
 export { default as TextField } from './display/TextField';
 export { default as Title } from './display/Title';
 export { default as Typography } from './display/Typography';

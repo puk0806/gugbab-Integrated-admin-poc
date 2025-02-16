@@ -1,0 +1,8 @@
+@use 'public/styles/abstracts/palette';
+@use 'public/styles/abstracts/mixins';
+
+.radio-group {
+  $self: #{&};
+
+  @include mixins.designInput($self, 'radio');
+}
