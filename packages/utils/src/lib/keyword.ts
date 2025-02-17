@@ -10,7 +10,9 @@ export function validateKeyword(keyword?: string) {
  * @param keyword
  */
 export function validateHtmlKeyword(keyword?: string) {
-  if (!keyword) return false;
+  if (!keyword) {
+    return false;
+  }
   const regex = new RegExp(/<[^>]*>?/gi);
   return regex.test(keyword);
 }

@@ -29,7 +29,9 @@ function getIntersectionObserver() {
 
 function useIntersection(elem: RefObject<HTMLImageElement>, callback: () => void) {
   useEffect(() => {
-    if (!elem.current) return;
+    if (!elem.current) {
+      return;
+    }
     const target = elem.current;
     const observer = getIntersectionObserver();
     listenerCallbacks.set(target, callback);

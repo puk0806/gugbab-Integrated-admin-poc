@@ -5,6 +5,7 @@ export * from './lib/classNamesWithRoot';
 export * from './lib/keyword';
 export * from './lib/math';
 export * from './lib/number';
+export * from './lib/optimize';
 export * from './lib/parse';
 export * from './lib/string';
 export * from './lib/url';

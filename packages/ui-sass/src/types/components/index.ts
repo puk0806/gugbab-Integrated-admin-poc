@@ -16,6 +16,7 @@ export type { IconProps } from './display/Icon';
 export type { ImageProps } from './display/Image';
 export type { RadioProps } from './display/Radio';
 export type { RadioGroupProps } from './display/RadioGroup';
+export type { SelectValue, SelectBoxProps } from './display/SelectBox';
 export type { LoadingProps } from './display/Loading';
 export type { TextFieldProps } from './display/TextField';
 export type { TitleProps } from './display/Title';

@@ -1,6 +1,7 @@
 @use "./palette";
 @use "./font";
 
+@forward "./partials/scrollbar";
 @forward "./partials/utils";
 @forward "./partials/color";
 @forward "./partials/input";
