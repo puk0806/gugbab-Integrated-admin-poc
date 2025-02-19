@@ -7,6 +7,7 @@ export * from './lib/math';
 export * from './lib/number';
 export * from './lib/optimize';
 export * from './lib/parse';
+export * from './lib/selector';
 export * from './lib/string';
 export * from './lib/url';
 
