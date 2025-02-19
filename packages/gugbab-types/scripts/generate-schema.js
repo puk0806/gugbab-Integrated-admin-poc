@@ -115,7 +115,6 @@ export interface ${fieldName} {
     return;
   }
 
-  console.log('TODO: parseComponents에서 type이 object 또는 enum(string) 이 아닌 case');
   return;
 }
 
@@ -188,7 +187,7 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
  **/\n`;
 
   if (bodyContent.schema.type === 'string') {
-    return `${comment}export type ${toPascalCase(type)} = string;\n`;
+    return `${comment}export type ${pascalApiUrl}${toPascalCase(method)}${toPascalCase(type)} = string;\n`;
   }
 
   if (bodyContent.schema.type === 'array') {
@@ -207,7 +206,6 @@ function parseBody({ body, method, pascalApiUrl, type, urlInfoComment }) {
     return `${comment}export type ${pascalApiUrl}${toPascalCase(method)}${toPascalCase(type)} = ${refName};\n`;
   }
 
-  console.log('TODO: parseBody에서 string or $ref외에 다른 타입오는  case');
   return `${comment}// FIXME: You should manually check this`;
 }
 
