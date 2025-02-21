@@ -12,5 +12,6 @@ export { default as Radio } from './display/Radio';
 export { default as RadioGroup } from './display/RadioGroup';
 export { default as SelectBox } from './display/SelectBox';
 export { default as TextField } from './display/TextField';
+export { default as Tooltip } from './display/Tooltip';
 export { default as Title } from './display/Title';
 export { default as Typography } from './display/Typography';

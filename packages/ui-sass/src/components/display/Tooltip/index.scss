@@ -1,0 +1,306 @@
+@use "public/styles/abstracts/palette";
+
+.tooltip {
+  $self: #{&};
+
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+
+  & &__button {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  & &__inner {
+    display: inline-flex;
+    align-items: flex-start;
+    box-sizing: border-box;
+    z-index: 1;
+    position: relative;
+    border: 1px solid palette.$Grayscale-Gray700;
+    padding: 8px 16px;
+    background-color: palette.$White;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  & &__close {
+    margin-left: 4px;
+    margin-top: 4px;
+  }
+
+  & &__panel {
+    display: none;
+    padding-top: 8px;
+    top: 100%;
+    z-index: 10;
+    &--rect {
+      opacity: 0;
+      display: block;
+      visibility: hidden;
+    }
+
+    &--visible {
+      opacity: 1;
+      position: absolute;
+      display: block;
+      visibility: visible;
+      align-items: flex-start;
+    }
+
+    &--bubble {
+      #{$self}__inner {
+        border-radius: 40px;
+      }
+    }
+
+    &--square {
+      #{$self}__inner {
+        border-radius: 4px;
+      }
+    }
+
+    &--bottom-start {
+      left: -10px;
+
+      &#{$self}__panel:after {
+        left: 22px;
+        top: 4px;
+        transform: rotate(-45deg) skew(-5deg, -5deg);
+      }
+
+      &#{$self}__panel--bubble {
+        &#{$self}__panel {
+          &:after {
+            left: 33px;
+          }
+        }
+      }
+    }
+
+    &--bottom {
+      left: 50%;
+      transform: translateX(-50%);
+
+      &#{$self}__panel {
+        &:before {
+          margin-left: -6px;
+        }
+        &:after {
+          left: 50%;
+          top: 4px;
+        }
+      }
+    }
+
+    &--bottom-end {
+      left: auto;
+      right: -14px;
+
+      &#{$self}__panel {
+        &:after {
+          left: auto;
+          right: 21px;
+          top: 4px;
+        }
+      }
+
+      &#{$self}__panel--bubble {
+        &#{$self}__panel {
+          &:after {
+            right: 33px;
+          }
+        }
+      }
+    }
+
+    &--top-start {
+      left: -8px;
+      top: auto;
+      padding-top: 0;
+      padding-bottom: 8px;
+      bottom: 100%;
+
+      &#{$self}__panel:after {
+        left: 20px;
+        top: auto;
+        bottom: 4px;
+      }
+
+      &#{$self}__panel--bubble {
+        &#{$self}__panel {
+          left: -20px;
+          &:after {
+            left: 32px;
+          }
+        }
+      }
+    }
+
+    &--top {
+      padding-top: 0;
+      padding-bottom: 8px;
+      left: 50%;
+      bottom: 100%;
+      top: auto;
+      transform: translateX(-50%);
+
+      &#{$self}__panel {
+        &:before {
+          margin-left: -6px;
+        }
+        &:after {
+          left: 50%;
+          top: auto;
+          bottom: 4px;
+        }
+      }
+    }
+
+    &--top-end {
+      right: -14px;
+      left: auto;
+      padding-top: 0;
+      padding-bottom: 8px;
+      bottom: 100%;
+      top: auto;
+
+      &#{$self}__panel {
+        &:after {
+          left: auto;
+          top: auto;
+          right: 21px;
+          bottom: 4px;
+        }
+      }
+
+      &#{$self}__panel--bubble {
+        &#{$self}__panel {
+          &:after {
+            right: 33px;
+          }
+        }
+      }
+    }
+
+    &--left-top {
+      left: auto;
+      right: calc(100% + 8px);
+      top: -6px;
+      padding-top: 0;
+
+      #{$self}__inner {
+        padding: 16px 16px;
+      }
+
+      &#{$self}__panel {
+        &:after {
+          left: calc(100% - 3px);
+          right: 31px;
+          top: 13px;
+          transform: rotate(45deg) skew(-5deg, -5deg);
+        }
+      }
+
+      #{$self}__close {
+        margin-top: 0;
+      }
+    }
+
+    &--left {
+      left: auto;
+      right: calc(100% + 8px);
+      top: 50%;
+      transform: translateY(-50%);
+      padding-top: 0;
+
+      &#{$self}__panel:after {
+        left: calc(100% - 3px);
+        right: 31px;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg) skew(-5deg, -5deg);
+      }
+    }
+
+    &--left-bottom {
+      left: auto;
+      right: calc(100% + 8px);
+      top: auto;
+      bottom: calc(100% - 30px);
+      padding-top: 0;
+
+      #{$self}__inner {
+        padding: 16px 16px;
+      }
+
+      &#{$self}__panel {
+        &:after {
+          left: calc(100% - 3px);
+          right: 31px;
+          top: auto;
+          bottom: 13px;
+          transform: rotate(45deg) skew(-5deg, -5deg);
+        }
+      }
+
+      #{$self}__close {
+        margin-top: 0;
+      }
+    }
+
+    &--right-top {
+      left: calc(100% + 8px);
+      top: -6px;
+      padding-top: 0;
+
+      #{$self}__inner {
+        padding: 16px 16px;
+      }
+
+      &#{$self}__panel:after {
+        left: 1px;
+        top: 13px;
+        transform: rotate(45deg) skew(-5deg, -5deg);
+      }
+
+      #{$self}__close {
+        margin-top: 0;
+      }
+    }
+
+    &--right {
+      left: calc(100% + 8px);
+      top: 50%;
+      transform: translateY(-50%);
+      padding-top: 0;
+
+      &#{$self}__panel:after {
+        left: 1px;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg) skew(-5deg, -5deg);
+      }
+    }
+
+    &--right-bottom {
+      left: calc(100% + 8px);
+      top: auto;
+      bottom: calc(100% - 30px);
+      padding-top: 0;
+
+      #{$self}__inner {
+        padding: 16px 16px;
+      }
+
+      &#{$self}__panel:after {
+        left: 1px;
+        top: auto;
+        bottom: 13px;
+        transform: rotate(45deg) skew(-5deg, -5deg);
+      }
+
+      #{$self}__close {
+        margin-top: 0;
+      }
+    }
+  }
+}

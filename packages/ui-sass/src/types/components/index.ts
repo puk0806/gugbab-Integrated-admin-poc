@@ -21,3 +21,4 @@ export type { LoadingProps } from './display/Loading';
 export type { TextFieldProps } from './display/TextField';
 export type { TitleProps } from './display/Title';
 export type { TypographyTags, TypographySizeTypes, TypographyProps } from './display/Typography';
+export type { TooltipProps, PanelStyleType } from './display/Tooltip';

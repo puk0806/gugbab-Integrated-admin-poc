@@ -5,9 +5,9 @@
   src:
     local("Pretendard Regular"),
     url(/webfont/pretendard/woff2-dynamic-subset/Pretendard-Regular.subset.woff2)
-    format("woff2"),
+      format("woff2"),
     url(/webfont/pretendard/woff-dynamic-subset/Pretendard-Regular.subset.woff)
-    format("woff");
+      format("woff");
 }
 
 @font-face {
@@ -17,9 +17,9 @@
   src:
     local("Pretendard SemiBold"),
     url(/webfont/pretendard/woff2-dynamic-subset/Pretendard-SemiBold.subset.woff2)
-    format("woff2"),
+      format("woff2"),
     url(/webfont/pretendard/woff-dynamic-subset/Pretendard-SemiBold.subset.woff)
-    format("woff");
+      format("woff");
 }
 
 @font-face {
@@ -29,11 +29,10 @@
   src:
     local("Pretendard Bold"),
     url(/webfont/pretendard/woff2-dynamic-subset/Pretendard-Bold.subset.woff2)
-    format("woff2"),
+      format("woff2"),
     url(/webfont/pretendard/woff-dynamic-subset/Pretendard-Bold.subset.woff)
-    format("woff");
+      format("woff");
 }
-
 
 html,
 body {
@@ -44,7 +43,6 @@ body {
 html {
   overflow: hidden;
 }
-
 
 html,
 body,
@@ -226,18 +224,6 @@ a {
 
 #debugger.active {
   display: block;
-}
-
-.centered {
-  .ag-header-cell-label {
-    justify-content: center !important;
-  }
-}
-.ag-row {
-  .centered {
-    justify-content: center !important;
-    text-align: center;
-  }
 }
 
 table.vertical-table {
