@@ -56,7 +56,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': [
       'warn',
       {
-        enableDangerousAutofixThisMayCauseInfiniteLoops: true,
+        enableDangerousAutofixThisMayCauseInfiniteLoops: false,
       },
     ],
     'react/jsx-sort-props': [

@@ -39,24 +39,6 @@ export interface TooltipProps {
   onAfterHide?: () => void;
 }
 
-// nterface PanelArrowType extends PanelDefaultType {
-//   /** panel design type */
-//   type?: Exclude<PanelType, 'box'>;
-//   /** panel arrow 활성화 여부 */
-//   useArrow?: boolean;
-//   /** tooltip design color type */
-//   color?: 'white' | 'primary';
-// }
-
-// interface PanelNotArrowType extends PanelDefaultType {
-//   /** panel design type */
-//   type?: Exclude<PanelType, 'bubble' | 'square'>;
-//   /** panel arrow 활성화 여부 */
-//   useArrow?: never;
-//   /** tooltip design color type */
-//   color?: never;
-// }
-
 export interface PanelStyleType {
   width: string;
   left?: string;
