@@ -1,4 +1,0 @@
-{
-  "root": true,
-  "extends": ["@gugbab-integrated-admin-poc/eslint-config"]
-}
