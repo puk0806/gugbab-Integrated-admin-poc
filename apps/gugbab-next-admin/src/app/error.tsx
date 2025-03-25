@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ErrorContent } from '@app/shared/error';
+import { ErrorContent } from '@app/widgets/error';
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const errorObject = JSON.parse(JSON.stringify(error));
