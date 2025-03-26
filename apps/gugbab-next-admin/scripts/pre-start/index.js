@@ -3,7 +3,7 @@ const { resolve } = require('node:path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 const yargs = require('yargs/yargs');
-const findUp = require('find-up');
+// const findUp = require('find-up');
 const { hideBin } = require('yargs/helpers');
 
 const NOW = new Date().getTime();
@@ -36,23 +36,23 @@ async function addServerEnv(appEnv, appSlot) {
   writeFileSync(serverEnvFilePath, serverData);
 }
 
-async function rewriteRouters(parsedEnv) {
-  const { NEXT_PUBLIC_FRONT_URL } = parsedEnv;
+// async function rewriteRouters(parsedEnv) {
+//   const { NEXT_PUBLIC_FRONT_URL } = parsedEnv;
 
-  const routersFilePath = await findUp('.next/routes-manifest.json');
-  const routersData = JSON.parse(fs.readFileSync(routersFilePath, 'utf-8'));
-  const result = {
-    ...routersData,
-    rewrites: [
-      {
-        source: '/proxy/:path*',
-        destination: `${NEXT_PUBLIC_FRONT_URL}/:path*`,
-        regex: '^/proxy(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$',
-      },
-    ],
-  };
-  fs.writeFileSync(routersFilePath, JSON.stringify(result));
-}
+//   const routersFilePath = await findUp('.next/routes-manifest.json');
+//   const routersData = JSON.parse(fs.readFileSync(routersFilePath, 'utf-8'));
+//   const result = {
+//     ...routersData,
+//     rewrites: [
+//       {
+//         source: '/proxy/:path*',
+//         destination: `${NEXT_PUBLIC_FRONT_URL}/:path*`,
+//         regex: '^/proxy(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$',
+//       },
+//     ],
+//   };
+//   fs.writeFileSync(routersFilePath, JSON.stringify(result));
+// }
 
 yargs(hideBin(process.argv))
   .command(
@@ -85,7 +85,8 @@ yargs(hideBin(process.argv))
       const parsedEnv = await parseEnv(appEnv, appSlot);
       addClientEnv(parsedEnv);
       await addServerEnv(appEnv, appSlot);
-      appMode === 'production' && (await rewriteRouters(parsedEnv));
+      // appMode === 'production' && (await rewriteRouters(parsedEnv));
+      appMode === 'production';
 
       return parsedEnv;
     },

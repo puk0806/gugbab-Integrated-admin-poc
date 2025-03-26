@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STANDALONE_PATH='./.next/standalone'
+STANDALONE_PATH='.next/standalone/apps/gugbab-next-admin'
 
 cp -r public $STANDALONE_PATH
 mkdir $STANDALONE_PATH/config
@@ -11,8 +11,7 @@ cp -r scripts/pre-start $STANDALONE_PATH
 pwd
 
 cd $STANDALONE_PATH/pre-start
-yarn add pnpm
-pnpm install
+pnpm  install
 
 echo "build success!"
 

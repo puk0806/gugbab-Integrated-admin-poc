@@ -9,14 +9,14 @@ const __dirname = new URL('.', import.meta.url).pathname;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  rewrites() {
-    return [
-      {
-        source: '/proxy/:path*',
-        destination: `${process.env.NEXT_PUBLIC_FRONT_URL}/:path*`,
-      },
-    ];
-  },
+  // rewrites() {
+  //   return [
+  //     {
+  //       source: '/proxy/:path*',
+  //       destination: `${process.env.NEXT_PUBLIC_FRONT_URL}/:path*`,
+  //     },
+  //   ];
+  // },
   sassOptions: {
     includePaths: [
       path.join(__dirname, 'styles'),
@@ -28,12 +28,6 @@ const nextConfig = {
   webpack: config => {
     config.resolve.alias['~'] = path.resolve(__dirname + '/src');
     return config;
-  },
-  experimental: {
-    staleTimes: {
-      dynamic: 0,
-      static: 180,
-    },
   },
 };
 

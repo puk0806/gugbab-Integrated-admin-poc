@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "cross-env-shell APP_ENV=local pnpm start",
     "build": "cross-env-shell APP_ENV=local && env-cmd -f ./env/.env.local next build --debug",
-    "build:copy": "sh ./scripts/postbuild.sh",
-    "build:dev": "pnpm run build && pnpm run build:copy",
+    "postbuild": "sh scripts/postbuild.sh",
     "build:docker": "docker build -t gugbab-next-admin -f Dockerfile ../../",
-    "start:dev": "node .next/standalone/apps/search/server.js",
+    "start:dev": "node .next/standalone/apps/gugbab-next-admin/pre-start/index.js next-env -e dev -m production &&  node .next/standalone/apps/gugbab-next-admin/server.js",
     "start:docker": "docker run -d -p 30200:30200 --name gugbab-next-admin gugbab-next-admin",
     "start": "cross-env-shell node scripts/pre-start.js next-env -e ${APP_ENV} -m development && node server.js",
     "lint": "next lint",
