@@ -16,7 +16,6 @@
     "start:docker": "docker run -d -p 30200:30200 --name gugbab-next-admin gugbab-next-admin",
     "build:storybook": "pnpm --filter @gugbab-integrated-admin-poc/storybook build",
     "build:ui:sass": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass build",
-    "build:ui:vanilla": "pnpm --filter @gugbab-integrated-admin-poc/ui-vanilla-extract build",
     "build:utils": "pnpm --filter @gugbab-integrated-admin-poc/utils build",
     "build:types": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-types build",
     "typecheck": "turbo run typecheck",

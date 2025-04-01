@@ -1,6 +1,7 @@
 import { RegisterOptions } from 'react-hook-form';
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, ReactElement } from 'react';
 import { TypographyProps } from '../Typography';
+import { RadioProps } from '../Radio';
 
 export interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   /** radio group type */
@@ -16,5 +17,5 @@ export interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   /** react-hook-form control */
   control?: any;
   /** Radio component */
-  children: ReactNode;
+  children: ReactElement<RadioProps> | ReactElement<RadioProps>[];
 }

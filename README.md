@@ -25,7 +25,7 @@
 
 ### MacOS, WSL2, VSCode에서 구동이 확인되었습니다.
 
-- Node 20.17.0 ([다운로드](https://nodejs.org/ko/download))
+- Node 22.17.0 ([다운로드](https://nodejs.org/ko/download))
 - pnpm 9.12.2 ([설치 가이드](https://pnpm.io/installation))
 - Python ([다운로드](https://www.python.org/downloads))
 

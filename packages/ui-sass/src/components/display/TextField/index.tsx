@@ -252,9 +252,9 @@ const TextField = forwardRef(
             <div className={cn('button')}>
               {React.Children.map<ReactNode, ReactNode>(button, child => {
                 if (!React.isValidElement(child)) return null;
-                return React.cloneElement(child, {
-                  // minWidth: '84px',
-                  ...child.props,
+                const validChild = child as React.ReactElement<any>;
+                return React.cloneElement(validChild as React.ReactElement<any>, {
+                  ...validChild.props,
                 });
               })}
             </div>

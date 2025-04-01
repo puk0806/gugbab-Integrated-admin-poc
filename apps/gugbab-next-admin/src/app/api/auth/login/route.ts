@@ -1,4 +1,4 @@
-import { headers } from 'next/headers';
+import { headers as nextHeaders } from 'next/headers';
 import { type NextRequest } from 'next/server';
 import { apiFetch } from '@app/shared/fetch/utils/lib/fetch';
 import { getEnv } from '@app/shared/common/utils';
@@ -13,7 +13,6 @@ import { AUTH_COOKIE, TokenResponse, setCookies } from '@app/shared/auth';
  *    id,
  *    password,
  *   }
- * @param request
  */
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +22,8 @@ export async function POST(request: NextRequest) {
     const secret = getEnv('SECRET_KEY_USER');
     const basicToken = btoa(`gugbab:${secret}`);
 
-    // TODO API call
+    const headers = await nextHeaders();
+
     const response = await apiFetch.post<TokenResponse>(
       getEnv('AUTH_URL'),
       '',
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
           password,
         },
       },
-      headers,
+      () => headers,
     );
     return new Response(JSON.stringify(response), {
       status: 200,

@@ -10,8 +10,8 @@
   "dependencies": {
     "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",
     "@gugbab-integrated-admin-poc/icons": "workspace:*",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-hook-form": "^7.51.1"
   },
   "devDependencies": {
@@ -22,8 +22,8 @@
     "@storybook/addon-links": "^8.0.6",
     "@storybook/react": "^8.0.6",
     "@storybook/react-vite": "^8.0.6",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.2.1",
     "chromatic": "^11.5.5",
     "eslint": "^8.57.0",

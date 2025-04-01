@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
 import React, { Fragment, useMemo } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { RadioGroupProps } from '@types';
+import { RadioGroupProps, RadioProps } from '@types';
 
 const cn = bem('radio-group');
 
@@ -28,6 +28,7 @@ const RadioGroup = ({
     >
       {React.Children.map<ReactNode, ReactNode>(children, (child, index) => {
         if (!React.isValidElement(child)) return null;
+        const validChild = child as React.ReactElement<RadioProps>;
         const style =
           gutter && React.Children.count(children) - 1 !== index ? { marginRight: `${gutter}px` } : undefined;
         return (
@@ -38,44 +39,44 @@ const RadioGroup = ({
                 name={name}
                 rules={rules}
                 render={({ field }) => {
-                  return React.cloneElement(child, {
-                    ...child.props,
+                  return React.cloneElement(validChild, {
+                    ...validChild.props,
                     ...field,
-                    value: child.props.value,
-                    checked: child.props.value === field.value,
+                    value: validChild.props.value,
+                    checked: validChild.props.value === field.value,
                     onChange: onChange,
                     hidden: isDesign,
                     typographyProps:
                       variant === 'chip'
                         ? {
                             ...typographyProps,
-                            ...child.props.typographyProps,
+                            ...validChild.props.typographyProps,
                           }
                         : {
                             ...typographyProps,
-                            ...child.props.typographyProps,
+                            ...validChild.props.typographyProps,
                           },
                     style,
                   });
                 }}
               />
             ) : (
-              React.cloneElement(child, {
-                ...child.props,
+              React.cloneElement(validChild, {
+                ...validChild.props,
                 name: name,
-                value: child.props.value,
-                defaultChecked: child.props.value === value || false,
+                value: validChild.props.value,
+                defaultChecked: validChild.props.value === value || false,
                 onChange: onChange,
                 hidden: isDesign,
                 typographyProps:
                   variant === 'chip'
                     ? {
                         ...typographyProps,
-                        ...child.props.typographyProps,
+                        ...validChild.props.typographyProps,
                       }
                     : {
                         ...typographyProps,
-                        ...child.props.typographyProps,
+                        ...validChild.props.typographyProps,
                       },
                 style,
               })

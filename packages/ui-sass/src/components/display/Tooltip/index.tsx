@@ -1,5 +1,5 @@
 import { bem, getFocusable, onNextRender } from '@gugbab-integrated-admin-poc/utils';
-import { KeyboardEvent, MouseEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { PanelStyleType, TooltipProps } from '@types';
 import Icon from '../Icon';
@@ -25,7 +25,7 @@ const Tooltip = ({
   const panelRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [panel, setPanel] = useState<PanelStyleType | undefined>();
-  const focusable = useRef<{ first: Element; last: Element }>();
+  const focusable = useRef<{ first: Element; last: Element }>(null);
 
   /** focus 요소 */
   const getFocusableElement = useCallback(() => {
@@ -187,7 +187,7 @@ const Tooltip = ({
   /** panel 안 마지막 focus요소 keyboard event 처리 */
   useEffect(() => {
     if (children && panelRef.current) {
-      focusable.current = getFocusableElement();
+      focusable.current = getFocusableElement() ?? null;
       if (focusable.current?.last) {
         (focusable.current?.last as HTMLElement).addEventListener('keydown', handleLastKeyDown);
         return () => (focusable.current?.last as HTMLElement).removeEventListener('keydown', handleLastKeyDown);
@@ -217,7 +217,11 @@ const Tooltip = ({
           onFocus={trigger === 'hover' ? handleFocus : undefined}
           onMouseEnter={trigger === 'hover' ? handleOpen : undefined}
         >
-          <anchor.type {...anchor.props} />
+          {React.isValidElement(anchor)
+            ? React.createElement((anchor as React.ReactElement<any>).type, {
+                ...(anchor as React.ReactElement<any>).props,
+              })
+            : null}
         </button>
       )}
       {children && (

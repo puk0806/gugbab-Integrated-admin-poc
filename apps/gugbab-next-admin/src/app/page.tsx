@@ -2,9 +2,9 @@ import { cookies } from 'next/headers';
 import { DefaultLayout } from '@app/widgets/layout';
 import RootClient from './client';
 
-export default function RootPage() {
+export default async function RootPage() {
   const environment = globalThis.process?.env.NEXT_PUBLIC_SHORT_ENV || 'DEV';
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const access = cookieStore.get('GUGBAB_AC');
   const refresh = cookieStore.get('GUGBAB_RE');
