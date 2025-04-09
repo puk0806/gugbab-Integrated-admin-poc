@@ -11,7 +11,7 @@ cp -r scripts/pre-start $STANDALONE_PATH
 pwd
 
 cd $STANDALONE_PATH/pre-start
-pnpm  install
+npm  install
 
 echo "build success!"
 
