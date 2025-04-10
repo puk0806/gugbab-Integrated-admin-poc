@@ -7,7 +7,6 @@ export type { HighlightedTextProps } from './utils/HighlightedText';
 export type { IrProps } from './utils/Ir';
 
 // display
-export type { ButtonProps, ButtonComponent } from './display/Button';
 export type { CheckboxProps } from './display/CheckBox';
 export type { CheckboxGroupProps } from './display/CheckboxGroup';
 export type { ChipProps } from './display/Chip';

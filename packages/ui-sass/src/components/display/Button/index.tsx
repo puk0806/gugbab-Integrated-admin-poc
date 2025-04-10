@@ -1,10 +1,61 @@
-import type { ElementType } from 'react';
-import type { ButtonComponent, ButtonProps } from '@types';
+'use client';
+
+import type { ElementType, ReactNode } from 'react';
 import { forwardRef, useMemo } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
+import { IconProps, PolymorphicComponentProps, TypographyProps } from '@types';
 import { Icon, Typography } from '../../index';
 
 const cn = bem('button');
+
+export interface ButtonProps {
+  /**
+   * disabled 유무
+   * */
+  disabled?: boolean;
+  /**
+   * height size
+   * */
+  size?: 'xlarge' | 'large' | 'medium' | 'small';
+  /**
+   *  ColorType
+   * */
+  color?: 'primary' | 'secondary' | 'black';
+  /**
+   * icon props
+   */
+  iconProps?: IconProps;
+  /**
+   * icon 위치
+   */
+  iconPosition?: 'left' | 'right';
+  /**
+   * typographyProps
+   * */
+  typographyProps?: Omit<TypographyProps, 'component' | 'children'>;
+  /**
+   * 고정 height
+   * ex) 48px
+   * */
+  height?: string;
+  /**
+   * 최소 넓이
+   * ex) min-width: 100px
+   */
+  minWidth?: string;
+  /**
+   * width 100%
+   */
+  isFullWidth?: boolean;
+  /**
+   * children
+   */
+  children: ReactNode;
+}
+
+export type ButtonComponent = <T extends ElementType = 'button'>(
+  props: PolymorphicComponentProps<T, ButtonProps>,
+) => ReactNode;
 
 const Button: ButtonComponent = forwardRef(
   (
@@ -24,56 +75,40 @@ const Button: ButtonComponent = forwardRef(
     },
     ref,
   ) => {
-    if (component && !(typeof rest.href === 'string' || typeof rest.to === 'string')) {
-      throw new Error('component props는 anchor 컴포넌트만 사용할수 있습니다');
-    }
-
     const Component: ElementType = component || 'button';
+
+    if (component && !(typeof rest.href === 'string' || typeof rest.to === 'string')) {
+      throw new Error('component props는 anchor 컴포넌트만 사용할 수 있습니다.');
+    }
 
     const defaultTypographyProps = useMemo<ButtonProps['typographyProps']>(() => {
       switch (size) {
         case 'xlarge':
-          return {
-            weight: 'regular',
-            variant: 'B1',
-          };
+          return { weight: 'regular', variant: 'B1' };
         case 'large':
-          return {
-            weight: 'regular',
-            variant: 'B2',
-          };
         case 'medium':
-          return {
-            weight: 'regular',
-            variant: 'B2',
-          };
+          return { weight: 'regular', variant: 'B2' };
         case 'small':
-          return {
-            weight: 'regular',
-            variant: 'D2',
-          };
+          return { weight: 'regular', variant: 'D2' };
         default:
           return {};
       }
     }, [size]);
 
-    const classNames = useMemo(
-      () =>
-        cn(undefined, {
-          [size]: !height && !!size,
-          disabled: !!disabled,
-          [color]: !!color,
-          'is-full-width': !!isFullWidth,
-          'has-start-icon': iconPosition === 'left' && !!iconProps,
-          'has-end-icon': iconPosition === 'right' && !!iconProps,
-        }),
-      [color, disabled, height, iconPosition, iconProps, isFullWidth, size],
-    );
+    const classNames = cn(undefined, {
+      [size]: !height && !!size,
+      disabled: !!disabled,
+      [color]: !!color,
+      'is-full-width': !!isFullWidth,
+      'has-left-icon': iconPosition === 'left' && !!iconProps,
+      'has-right-icon': iconPosition === 'right' && !!iconProps,
+    });
 
-    const styles = useMemo(
-      () => ({ ...(rest.styles ?? {}), ...(height && { height }), ...(minWidth && { minWidth }) }),
-      [height, minWidth, rest.styles],
-    );
+    const styles = {
+      ...rest.styles,
+      ...(height && { height }),
+      ...(minWidth && { minWidth }),
+    };
 
     return (
       <Component
@@ -98,4 +133,4 @@ const Button: ButtonComponent = forwardRef(
   },
 );
 
-export default Button as ButtonComponent;
+export default Button;

@@ -1,5 +1,6 @@
 export { default as Ir } from './utils/Ir';
 
+export type { ButtonProps, ButtonComponent } from './display/Button';
 export { default as Button } from './display/Button';
 export { default as Checkbox } from './display/Checkbox';
 export { default as CheckboxGroup } from './display/CheckboxGroup';
