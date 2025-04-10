@@ -14,7 +14,7 @@ const getAccessToken = (): string | undefined => {
   return parsedCookie[AUTH_COOKIE.ACCESS_TOKEN];
 };
 
-const setBearerToken = (): Record<string, string> | undefined => {
+const setBearerToken = () => {
   const accessToken = getAccessToken();
   return accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
 };
@@ -28,26 +28,27 @@ const refreshAccessToken = async (): Promise<string | null> => {
 
 export const apiFetch = (() => {
   const print: FetchPrint = async (method, baseUrl, path, config, headers) => {
-    // 서버 환경에서 headers가 없는 경우 에러 처리
     if (typeof globalThis !== 'undefined' && typeof window === 'undefined' && !headers) {
       throwErrorResponse(400, "Missing 'headers' property in the options object");
     }
 
     const { cache, data, headers: headerInit, query, ...rest } = config || {};
     const headerInstance = headers && formatHeader(headers());
-    const isBrowser = typeof window !== 'undefined'; // 브라우저 환경 여부
 
-    // HTTP 요청 옵션 생성
+    const isBrowser = typeof window !== 'undefined';
+    const isMultipart = data instanceof FormData;
+
+    const conditionHeaders = isMultipart
+      ? { ...(headerInstance || {}) }
+      : { 'Content-Type': 'application/json', ...(headerInit || {}), ...(headerInstance || {}) };
+
+    const conditionData = isMultipart ? data : JSON.stringify(data);
+
     const options: RequestInit & { headers?: HeadersInit } = {
       method: method.toUpperCase(),
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(isBrowser && setBearerToken()),
-        ...headerInit,
-        ...headerInstance,
-      },
-      body: data ? JSON.stringify(data) : undefined,
+      // credentials: 'include',
+      headers: conditionHeaders,
+      body: data ? conditionData : undefined,
       cache: cache || 'no-store',
       ...rest,
     };

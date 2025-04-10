@@ -5,7 +5,7 @@ interface QueryObject {
 }
 
 interface AdditionalProperties {
-  data?: QueryObject;
+  data?: QueryObject | FormData;
   query?: QueryObject;
 }
 
