@@ -1,11 +1,35 @@
-import type { ForwardedRef } from 'react';
-import { forwardRef, memo, useId } from 'react';
+'use client';
+
+import type { ForwardedRef, InputHTMLAttributes, ReactNode } from 'react';
+import { forwardRef, useId } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { CheckboxProps } from '@types';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { TypographyProps } from '@types';
 import Typography from '../Typography';
 import Icon from '../Icon';
 
 const cn = bem('checkbox');
+
+export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'hidden' | 'id'> {
+  /** Checkbox label */
+  label: string | ReactNode;
+  /** Reverse */
+  reverse?: boolean;
+  /** Checkbox hidden */
+  hiddenElement?: 'checkbox' | 'label';
+  /** disabled */
+  disabled?: boolean;
+  /** CheckboxGroup component 사용시 all check 제외 여부 */
+  isExcludeSelectAll?: boolean;
+  /** CheckboxGroup component 사용시 전체선택 체크박스인지 구분 */
+  selectAll?: boolean;
+  /** checkbox border type  */
+  borderType?: 'default' | 'circle' | 'none';
+  /** typographyProps */
+  typographyProps?: Omit<TypographyProps, 'children'>;
+  /** 단일로 react-hook-form을 사용할 경우 resiger props를 활용 */
+  register?: UseFormRegister<FieldValues>;
+}
 
 const Checkbox = forwardRef(
   (
@@ -19,23 +43,23 @@ const Checkbox = forwardRef(
       selectAll = false,
       style,
       typographyProps,
-      ...props
+      ...rest
     }: CheckboxProps,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
     const uniqueId = useId();
+
+    const classNames = cn(undefined, {
+      reverse: reverse,
+      disabled: !!disabled,
+      [`hidden-${hiddenElement}`]: !!hiddenElement,
+      [`border-${borderType}`]: !!borderType,
+    });
+
     return (
-      <div
-        style={style}
-        className={cn(undefined, {
-          reverse: reverse,
-          disabled: !!disabled,
-          [`hidden-${hiddenElement}`]: !!hiddenElement,
-          [`border-${borderType}`]: !!borderType,
-        })}
-      >
+      <div className={classNames} style={style}>
         <input
-          {...props}
+          {...rest}
           className={cn('input')}
           disabled={disabled}
           id={`checkbox-${uniqueId}`}
@@ -44,7 +68,7 @@ const Checkbox = forwardRef(
         />
         <label className={cn('label')} htmlFor={`checkbox-${uniqueId}`}>
           {typeof label === 'string' ? (
-            <Typography variant="B2" {...{ color: 'grayscale-gray900', ...typographyProps }}>
+            <Typography color="grayscale-gray900" variant="B2" {...typographyProps}>
               {label}
             </Typography>
           ) : (
@@ -60,4 +84,4 @@ const Checkbox = forwardRef(
 );
 
 Checkbox.displayName = 'Checkbox';
-export default memo(Checkbox);
+export default Checkbox;
