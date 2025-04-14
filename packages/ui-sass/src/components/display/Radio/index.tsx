@@ -1,9 +1,24 @@
+'use client';
+
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { ForwardedRef, forwardRef, memo, useId } from 'react';
-import { RadioProps } from '@types';
+import { ForwardedRef, InputHTMLAttributes, ReactNode, forwardRef, useId } from 'react';
+import { TypographyProps } from '@types';
 import Typography from '../Typography';
 
 const cn = bem('radio');
+
+export interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** radio label */
+  label: string | ReactNode;
+  /** reverse */
+  reverse?: boolean;
+  /** radio hidden */
+  hidden?: boolean;
+  /** disabled */
+  disabled?: boolean;
+  /** typographyProps */
+  typographyProps?: Omit<TypographyProps, 'children'>;
+}
 
 const Radio = forwardRef(
   (
@@ -12,15 +27,14 @@ const Radio = forwardRef(
   ) => {
     const uniqueId = useId();
 
+    const classNames = cn(undefined, {
+      reverse: reverse,
+      disabled: disabled,
+      hidden: hidden,
+    });
+
     return (
-      <div
-        style={style}
-        className={cn(undefined, {
-          reverse: reverse,
-          disabled: !!disabled,
-          hidden: hidden,
-        })}
-      >
+      <div className={classNames} style={style}>
         <input {...props} className={cn('input')} disabled={disabled} id={`radio-${uniqueId}`} ref={ref} type="radio" />
         <label className={cn('label')} htmlFor={`radio-${uniqueId}`}>
           <Typography variant="B2" {...typographyProps}>
@@ -33,4 +47,4 @@ const Radio = forwardRef(
 );
 
 Radio.displayName = 'Radio';
-export default memo(Radio);
+export default Radio;

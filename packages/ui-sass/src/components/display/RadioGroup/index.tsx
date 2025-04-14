@@ -1,86 +1,89 @@
-import type { ReactNode } from 'react';
-import { Controller } from 'react-hook-form';
-import React, { Fragment, useMemo } from 'react';
+'use client';
+
+import type { InputHTMLAttributes, ReactElement } from 'react';
+import React, { Fragment } from 'react';
+import { Controller, RegisterOptions } from 'react-hook-form';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { RadioGroupProps, RadioProps } from '@types';
+import { TypographyProps } from '@types';
+import { RadioProps } from '../Radio';
 
 const cn = bem('radio-group');
+
+export interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** radio group type */
+  variant?: 'default' | 'tab' | 'tab-full-width' | 'chip';
+  /** radio name */
+  name: string;
+  /** gutter */
+  gutter?: number;
+  /** typographyProps */
+  typographyProps?: Omit<TypographyProps, 'children'>;
+  /** react-hook-form validation rule */
+  rules?: RegisterOptions;
+  /** react-hook-form control */
+  control?: any;
+  /** Radio component */
+  children: ReactElement<RadioProps> | ReactElement<RadioProps>[];
+}
 
 const RadioGroup = ({
   children,
   control,
   gutter,
   name,
+  onChange,
   rules,
   typographyProps,
+  value,
   variant = 'default',
-  ...props
 }: RadioGroupProps) => {
-  const { onChange, value } = props;
-
-  const isDesign = useMemo(() => variant !== 'default', [variant]);
+  const isDesign = variant !== 'default';
 
   return (
-    <div
-      className={cn(undefined, {
-        [`${variant}`]: !!variant,
-      })}
-    >
-      {React.Children.map<ReactNode, ReactNode>(children, (child, index) => {
-        if (!React.isValidElement(child)) return null;
-        const validChild = child as React.ReactElement<RadioProps>;
-        const style =
-          gutter && React.Children.count(children) - 1 !== index ? { marginRight: `${gutter}px` } : undefined;
-        return (
+    <div className={cn(undefined, { [variant]: true })}>
+      {React.Children.map(children, (child, index) => {
+        if (!React.isValidElement(child)) {
+          return null;
+        }
+
+        const validChild = child as ReactElement<RadioProps>;
+        const isLast = index === React.Children.count(children) - 1;
+        const spacingStyle = gutter && !isLast ? { marginRight: `${gutter}px` } : undefined;
+
+        const commonProps = {
+          ...validChild.props,
+          name,
+          value: validChild.props.value,
+          hidden: isDesign,
+          style: spacingStyle,
+          typographyProps: {
+            ...typographyProps,
+            ...validChild.props.typographyProps,
+          },
+        };
+
+        return control ? (
           <Fragment key={`${name}-${index}`}>
-            {control ? (
-              <Controller
-                control={control}
-                name={name}
-                rules={rules}
-                render={({ field }) => {
-                  return React.cloneElement(validChild, {
-                    ...validChild.props,
-                    ...field,
-                    value: validChild.props.value,
-                    checked: validChild.props.value === field.value,
-                    onChange: onChange,
-                    hidden: isDesign,
-                    typographyProps:
-                      variant === 'chip'
-                        ? {
-                            ...typographyProps,
-                            ...validChild.props.typographyProps,
-                          }
-                        : {
-                            ...typographyProps,
-                            ...validChild.props.typographyProps,
-                          },
-                    style,
-                  });
-                }}
-              />
-            ) : (
-              React.cloneElement(validChild, {
-                ...validChild.props,
-                name: name,
-                value: validChild.props.value,
-                defaultChecked: validChild.props.value === value || false,
-                onChange: onChange,
-                hidden: isDesign,
-                typographyProps:
-                  variant === 'chip'
-                    ? {
-                        ...typographyProps,
-                        ...validChild.props.typographyProps,
-                      }
-                    : {
-                        ...typographyProps,
-                        ...validChild.props.typographyProps,
-                      },
-                style,
-              })
-            )}
+            <Controller
+              control={control}
+              name={name}
+              rules={rules}
+              render={({ field }) =>
+                React.cloneElement(validChild, {
+                  ...commonProps,
+                  ...field,
+                  checked: validChild.props.value === field.value,
+                })
+              }
+            />
+          </Fragment>
+        ) : (
+          <Fragment key={`${name}-${index}`}>
+            {React.cloneElement(validChild, {
+              ...commonProps,
+              defaultChecked: validChild.props.value === value,
+              onChange,
+            })}
           </Fragment>
         );
       })}
