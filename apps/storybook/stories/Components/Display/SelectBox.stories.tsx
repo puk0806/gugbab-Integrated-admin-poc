@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SelectBox } from '@components';
-import { SelectBoxProps, SelectValue } from '@types';
+import { SelectBox, SelectBoxProps, SelectValue } from '@components';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 

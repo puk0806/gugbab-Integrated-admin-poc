@@ -2,8 +2,7 @@
 
 import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { ForwardedRef, InputHTMLAttributes, ReactNode, forwardRef, useId } from 'react';
-import { TypographyProps } from '@types';
-import Typography from '../Typography';
+import Typography, { TypographyProps } from '../Typography';
 
 const cn = bem('radio');
 

@@ -2,8 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StoryFn } from '@storybook/react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { Button, Icon, TextField, Typography } from '@components';
-import { TextFieldProps } from '@types';
+import { Button, Icon, TextField, TextFieldProps, Typography } from '@components';
 
 const meta: Meta<typeof TextField> = {
   title: 'Components/TextField',

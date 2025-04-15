@@ -2,8 +2,7 @@
 
 import { ForwardedRef, ReactNode, forwardRef } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { TypographyProps } from '@types';
-import Typography from '../Typography';
+import Typography, { TypographyProps } from '../Typography';
 
 const cn = bem('chip');
 

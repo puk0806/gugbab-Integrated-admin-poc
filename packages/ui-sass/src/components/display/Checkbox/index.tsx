@@ -4,8 +4,7 @@ import type { ForwardedRef, InputHTMLAttributes, ReactNode } from 'react';
 import { forwardRef, useId } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
-import { TypographyProps } from '@types';
-import Typography from '../Typography';
+import Typography, { TypographyProps } from '../Typography';
 import Icon from '../Icon';
 
 const cn = bem('checkbox');

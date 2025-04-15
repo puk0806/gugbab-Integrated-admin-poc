@@ -4,8 +4,8 @@ import type { InputHTMLAttributes, ReactElement } from 'react';
 import React, { Fragment } from 'react';
 import { Controller, RegisterOptions } from 'react-hook-form';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { TypographyProps } from '@types';
 import { RadioProps } from '../Radio';
+import { TypographyProps } from '../Typography';
 
 const cn = bem('radio-group');
 

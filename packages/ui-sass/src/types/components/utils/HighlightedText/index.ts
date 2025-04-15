@@ -1,4 +1,4 @@
-import { TypographyProps, TypographyTags } from '../../display/Typography';
+import { TypographyProps, TypographyTags } from '@components';
 
 export interface HighlightedTextProps extends Pick<TypographyProps, 'color' | 'weight' | 'variant'> {
   /** 텍스트 */

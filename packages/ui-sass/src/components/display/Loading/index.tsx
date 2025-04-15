@@ -1,11 +1,10 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import type { TypographyProps } from '@types';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
 import { useEffect, useState } from 'react';
 import Ir from '../../utils/Ir';
-import Typography from '../Typography';
+import Typography, { TypographyProps } from '../Typography';
 
 const cn = bem('loading');
 

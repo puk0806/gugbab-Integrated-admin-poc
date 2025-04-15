@@ -28,6 +28,7 @@ export const asideUnit: Story = {
     highlightedTextProps: {
       highlightedText: '제목',
     },
+    children: '부제목',
     aside: <Icon color="grayscale-gray300" name="arrow_up" size={28} />,
   },
   render: args => <Title {...args}></Title>,
