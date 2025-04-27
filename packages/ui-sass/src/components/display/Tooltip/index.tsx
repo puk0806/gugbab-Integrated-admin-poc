@@ -1,10 +1,65 @@
 import { bem, getFocusable, onNextRender } from '@gugbab-integrated-admin-poc/utils';
-import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, {
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { flushSync } from 'react-dom';
-import { PanelStyleType, TooltipProps } from '@types';
 import Icon from '../Icon';
 
 const cn = bem('tooltip');
+
+type PlacementType =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left-top'
+  | 'left'
+  | 'left-bottom'
+  | 'right-top'
+  | 'right'
+  | 'right-bottom';
+
+export interface TooltipProps {
+  /** panel design type */
+  type?: 'bubble' | 'square';
+  /** tooltip anchor */
+  anchor: ReactElement;
+  /** 최초 랜더링시 panel 활성화 여부 */
+  isFirstRenderVisible?: boolean;
+  /** panel close button 활성화 여부 */
+  useCloseBtn?: boolean;
+  /** anchor event */
+  trigger?: 'click' | 'hover';
+  /** panel 정렬 */
+  placement?: PlacementType;
+  /** 영역 밖 클릭시 닫기 */
+  useHideClick?: boolean;
+  /** 스클로시 닫기 */
+  useHideScroll?: boolean;
+  /** tooltip panel */
+  children: ReactNode;
+  /** 열은 후 callback 처리 */
+  onAfterShow?: () => void;
+  /** 닫은 후 callback 처리 */
+  onAfterHide?: () => void;
+}
+
+export interface PanelStyleType {
+  width: string;
+  left?: string;
+  opacity?: string;
+}
 
 const Tooltip = ({
   anchor,
@@ -29,9 +84,13 @@ const Tooltip = ({
 
   /** focus 요소 */
   const getFocusableElement = useCallback(() => {
-    if (!panelRef.current) return;
-    const elements = getFocusable(panelRef?.current);
-    if (!elements) return;
+    if (!panelRef.current) {
+      return;
+    }
+    const elements = getFocusable(panelRef.current);
+    if (!elements) {
+      return;
+    }
     return {
       first: elements[0],
       last: elements[elements.length - 1],
@@ -40,14 +99,14 @@ const Tooltip = ({
 
   /** isFirstRenderVisible 시 한번 활성화 */
   const setOpen = () => {
-    if (!panelRef.current) return;
+    if (!panelRef.current) {
+      return;
+    }
     panelRef.current?.classList.add('tooltip__panel--rect');
     const { clientWidth } = panelRef.current;
     panelRef.current?.classList.remove('tooltip__panel--rect');
     onNextRender(() => {
-      setPanel({
-        width: `${clientWidth + 1}px`,
-      });
+      setPanel({ width: `${clientWidth + 1}px` });
     });
     onNextRender(() => {
       setVisible(true);
@@ -55,44 +114,43 @@ const Tooltip = ({
   };
 
   /** 열림처리 */
-  const handleOpen = useCallback(
-    (e?: MouseEvent<HTMLButtonElement>) => {
-      if (!panelRef.current) return;
-      if (visible) return;
-
-      panelRef.current?.classList.add('tooltip__panel--rect');
-      const { clientWidth } = panelRef.current;
-      flushSync(() =>
-        setPanel({
-          width: `${clientWidth + 1}px`,
-        }),
-      );
-      flushSync(() => setVisible(true));
-      if (e?.type === 'click') {
-        e.preventDefault();
-        panelRef.current?.focus();
-      }
-      onAfterShow?.();
-    },
-    [onAfterShow, visible],
-  );
+  const handleOpen = (e?: MouseEvent<HTMLButtonElement>) => {
+    if (!panelRef.current || visible) {
+      return;
+    }
+    panelRef.current?.classList.add('tooltip__panel--rect');
+    const { clientWidth } = panelRef.current;
+    flushSync(() => {
+      setPanel({ width: `${clientWidth + 1}px` });
+    });
+    flushSync(() => setVisible(true));
+    if (e?.type === 'click') {
+      e.preventDefault();
+      panelRef.current?.focus();
+    }
+    onAfterShow?.();
+  };
 
   /** focus 열림처리 */
-  const handleFocus = useCallback(() => {
+  const handleFocus = () => {
     handleOpen();
-  }, [handleOpen]);
+  };
 
   /** 닫기처리 */
   const handleClose = useCallback(
     (e?: MouseEvent<HTMLButtonElement>) => {
-      if (!panelRef.current) return;
+      if (!panelRef.current) {
+        return;
+      }
       if (e) {
         e.preventDefault();
         anchorRef.current?.focus();
       }
       setVisible(false);
       setTimeout(() => {
-        if (!panelRef.current) return;
+        if (!panelRef.current) {
+          return;
+        }
         setPanel(undefined);
         panelRef.current.style.removeProperty('width');
         panelRef.current.style.removeProperty('left');
@@ -104,42 +162,36 @@ const Tooltip = ({
   );
 
   /** panel 키보드 이벤트 처리 */
-  const handlePanelKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      const keyCode = e.key;
-      if (keyCode === 'Escape') {
-        e.preventDefault();
+  const handlePanelKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const keyCode = e.key;
+    if (keyCode === 'Escape') {
+      e.preventDefault();
+      handleClose();
+      anchorRef.current?.focus();
+    }
+    if ((e.target as HTMLDivElement).getAttribute('role') !== 'tooltip') {
+      return;
+    }
+    if (keyCode === 'Tab') {
+      if (e.shiftKey) {
         handleClose();
-        anchorRef.current?.focus();
+        return;
       }
-      if ((e.target as HTMLDivElement).getAttribute('role') !== 'tooltip') return;
-      if (keyCode === 'Tab') {
-        if (e.shiftKey) {
-          handleClose();
-          return;
-        }
-        if (!focusable.current?.last) {
-          handleClose();
-        }
+      if (!focusable.current?.last) {
+        handleClose();
       }
-    },
-    [handleClose],
-  );
+    }
+  };
 
-  /** panel 마지막 포커스 요소 키보드 이벤트 처리*/
+  /** panel 마지막 포커스 요소 키보드 이벤트 처리 */
   const handleLastKeyDown = useCallback(
     (e: any) => {
-      const keyCode = e.key;
-      if (!panelRef.current) return;
-      if (keyCode === 'Tab') {
-        if (!e.shiftKey) {
-          handleClose();
-        }
+      if (e.key === 'Tab' && !e.shiftKey) {
+        handleClose();
       }
     },
     [handleClose],
   );
-
   /** 외부 클릭시 닫힘 처리 */
   const handleOutsideClose = useCallback(
     (e: Event) => {
@@ -157,7 +209,9 @@ const Tooltip = ({
 
   /** mouse leave 처리 */
   const handleLeaveClose = useCallback(() => {
-    if (trigger !== 'hover') return;
+    if (trigger !== 'hover') {
+      return;
+    }
     handleClose();
   }, [handleClose, trigger]);
 
@@ -170,13 +224,14 @@ const Tooltip = ({
     ) {
       return 16;
     }
-
     return 14;
   }, [placement]);
 
   /** isFirstRenderVisible에 따라 활성화 */
   useEffect(() => {
-    isFirstRenderVisible && setOpen();
+    if (isFirstRenderVisible) {
+      setOpen();
+    }
   }, [isFirstRenderVisible]);
 
   /** useCloseBtn 변경시 panel 닫기 */
@@ -189,19 +244,29 @@ const Tooltip = ({
     if (children && panelRef.current) {
       focusable.current = getFocusableElement() ?? null;
       if (focusable.current?.last) {
-        (focusable.current?.last as HTMLElement).addEventListener('keydown', handleLastKeyDown);
-        return () => (focusable.current?.last as HTMLElement).removeEventListener('keydown', handleLastKeyDown);
+        (focusable.current.last as HTMLElement).addEventListener('keydown', handleLastKeyDown);
+        return () => {
+          (focusable.current?.last as HTMLElement).removeEventListener('keydown', handleLastKeyDown);
+        };
       }
     }
   }, [children, getFocusableElement, handleLastKeyDown]);
 
   /** 외부 click이나 scroll시 event 처리 */
   useEffect(() => {
-    useHideClick && document.addEventListener('click', handleOutsideClose);
-    useHideScroll && window.addEventListener('scroll', handleScrollClose);
+    if (useHideClick) {
+      document.addEventListener('click', handleOutsideClose);
+    }
+    if (useHideScroll) {
+      window.addEventListener('scroll', handleScrollClose);
+    }
     return () => {
-      useHideClick && document.removeEventListener('click', handleOutsideClose);
-      useHideScroll && window.removeEventListener('scroll', handleScrollClose);
+      if (useHideClick) {
+        document.removeEventListener('click', handleOutsideClose);
+      }
+      if (useHideScroll) {
+        window.removeEventListener('scroll', handleScrollClose);
+      }
     };
   }, [handleLeaveClose, handleOutsideClose, handleScrollClose, useHideClick, useHideScroll]);
 
@@ -217,11 +282,7 @@ const Tooltip = ({
           onFocus={trigger === 'hover' ? handleFocus : undefined}
           onMouseEnter={trigger === 'hover' ? handleOpen : undefined}
         >
-          {React.isValidElement(anchor)
-            ? React.createElement((anchor as React.ReactElement<any>).type, {
-                ...(anchor as React.ReactElement<any>).props,
-              })
-            : null}
+          {React.isValidElement(anchor) ? React.cloneElement(anchor) : null}
         </button>
       )}
       {children && (

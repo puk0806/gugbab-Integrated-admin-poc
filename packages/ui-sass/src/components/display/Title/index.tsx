@@ -1,10 +1,21 @@
-import { memo } from 'react';
+import { ReactNode } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { TitleProps } from '@types';
+import { HighlightedTextProps } from '@types';
 import Typography from '../Typography';
 import HighlightedText from '../../utils/HighlightedText';
 
 const cn = bem('title');
+
+export interface TitleProps {
+  /** title string */
+  title: ReactNode;
+  /** title 우측 ReactNode */
+  aside?: ReactNode;
+  /** title 강조 props HighlightedText 사용 */
+  highlightedTextProps?: Omit<HighlightedTextProps, 'text' | 'weight'>;
+  /** 우측 ReactNode */
+  children?: ReactNode;
+}
 
 function Title({ aside, children, highlightedTextProps, title }: TitleProps) {
   return (
@@ -25,4 +36,5 @@ function Title({ aside, children, highlightedTextProps, title }: TitleProps) {
   );
 }
 
-export default memo(Title);
+Title.displayName = 'Title';
+export default Title;

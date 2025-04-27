@@ -4,7 +4,6 @@ import React, {
   forwardRef,
   KeyboardEvent,
   KeyboardEventHandler,
-  memo,
   MouseEventHandler,
   useCallback,
   useEffect,
@@ -16,11 +15,55 @@ import React, {
 import { useController } from 'react-hook-form';
 import { flushSync } from 'react-dom';
 import { bem, onNextRender } from '@gugbab-integrated-admin-poc/utils';
-import { IconProps, SelectBoxProps, TypographyProps } from '@types';
-import Typography from '../Typography';
-import Icon from '../Icon';
+import Typography, { TypographyProps } from '../Typography';
+import Icon, { IconProps } from '../Icon';
 
 const cn = bem('select-box');
+
+export type SelectValue = {
+  [key: string]: string;
+};
+
+export interface SelectBoxProps {
+  /** selectbox design type */
+  variant?: 'box' | 'box-small' | 'text';
+  /** selectbox name */
+  name: string;
+  /** 버튼과 셀렉트 박스 타이틀 값  */
+  title: string;
+  /** selectbox options */
+  options: Partial<HTMLOptionElement>[];
+  /** selectbox value */
+  value?: string;
+  /** 강제 system selectbox 사용 */
+  useSystemOption?: boolean;
+  /** design type selectbox width */
+  width?: string;
+  /** design type selectbox panel horizontal position */
+  panelX?: 'left' | 'right';
+  /** design type selectbox panel width */
+  panelWidth?: string;
+  /** design type selectbox panel maxHeight */
+  panelHeight?: string;
+  /** design type selectbox text ellipsis style */
+  itemTextLine?: 'multi' | 'single' | 'ellipsis';
+  /** react hook form control */
+  control?: any;
+  /** react hook form setValue */
+  setValue?: any;
+  /** react hook form rules */
+  rules?: any;
+  /** validation error message */
+  useLabel?: boolean;
+  /** validation error message */
+  error?: string;
+  /** validation success message */
+  success?: string;
+  /** disabled */
+  disabled?: boolean;
+  /** hook-form 아닐경우 onChange */
+  onChange?: (value: SelectValue) => void;
+}
 
 const SelectBox = forwardRef(
   (
@@ -50,40 +93,26 @@ const SelectBox = forwardRef(
     const selectBoxRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const controller = control ? useController({ control, name, rules }) : null;
     const fieldValue = control && controller ? controller.field.value : value;
     const uniqueId = useId();
 
-    const typographyProps = useMemo<Pick<TypographyProps, 'variant' | 'color'>>(() => {
-      if (variant === 'box-small' || variant === 'text') {
-        return {
-          variant: 'D2',
-        };
-      }
-
-      return {
-        variant: 'B2',
-      };
+    const typographyProps: Pick<TypographyProps, 'variant'> = useMemo(() => {
+      return variant === 'box-small' || variant === 'text' ? { variant: 'D2' } : { variant: 'B2' };
     }, [variant]);
 
-    const iconProps = useMemo<Pick<IconProps, 'name' | 'color'>>(() => {
-      if (variant === 'text') {
-        return {
-          name: 'system_down',
-          size: 20,
-        };
-      }
-      return {
-        name: 'system_down',
-      };
+    const iconProps: Pick<IconProps, 'name' | 'size'> = useMemo(() => {
+      return variant === 'text' ? { name: 'system_down', size: 20 } : { name: 'system_down' };
     }, [variant]);
 
-    const selectedLabel = useMemo(() => options.find(c => c.value === fieldValue)?.text, [fieldValue, options]);
+    const selectedLabel = useMemo(() => {
+      return options.find(c => c.value === fieldValue)?.text;
+    }, [fieldValue, options]);
 
     const isMobileDevice = useMemo(() => {
-      // 모바일 장치인지 확인하기 -> 리다이렉트
-      if (typeof navigator === 'undefined') return false;
+      if (typeof navigator === 'undefined') {
+        return false;
+      }
       if (
         navigator?.userAgent.match(/Android/i) ||
         navigator?.userAgent.match(/webOS/i) ||
@@ -98,7 +127,9 @@ const SelectBox = forwardRef(
       return false;
     }, []);
 
-    const isSystemSelectbox = useMemo(() => useSystemOption || isMobileDevice, [isMobileDevice, useSystemOption]);
+    const isSystemSelectbox = useMemo(() => {
+      return useSystemOption || isMobileDevice;
+    }, [isMobileDevice, useSystemOption]);
 
     /** panel reset */
     const resetPanel = useCallback(() => {
@@ -108,7 +139,7 @@ const SelectBox = forwardRef(
     }, []);
 
     /** focus 처리 */
-    const selectedFocus = useCallback(() => {
+    const selectedFocus = () => {
       const panel = panelRef.current as HTMLDivElement;
       const buttons = panel.querySelectorAll('button');
       if (!value) {
@@ -120,147 +151,128 @@ const SelectBox = forwardRef(
         panel.scrollTo(0, selected.offsetTop);
         selected.focus();
       }
-    }, [value]);
+    };
 
     /** panel 열릴때 위치조정 / focus 처리 */
-    const setPanelPosition = useCallback(() => {
+    const setPanelPosition = () => {
       const selectbox = selectBoxRef.current;
       const panel = panelRef.current;
       if (!selectbox || !panel) {
         return;
       }
-
       const selectBoxRect = selectbox.getBoundingClientRect();
-      // 임시로 opacity:0, display:block 처리
       panel.classList.add('is-open-transparent');
       const panelHeight = panel.clientHeight;
       const screenHeight = Math.max(document.documentElement.clientHeight || window.innerHeight);
       if (value) {
         selectedFocus();
       }
-
       if (panelHeight + selectBoxRect.y + selectBoxRect.height > screenHeight) {
         panel.style.bottom = 'calc(100% + 1px)';
         panel.style.top = 'auto';
       }
-    }, [selectedFocus, value]);
+    };
 
     /** button click handler */
-    const handleButtonClick = useCallback(() => {
+    const handleButtonClick = () => {
       const state = open;
       if (state) {
         resetPanel();
       }
       setPanelPosition();
       setOpen(!state);
-    }, [open, resetPanel, setPanelPosition]);
+    };
 
     /** button keydown */
-    const handleButtonKeyDown = useCallback<KeyboardEventHandler<HTMLButtonElement>>(
-      e => {
-        const selectbox = selectBoxRef.current;
-        if (!selectbox) {
-          return;
-        }
-        const key = e.key;
-
-        if (key === 'Escape') {
-          setOpen(false);
-          (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
-          resetPanel();
-        }
-
-        if (key === 'ArrowDown') {
-          flushSync(() => setOpen(true));
-          e.preventDefault();
-          selectedFocus();
-        }
-      },
-      [resetPanel, selectedFocus],
-    );
+    const handleButtonKeyDown: KeyboardEventHandler<HTMLButtonElement> = e => {
+      const selectbox = selectBoxRef.current;
+      if (!selectbox) {
+        return;
+      }
+      const key = e.key;
+      if (key === 'Escape') {
+        setOpen(false);
+        (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
+        resetPanel();
+      }
+      if (key === 'ArrowDown') {
+        flushSync(() => setOpen(true));
+        e.preventDefault();
+        selectedFocus();
+      }
+    };
 
     /** option click handler */
-    const handleOptionClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
-      e => {
-        const { value } = e.currentTarget;
-        const selectbox = selectBoxRef.current;
-
-        onChange?.({ name, value });
-        setValue?.(name, value);
-        setOpen(false);
-        resetPanel();
-        (selectbox?.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
-      },
-      [name, onChange, resetPanel, setValue],
-    );
+    const handleOptionClick: MouseEventHandler<HTMLButtonElement> = e => {
+      const { value } = e.currentTarget;
+      const selectbox = selectBoxRef.current;
+      onChange?.({ name, value });
+      setValue?.(name, value);
+      setOpen(false);
+      resetPanel();
+      (selectbox?.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
+    };
 
     /** option keyDown handler */
-    const handleOptionKeyDown = useCallback(
-      (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
-        e.preventDefault();
+    const handleOptionKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+      e.preventDefault();
+      const selectbox = selectBoxRef.current;
+      const panel = panelRef.current;
+      if (!selectbox || !panel) {
+        return;
+      }
+      const buttons = panel.querySelectorAll('button');
+      const target = e.currentTarget;
+      const key = e.key;
+      let thisIndex = index;
 
-        const selectbox = selectBoxRef.current;
-        const panel = panelRef.current;
-        if (!selectbox || !panel) {
+      switch (key) {
+        case 'Escape': {
+          flushSync(() => setOpen(false));
+          resetPanel();
+          (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
+          break;
+        }
+        case 'Enter': {
+          onChange?.({ name, value: target.value });
+          setValue?.(name, target.value);
+          resetPanel();
+          flushSync(() => setOpen(false));
+          (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
           return;
         }
-        const buttons = panel.querySelectorAll('button');
-        const target = e.currentTarget;
-        const key = e.key;
-        let thisIndex = index;
-
-        switch (key) {
-          case 'Escape':
-            flushSync(() => setOpen(false));
-            resetPanel();
-            (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
-            break;
-          case 'Enter':
-            onChange?.({ name, value: target.value });
-            setValue?.(name, target.value);
-            resetPanel();
-            flushSync(() => setOpen(false));
-            (selectbox.querySelector('[role="combobox"]') as HTMLButtonElement)?.focus();
-            return;
-          case 'Tab':
-            if (e.shiftKey) {
-              thisIndex = (thisIndex - 1 + buttons.length) % buttons.length;
-            } else {
-              thisIndex = (thisIndex + 1) % buttons.length;
-            }
-            break;
-          case 'ArrowUp':
-            thisIndex = (thisIndex - 1 + buttons.length) % buttons.length;
-            break;
-          case 'ArrowDown':
-            thisIndex = (thisIndex + 1) % buttons.length;
-            break;
+        case 'Tab': {
+          thisIndex = e.shiftKey ? (thisIndex - 1 + buttons.length) % buttons.length : (thisIndex + 1) % buttons.length;
+          break;
         }
+        case 'ArrowUp': {
+          thisIndex = (thisIndex - 1 + buttons.length) % buttons.length;
+          break;
+        }
+        case 'ArrowDown': {
+          thisIndex = (thisIndex + 1) % buttons.length;
+          break;
+        }
+      }
 
-        buttons[thisIndex].focus();
-      },
-      [name, onChange, resetPanel, setValue],
-    );
+      buttons[thisIndex].focus();
+    };
 
     /** selectbox onChange */
-    const handleChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
-      e => {
-        const { value } = e.currentTarget;
-        e.preventDefault();
-        onChange?.({ name, value });
-        setValue?.(name, value);
-        onNextRender(() => selectBoxRef.current?.getElementsByTagName('select')[0]?.focus());
-      },
-      [name, onChange, setValue],
-    );
+    const handleChange: ChangeEventHandler<HTMLSelectElement> = e => {
+      const { value } = e.currentTarget;
+      e.preventDefault();
+      onChange?.({ name, value });
+      setValue?.(name, value);
+      onNextRender(() => selectBoxRef.current?.getElementsByTagName('select')[0]?.focus());
+    };
 
     /** 외부 클릭시 닫힘 처리 */
-    const handleOutsideClose = useCallback<EventListener>(
+    const handleOutsideClose: EventListener = useCallback(
       e => {
         if (!open || !selectBoxRef.current || !e.target) {
           return;
         }
-
         if (!selectBoxRef.current.contains(e.target as Node)) {
           setOpen(false);
           resetPanel();
@@ -270,7 +282,6 @@ const SelectBox = forwardRef(
     );
 
     useEffect(() => {
-      // console.log(name, value);
       if (value && control) {
         setValue(name, value);
       }
@@ -293,21 +304,17 @@ const SelectBox = forwardRef(
           ref={selectBoxRef}
           style={{ width }}
           className={cn(undefined, {
-            ['has-width']: !!width,
+            'has-width': !!width,
             placeholder: !!useLabel,
             selected: !!selectedLabel,
-            ['is-device']: isSystemSelectbox,
+            'is-device': isSystemSelectbox,
             [`${variant}`]: !!variant,
             error: !!error,
             success: !!success,
             disabled: !!disabled,
           })}
         >
-          <div
-            className={cn('screen', {
-              ['is-mobile']: false,
-            })}
-          >
+          <div className={cn('screen', { 'is-mobile': false })}>
             <button
               aria-activedescendant={fieldValue ? `select-box-item-${uniqueId}-${fieldValue}` : undefined}
               aria-controls={`select-box-panel-${uniqueId}`}
@@ -316,7 +323,7 @@ const SelectBox = forwardRef(
               aria-haspopup="listbox"
               aria-hidden={isSystemSelectbox}
               aria-label={selectedLabel ?? title}
-              className={cn('button', { disabled: disabled ? disabled : false })}
+              className={cn('button', { disabled: !!disabled })}
               disabled={disabled}
               role="combobox"
               tabIndex={isSystemSelectbox ? -1 : 0}
@@ -324,16 +331,12 @@ const SelectBox = forwardRef(
               onClick={isSystemSelectbox ? undefined : handleButtonClick}
               onKeyDown={isSystemSelectbox ? undefined : handleButtonKeyDown}
             >
-              <span
-                className={cn('label', {
-                  selected: !!fieldValue,
-                })}
-              >
+              <span className={cn('label', { selected: !!fieldValue })}>
                 {useLabel ? (
                   <>
                     <span>
                       <Typography isEllipsisOneLine {...typographyProps}>
-                        <span className={cn('placeholder', { selected: selectedLabel || false })}>{title}</span>
+                        <span className={cn('placeholder', { selected: !!selectedLabel })}>{title}</span>
                       </Typography>
                       {selectedLabel && (
                         <Typography isEllipsisOneLine {...typographyProps}>
@@ -370,11 +373,9 @@ const SelectBox = forwardRef(
                       role="option"
                     >
                       <button
+                        className={cn('item', { selected: value === itemValue })}
                         type="button"
                         value={itemValue}
-                        className={cn('item', {
-                          selected: value === itemValue,
-                        })}
                         onClick={handleOptionClick}
                         onKeyDown={e => handleOptionKeyDown(e, index)}
                       >
@@ -426,5 +427,4 @@ const SelectBox = forwardRef(
 );
 
 SelectBox.displayName = 'SelectBox';
-
-export default memo(SelectBox);
+export default SelectBox;

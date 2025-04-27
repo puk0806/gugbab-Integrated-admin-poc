@@ -1,8 +1,44 @@
-import { ElementType, memo } from 'react';
+import { ElementType } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { TypographyTags, TypographyProps, PolymorphicComponentProps } from '@types';
+import { PolymorphicComponentProps, ColorTypes } from '@types';
 
 const cn = bem('typography');
+
+export type TypographyTags =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'strong'
+  | 'em'
+  | 'address'
+  | 'span'
+  | 'p'
+  | 'div'
+  | 'ul'
+  | 'li'
+  | 'label'
+  | 'figcaption'
+  | 'mark';
+
+export type TypographySizeTypes = 'H1' | 'H2' | 'H3' | 'B1' | 'B2' | 'D1' | 'D2';
+
+export type TypographyProps = {
+  /** 텍스트 타입 지정(type 별 font-size, letter-spacing, line-height desgin guide 참고) */
+  variant?: TypographySizeTypes;
+  /** text font weight */
+  weight?: 'regular' | 'medium' | 'bold';
+  /** font color */
+  color?: ColorTypes;
+  /** underline */
+  underline?: boolean;
+  /** 1줄 ...표시 */
+  isEllipsisOneLine?: boolean;
+  /** 2줄 ...표시 */
+  isEllipsisTwoLine?: boolean;
+};
 
 const Typography = <T extends TypographyTags = 'span'>({
   children,
@@ -27,8 +63,8 @@ const Typography = <T extends TypographyTags = 'span'>({
         bold: weight === 'bold',
         [`${color}`]: color ?? false,
         underline: !!underline,
-        ['is-ellipsis-1']: !!isEllipsisOneLine,
-        ['is-ellipsis-2']: !!isEllipsisTwoLine,
+        'is-ellipsis-1': !!isEllipsisOneLine,
+        'is-ellipsis-2': !!isEllipsisTwoLine,
       })}
     >
       {children}
@@ -38,4 +74,4 @@ const Typography = <T extends TypographyTags = 'span'>({
 
 Typography.displayName = 'Typography';
 
-export default memo(Typography);
+export default Typography;

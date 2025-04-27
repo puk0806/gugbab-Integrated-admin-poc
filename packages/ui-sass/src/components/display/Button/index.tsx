@@ -3,8 +3,8 @@
 import type { ElementType, ReactNode } from 'react';
 import { forwardRef, useMemo } from 'react';
 import { bem } from '@gugbab-integrated-admin-poc/utils';
-import { IconProps, PolymorphicComponentProps, TypographyProps } from '@types';
-import { Icon, Typography } from '../../index';
+import { PolymorphicComponentProps } from '@types';
+import { Icon, IconProps, Typography, TypographyProps } from '../..';
 
 const cn = bem('button');
 
@@ -105,7 +105,6 @@ const Button: ButtonComponent = forwardRef(
     });
 
     const styles = {
-      ...rest.styles,
       ...(height && { height }),
       ...(minWidth && { minWidth }),
     };
