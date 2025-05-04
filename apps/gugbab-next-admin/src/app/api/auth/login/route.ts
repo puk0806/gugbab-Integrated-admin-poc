@@ -1,9 +1,11 @@
 import { headers as nextHeaders } from 'next/headers';
 import { type NextRequest } from 'next/server';
-import { apiFetch } from '@app/shared/fetch/utils/lib/fetch';
-import { getEnv } from '@app/shared/common/utils';
-import { ErrorResponse } from '@app/shared/error';
-import { AUTH_COOKIE, TokenResponse, setCookies } from '@app/shared/auth';
+import { AUTH_COOKIE } from '@app/shared/auth/consts/cookie';
+import { TokenResponse } from '@app/shared/auth/types/token';
+import { setCookies } from '@app/shared/auth/utils/cookie';
+import { getEnv } from '@app/shared/common/utils/environment';
+import { ErrorResponse } from '@app/shared/error/types/error';
+import { apiFetch } from '@app/shared/fetch/utils/fetch';
 
 /**
  * 로그인

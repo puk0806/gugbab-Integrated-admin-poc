@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { DefaultLayout } from '@app/widgets/layout';
+import DefaultLayout from '@app/widgets/layout/ui/DefaultLayout';
 import RootClient from './client';
 
 export default async function RootPage() {

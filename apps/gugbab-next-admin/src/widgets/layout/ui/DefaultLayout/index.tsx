@@ -1,13 +1,9 @@
 import { classNamesWithRoot } from '@gugbab-integrated-admin-poc/utils';
 import { Flex } from '@gugbab-integrated-admin-poc/ui-sass';
-import {
-  DefaultFooter,
-  DefaultHeader,
-  DefaultFooterProps,
-  DefaultHeaderProps,
-  DefaultBody,
-  DefaultBodyProps,
-} from '../..';
+
+import DefaultHeader, { DefaultHeaderProps } from '../DefaultHeader';
+import DefaultBody, { DefaultBodyProps } from '../DefaultBody';
+import DefaultFooter, { DefaultFooterProps } from '../DefaultFooter';
 import styles from './index.module.scss';
 
 export interface DefaultLayoutProps extends DefaultHeaderProps, DefaultBodyProps, DefaultFooterProps {}
