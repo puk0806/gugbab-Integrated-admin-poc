@@ -36,11 +36,15 @@ function getComment({ description, example }) {
  **/`;
 }
 
-function parseObject(key, { $ref, description, example, items, type }) {
+function parseObject(key, { $ref, description, example, items, type }, parentSchemaKey) {
   if ($ref) {
     const schemaKey = $ref.split('/').pop();
     const fieldName = formatName(schemaKey);
-    parseComponents({ fieldName, schemaKey });
+
+    if (schemaKey !== parentSchemaKey) {
+      parseComponents({ fieldName, schemaKey });
+    }
+
     return `${getComment({ description, example })}
 ${key}: ${fieldName};`;
   }
@@ -49,7 +53,11 @@ ${key}: ${fieldName};`;
     if (items.$ref) {
       const schemaKey = items.$ref.split('/').pop();
       const fieldName = formatName(schemaKey);
-      parseComponents({ fieldName, schemaKey });
+
+      if (schemaKey !== parentSchemaKey) {
+        parseComponents({ fieldName, schemaKey });
+      }
+
       return `${getComment({ description, example })}
 ${key}: ${fieldName}[];`;
     }
@@ -106,7 +114,7 @@ export type ${fieldName} = ${value};\n\n`;
 export interface ${fieldName} {
   ${Object.entries(properties ?? {})
     .map(([key, value]) => {
-      return parseObject(key, value);
+      return parseObject(key, value, schemaKey);
     })
     .join('\n')}
 }\n\n`;

@@ -46,7 +46,7 @@ export const apiFetch = (() => {
 
     const options: RequestInit & { headers?: HeadersInit } = {
       method: method.toUpperCase(),
-      // credentials: 'include',
+      credentials: 'include',
       headers: conditionHeaders,
       body: data ? conditionData : undefined,
       cache: cache || 'no-store',
