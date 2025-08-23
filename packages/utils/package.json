@@ -18,6 +18,7 @@
     "access": "public"
   },
   "scripts": {
+    "lint": "eslint src --ext .ts --fix ",
     "typecheck": "tsc -b tsconfig.json",
     "build": "tsup"
   },
