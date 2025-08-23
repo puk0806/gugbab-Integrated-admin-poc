@@ -37,7 +37,8 @@
     "fix-svg": "pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
     "clear-install": "bash scripts/clear-install/index.sh",
     "use-hook": "git config core.hooksPath .githooks && touch githooks.config.json",
-    "changeset:version": "changeset version"
+    "changeset:version": "changeset version",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",

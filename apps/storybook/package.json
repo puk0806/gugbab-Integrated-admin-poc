@@ -4,7 +4,7 @@
   "description": "gugbab-integrated-admin-poc storybook",
   "scripts": {
     "dev": "storybook dev -p 5000",
-    "lint": "eslint stories --ext .ts,.tsx --fix",
+    "lint": "eslint stories --ext .ts,.tsx",
     "typecheck": "tsc -b tsconfig.json",
     "build": "storybook build"
   },

@@ -23,7 +23,7 @@
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc && tsup",
-    "lint": "eslint src --ext .ts --fix",
+    "lint": "eslint src --ext .ts",
     "typecheck": "tsc -b tsconfig.json",
     "sass-compile": "sh ./scripts/sass-compile.sh",
     "postbuild": "sh ./scripts/postbuild.sh"
