@@ -93,22 +93,6 @@ pnpm build:ui
 pnpm build:types
 ```
 
-### 5. Git Hook 설정
-
-1. terminal 아래 명령어 실행
-
-```
-pnpm use-hook
-```
-
-2. 생성된 githooks.config.json파일에 아래 내용 적용하기
-
-```
-{
-  "checkQualityBeforePush": true,
-  "checkTypeBeforePush": true
-}
-```
 
 ---
 
@@ -125,10 +109,7 @@ pnpm dev:app
 pnpm dev:storybook
 
 # Ui Sass 서비스 개발 서버 실행
-pnpm dev:ui:sass
-
-# Ui Vanilla Extract 서비스 개발 서버 실행
-pnpm dev:vanilla
+pnpm dev:ui
 
 # 모든 서비스 빌드 실행
 pnpm build
@@ -139,6 +120,9 @@ pnpm build:app
 # App 서비스 Docker 빌드
 pnpm build:docker
 
+# App 서비스 Build 실행
+pnpm start:docker
+
 # App 서비스 Docker 실행
 pnpm start:docker
 
@@ -146,16 +130,31 @@ pnpm start:docker
 pnpm build:storybook
 
 # Ui Sass 서비스 빌드
-pnpm build:ui:sass
-
-# Ui Vanilla Extract 서비스 빌드
-pnpm build:ui:vanilla
+pnpm build:ui
 
 # 공통 Utils 서비스 빌드
 pnpm build:utils
 
 # Api Type 빌드
 pnpm build:types
+
+# 모든 서비스 lint 체크
+pnpm lint
+
+# App 서비스 lint 체크
+pnpm lint:app
+
+# Storybook 서비스 lint 체크
+pnpm lint:storybook
+
+# Ui Sass 서비스 lint 체크
+pnpm lint:ui
+
+# 공통 Utils 서비스 lint 체크
+pnpm lint:utils
+
+# Api Type lint 체크
+pnpm lint:types
 
 # 모든 서비스 타입 체크
 pnpm typecheck
@@ -168,9 +167,6 @@ pnpm typecheck:storybook
 
 # Ui Sass 서비스 타입 체크
 pnpm typecheck:ui:sass
-
-# Ui Vanilla Extract 서비스 타입 체크
-pnpm typecheck:ui:vanilla
 
 # 공통 Utils 서비스 타입 체크
 pnpm typecheck:utils
@@ -190,20 +186,15 @@ pnpm compile:storybook:sass
 # Api Type Schema Generate
 pnpm generate-schema
 
-# 공통 컴포넌트 생성 Generate
-pnpm generate-component
 
 # Svg Icon 아이콘 폰트 Generate
 pnpm generate-icons
 
-# Svg Icon 정리
-pnpm fix-svg
-
 # Cache/ Node Module 제거후 재설치
 pnpm clear-install
 
-# Commit Push Check Git Hook
-pnpm use-hook
+# changeset 통해서 버전 관리
+pnpm changeset:version
 ```
 
 ---

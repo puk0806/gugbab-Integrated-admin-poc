@@ -32,11 +32,8 @@
     "test:app": "turbo  --filter @gugbab-integrated-admin-poc/gugbab-next-admin test",
     "compile:storybook": "pnpm --filter @gugbab-integrated-admin-poc/ui-sass sass-compile",
     "generate-schema": "pnpm --filter @gugbab-integrated-admin-poc/gugbab-types generate-schema",
-    "generate-component": "bash scripts/generate-component/index.sh",
     "generate-icons": "pnpm --filter @gugbab-integrated-admin-poc/icons build",
-    "fix-svg": "pnpm --filter @gugbab-integrated-admin-poc/icons svgfix",
     "clear-install": "bash scripts/clear-install/index.sh",
-    "use-hook": "git config core.hooksPath .githooks && touch githooks.config.json",
     "changeset:version": "changeset version",
     "prepare": "husky"
   },
