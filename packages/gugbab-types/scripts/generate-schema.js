@@ -354,6 +354,7 @@ async function main() {
       err => {
         if (err) {
           console.error(err);
+          process.exit(1);
         }
 
         console.log(`Done writing ${TARGET_DIR}/index.ts`);
@@ -410,6 +411,7 @@ async function main() {
     exec(`npx eslint --fix ${TARGET_DIR}`, () => {});
   } catch (error) {
     console.log(`error`, error);
+    process.exit(1);
   }
 }
 

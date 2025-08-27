@@ -1,4 +1,6 @@
-# #!/bin/bash
+ # #!/bin/bash
+set -euo pipefail
+
 echo '┏━━━━━━━━━━━━━━━━━┓'
 echo '┃ Generate Schema ┃'
 echo '┗━━━━━━━━━━━━━━━━━┛'
