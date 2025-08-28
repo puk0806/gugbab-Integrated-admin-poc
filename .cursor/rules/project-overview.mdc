@@ -1,0 +1,26 @@
+# Gugbab Integrated Admin POC 프로젝트
+
+## 프로젝트 구조
+- **모노레포 구조**: pnpm workspace 기반
+- **Next.js 관리자 시스템**: `apps/gugbab-next-admin/`
+- **UI 컴포넌트 라이브러리**: `packages/ui-sass/`
+- **타입 정의**: `packages/gugbab-types/`
+- **아이콘 라이브러리**: `packages/icons/`
+- **유틸리티**: `packages/utils/`
+
+## 기술 스택
+- **Frontend**: Next.js 14, TypeScript, SCSS
+- **상태 관리**: TanStack Query (React Query)
+- **스타일링**: SCSS 모듈, 커스텀 디자인 시스템
+- **패키지 관리**: pnpm workspace
+- **빌드 도구**: Turbo, tsup
+
+## 아키텍처 원칙
+- **Feature-based 구조**: 기능별로 폴더 분리
+- **Shared 패키지**: 재사용 가능한 로직은 packages로 분리
+- **Type Safety**: TypeScript 엄격 모드 사용
+- **컴포넌트 분리**: UI와 비즈니스 로직 분리
+description:
+globs:
+alwaysApply: false
+---

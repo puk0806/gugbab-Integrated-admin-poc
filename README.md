@@ -279,6 +279,13 @@ Related to: 해당 커밋에 관련된 이슈가 있을 때
 - **단방향 의존성**: 상위 레이어는 하위 레이어에 의존할 수 있지만, 하위 레이어가 상위 레이어에 의존하는 것은 지양합니다.
 - **App Router 사용**: Next.js App Router를 사용함으로써 별도의 `pages` 폴더 대신 `app` 폴더에서 라우팅과 UI를 정의합니다.
 
+## 개발 도구
+
+### 🤖 Cursor AI 개발 가이드
+이 프로젝트는 Cursor AI를 활용한 개발을 위해 커서룰이 설정되어 있습니다.
+
+**📖 자세한 가이드**: [CURSOR_GUIDE.md](./CURSOR_GUIDE.md)
+
 ### Application 폴더 구조
 
 ```

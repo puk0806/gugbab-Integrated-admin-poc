@@ -1,0 +1,40 @@
+# UI 컴포넌트 라이브러리 개발 가이드라인
+
+## 컴포넌트 구조
+- **폴더 구조**: `ComponentName/index.tsx`, `ComponentName/index.scss`
+- **타입 정의**: `types/components/` 하위에 컴포넌트별 타입
+- **스토리북**: `apps/storybook/stories/` 하위에 스토리 파일
+- **Export**: `src/components/index.ts`에서 통합 export
+
+## 컴포넌트 개발 규칙
+- **Props 인터페이스**: 컴포넌트 상단에 정의
+- **Default Props**: 기본값 설정
+- **Forward Ref**: 필요시 forwardRef 사용
+- **Accessibility**: ARIA 속성 및 키보드 네비게이션 지원
+
+## 스타일링 규칙
+- **SCSS 사용**: CSS 전처리기로 SCSS 활용
+- **변수 활용**: `src/types/styles/` 하위의 색상, 폰트 변수 사용
+- **모듈화**: 컴포넌트별 스타일 분리
+- **반응형**: 모바일 퍼스트 접근법
+
+## 컴포넌트 카테고리
+- **Display**: Button, Checkbox, Radio, SelectBox, TextField, Title, Typography
+- **Layout**: Flex, Loading, Image, Icon, Chip, Tooltip
+- **Utils**: HighlightedText, Ir (Screen Reader)
+
+## 개발 워크플로우
+1. **컴포넌트 생성**: `scripts/generate-component/` 스크립트 활용
+2. **스토리 작성**: Storybook에서 컴포넌트 문서화
+3. **타입 정의**: TypeScript 인터페이스 작성
+4. **스타일링**: SCSS로 디자인 구현
+5. **테스트**: Jest를 통한 단위 테스트
+
+## 빌드 및 배포
+- **tsup 사용**: TypeScript 번들링
+- **CSS 컴파일**: `scripts/sass-compile.sh` 스크립트
+- **패키지 배포**: pnpm workspace를 통한 내부 패키지 관리
+description:
+globs:
+alwaysApply: false
+---

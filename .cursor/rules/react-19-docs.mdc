@@ -1,0 +1,185 @@
+# React 19 개발 가이드라인
+
+## React 19 주요 새로운 기능
+
+### 1. 액션 (Actions)
+
+React 19에서는 비동기 함수를 사용하여 대기 상태, 에러, 폼, 낙관적 업데이트를 자동으로 처리할 수 있습니다.
+
+#### useTransition을 통한 액션 처리
+```typescript
+function UpdateName({}) {
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = () => {
+    startTransition(async () => {
+      const error = await updateName(name);
+      if (error) {
+        setError(error);
+        return;
+      }
+      redirect("/path");
+    });
+  };
+
+  return (
+    <div>
+      <input value={name} onChange={(event) => setName(event.target.value)} />
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+      {error && <p>{error}</p>}
+    </div>
+  );
+}
+```
+
+#### useActionState를 통한 폼 액션
+```typescript
+function ChangeName({ name, setName }) {
+  const [error, submitAction, isPending] = useActionState(
+    async (previousState, formData) => {
+      const error = await updateName(formData.get("name"));
+      if (error) {
+        return error;
+      }
+      redirect("/path");
+      return null;
+    },
+    null,
+  );
+
+  return (
+    <form action={submitAction}>
+      <input type="text" name="name" />
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Updating..." : "Update"}
+      </button>
+      {error && <p>{error}</p>}
+    </form>
+  );
+}
+```
+
+### 2. 낙관적 업데이트 (Optimistic Updates)
+
+#### useOptimistic 훅 사용
+```typescript
+function TodoList({ todos }) {
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
+    todos,
+    (state, newTodo) => [...state, { ...newTodo, sending: true }]
+  );
+
+  async function addTodo(formData) {
+    addOptimisticTodo({
+      id: Date.now(),
+      text: formData.get('text'),
+    });
+    
+    await addTodoToServer(formData);
+  }
+
+  return (
+    <ul>
+      {optimisticTodos.map(todo => (
+        <li key={todo.id}>
+          {todo.text}
+          {todo.sending && <small>(Sending...)</small>}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### 3. 리소스 사전 로드 API
+
+#### preload, prefetchDNS, preconnect 사용
+```typescript
+import { preload, prefetchDNS, preconnect } from 'react';
+
+function MyComponent() {
+  // 리소스 사전 로드
+  preload('https://.../path/to/script.js', { as: 'script' });
+  preload('https://.../path/to/font.woff', { as: 'font' });
+  preload('https://.../path/to/stylesheet.css', { as: 'style' });
+  
+  // DNS 사전 해석
+  prefetchDNS('https://api.example.com');
+  
+  // 연결 사전 설정
+  preconnect('https://cdn.example.com');
+  
+  return <div>Content</div>;
+}
+```
+
+### 4. 커스텀 엘리먼트 지원
+
+React 19는 커스텀 엘리먼트에 대한 완전한 지원을 제공합니다.
+
+```typescript
+// 커스텀 엘리먼트 사용
+function MyComponent() {
+  return (
+    <my-custom-element 
+      data-value="123"
+      onCustomEvent={(e) => console.log(e.detail)}
+    />
+  );
+}
+```
+
+### 5. 개선된 에러 처리
+
+#### 새로운 루트 옵션
+```typescript
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(container, {
+  onCaughtError: (error, errorInfo) => {
+    // 에러 바운더리에서 잡힌 오류 처리
+    console.log('Caught error:', error);
+  },
+  onUncaughtError: (error, errorInfo) => {
+    // 잡히지 않은 오류 처리
+    console.log('Uncaught error:', error);
+  },
+  onRecoverableError: (error, errorInfo) => {
+    // 자동 복구된 오류 처리
+    console.log('Recoverable error:', error);
+  },
+});
+```
+
+## 개발 가이드라인
+
+### 1. 액션 사용 규칙
+- **비동기 함수 활용**: `useTransition`과 `useActionState`를 활용한 데이터 변경 처리
+- **낙관적 업데이트**: `useOptimistic`을 통한 즉각적인 UI 피드백
+- **에러 처리**: 자동 에러 처리와 Error Boundary 활용
+
+### 2. 성능 최적화
+- **리소스 사전 로드**: `preload`, `prefetchDNS`, `preconnect` 활용
+- **커스텀 엘리먼트**: 웹 컴포넌트와의 호환성 개선
+- **에러 처리**: 개선된 에러 리포팅과 복구 메커니즘
+
+### 3. 마이그레이션 체크리스트
+- [ ] 액션 패턴으로 기존 비동기 로직 마이그레이션
+- [ ] 낙관적 업데이트 적용 검토
+- [ ] 리소스 사전 로드 API 활용
+- [ ] 커스텀 엘리먼트 지원 확인
+- [ ] 에러 처리 개선 적용
+
+## 참고 문서
+- [React 19 공식 블로그](https://ko.react.dev/blog/2024/12/05/react-19)
+- [React 19 업그레이드 가이드](https://react.dev/learn/upgrading)
+- [React 액션 문서](https://react.dev/reference/react/useActionState)
+- [React 낙관적 업데이트 문서](https://react.dev/reference/react/useOptimistic)
+description:
+globs:
+alwaysApply: false
+---

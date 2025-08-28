@@ -1,0 +1,130 @@
+# Next.js 15 개발 가이드라인
+
+## Next.js 15 주요 변경사항
+
+### 1. Async Request APIs (Breaking Change)
+Next.js 15에서는 요청별 데이터에 의존하는 API들이 **비동기**로 변경되었습니다.
+
+#### 변경된 API들:
+- `cookies()`
+- `headers()`
+- `draftMode()`
+- `params` (layout.js, page.js, route.js, default.js, generateMetadata, generateViewport)
+- `searchParams` (page.js)
+
+#### 마이그레이션 예시:
+```typescript
+// 이전 (Next.js 14)
+import { cookies } from 'next/headers';
+
+export function AdminPanel() {
+  const cookieStore = cookies();
+  const token = cookieStore.get('token');
+  // ...
+}
+
+// Next.js 15
+import { cookies } from 'next/headers';
+
+export async function AdminPanel() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token');
+  // ...
+}
+```
+
+#### 자동 마이그레이션:
+```bash
+npx @next/codemod@canary next-async-request-api .
+```
+
+### 2. 캐싱 시맨틱 변경 (Breaking Change)
+
+#### GET Route Handlers 기본 캐싱 해제
+- Next.js 14: GET Route Handlers가 기본적으로 캐싱됨
+- Next.js 15: GET Route Handlers가 기본적으로 캐싱되지 않음
+
+#### 캐싱을 원할 경우:
+```typescript
+export const dynamic = 'force-static';
+```
+
+#### Client Router Cache 변경
+- 페이지 컴포넌트가 기본적으로 캐싱되지 않음
+- `staleTimes` 설정으로 커스터마이징 가능
+
+### 3. React 19 지원
+- React 19 호환성
+- React Compiler (실험적) 지원
+- Hydration 에러 개선
+
+### 4. Turbopack Dev (안정화)
+- 개발 서버 성능 및 안정성 개선
+- 프로덕션 준비 완료
+
+### 5. 새로운 기능들
+
+#### Static Indicator
+- 개발 중 정적 라우트를 시각적으로 표시
+
+#### unstable_after API (실험적)
+```typescript
+import { unstable_after } from 'next/server';
+
+export async function Page() {
+  unstable_after(() => {
+    console.log('Response finished streaming');
+  });
+  
+  return <div>Content</div>;
+}
+```
+
+#### instrumentation.js API (안정화)
+- 서버 라이프사이클 관찰 가능성
+
+#### Enhanced Forms (next/form)
+```typescript
+import { Form } from 'next/form';
+
+export default function MyForm() {
+  return (
+    <Form action="/api/submit">
+      <input name="title" />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## 개발 가이드라인
+
+### 1. 비동기 API 사용 규칙
+- 모든 요청별 데이터 접근은 `await` 사용
+- 컴포넌트에서 비동기 함수 사용시 `async` 키워드 필수
+- 에러 처리: try-catch 블록으로 적절한 에러 핸들링
+
+### 2. 캐싱 전략
+- 필요한 경우에만 명시적으로 캐싱 설정
+- 동적 데이터는 캐싱하지 않음
+- 정적 데이터는 `force-static` 설정 활용
+
+### 3. 성능 최적화
+- Turbopack 사용으로 개발 속도 향상
+- 정적 라우트 최대한 활용
+- 불필요한 동적 렌더링 방지
+
+### 4. 마이그레이션 체크리스트
+- [ ] Async Request APIs 마이그레이션
+- [ ] 캐싱 설정 검토 및 조정
+- [ ] React 19 호환성 확인
+- [ ] 새로운 기능 활용 검토
+
+## 참고 문서
+- [Next.js 15 공식 블로그](https://nextjs.org/blog/next-15)
+- [Next.js 15 업그레이드 가이드](https://nextjs.org/docs/upgrading)
+- [@next/codemod CLI 문서](https://nextjs.org/docs/app/building-your-application/upgrading/codemods)
+description:
+globs:
+alwaysApply: false
+---

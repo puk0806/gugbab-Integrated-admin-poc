@@ -1,0 +1,131 @@
+# API 개발 및 데이터 관리 가이드라인
+
+## TanStack Query 사용 규칙
+
+### 쿼리 구조
+- **파일 분리**: `api/`, `queries/`, `mutations/` 파일 분리
+- **쿼리 키**: `queryKeys.ts`에서 중앙 관리
+- **타입 정의**: 각 API에 대한 요청/응답 타입 정의
+- **에러 처리**: `shared/error/` 하위의 에러 처리 로직 활용
+
+### 쿼리 작성 패턴
+```typescript
+// queries/example.queries.ts
+export const useExampleQuery = (params: ExampleRequest) => {
+  return useQuery({
+    queryKey: ['example', params],
+    queryFn: () => exampleApi.getExample(params),
+    enabled: !!params.id,
+  });
+};
+```
+
+### 뮤테이션 작성 패턴
+```typescript
+// mutations/example.mutations.ts
+export const useExampleMutation = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: exampleApi.createExample,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['example'] });
+    },
+  });
+};
+```
+
+## API 구조 규칙
+
+### 파일 구조
+- **API 함수**: `api/` 하위에 실제 API 호출 함수
+- **쿼리 훅**: `queries/` 하위에 데이터 조회 훅
+- **뮤테이션 훅**: `mutations/` 하위에 데이터 변경 훅
+- **타입 정의**: `types/` 하위에 API 타입 정의
+
+### 네이밍 규칙
+- **API 함수**: `{entity}Api.{action}`
+- **쿼리 훅**: `use{Entity}Query`
+- **뮤테이션 훅**: `use{Entity}Mutation`
+- **타입**: `{Entity}Request`, `{Entity}Response`
+
+## 에러 처리
+
+### 에러 타입 정의
+```typescript
+// shared/error/types/error.ts
+export interface ApiError {
+  code: string;
+  message: string;
+  details?: Record<string, any>;
+}
+```
+
+### 에러 처리 훅
+```typescript
+// shared/error/hooks/useQueryError.ts
+export const useQueryError = (error: ApiError) => {
+  // 에러 처리 로직
+};
+```
+
+## 데이터 캐싱 전략
+
+### 캐싱 규칙
+- **쿼리 키**: 계층적 구조로 캐싱 키 설계
+- **무효화**: 관련 데이터 변경시 적절한 캐싱 무효화
+- **프리페칭**: 사용자 액션에 따른 데이터 프리페칭
+- **백그라운드 업데이트**: 백그라운드에서 데이터 갱신
+
+### 캐싱 설정
+```typescript
+export const useExampleQuery = (params: ExampleRequest) => {
+  return useQuery({
+    queryKey: ['example', params],
+    queryFn: () => exampleApi.getExample(params),
+    staleTime: 5 * 60 * 1000, // 5분
+    cacheTime: 10 * 60 * 1000, // 10분
+    refetchOnWindowFocus: false,
+  });
+};
+```
+
+## 인증 및 보안
+
+### 인증 토큰 관리
+- **쿠키 기반**: `shared/auth/` 하위에서 쿠키 관리
+- **토큰 갱신**: 자동 토큰 갱신 로직
+- **인터셉터**: 요청/응답 인터셉터를 통한 토큰 처리
+
+### API 요청 설정
+```typescript
+// shared/fetch/utils/fetch.ts
+export const apiFetch = async (url: string, options: RequestInit) => {
+  const token = getAuthToken();
+  
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+```
+
+## 성능 최적화
+
+### 쿼리 최적화
+- **선택적 필드**: 필요한 필드만 요청
+- **페이지네이션**: 대용량 데이터의 페이지네이션 처리
+- **무한 스크롤**: `useInfiniteQuery` 활용
+- **병렬 쿼리**: `useQueries`를 통한 병렬 요청
+
+### 데이터 정규화
+- **중앙 집중식 상태**: 중복 데이터 제거
+- **관계 데이터**: 관련 데이터의 효율적 관리
+- **메모리 사용량**: 불필요한 데이터 제거
+description:
+globs:
+alwaysApply: false
+---

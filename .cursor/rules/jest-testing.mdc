@@ -1,0 +1,527 @@
+# Jest 테스팅 가이드라인
+
+## Jest 기본 설정
+
+### 1. Jest 설정 파일
+
+```typescript
+// jest.config.ts
+import type { Config } from 'jest';
+import nextJest from 'next/jest';
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+const config: Config = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testEnvironment: 'jsdom',
+  moduleNameMapping: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
+  },
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/**/*.stories.{js,jsx,ts,tsx}',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/**/*.{test,spec}.{js,jsx,ts,tsx}',
+  ],
+};
+
+export default createJestConfig(config);
+```
+
+### 2. Jest 설정 파일
+
+```typescript
+// jest.setup.ts
+import '@testing-library/jest-dom';
+import { server } from './src/mocks/server';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+// 전역 모킹 설정
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+// fetch 모킹
+global.fetch = jest.fn();
+```
+
+## 컴포넌트 테스트
+
+### 1. 기본 컴포넌트 테스트
+
+```typescript
+// components/Button/Button.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from './Button';
+
+describe('Button', () => {
+  it('renders with correct text', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+  });
+
+  it('calls onClick when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies variant classes correctly', () => {
+    const { rerender } = render(<Button variant="primary">Primary</Button>);
+    expect(screen.getByRole('button')).toHaveClass('btn-primary');
+    
+    rerender(<Button variant="secondary">Secondary</Button>);
+    expect(screen.getByRole('button')).toHaveClass('btn-secondary');
+  });
+
+  it('is disabled when disabled prop is true', () => {
+    render(<Button disabled>Disabled</Button>);
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+});
+```
+
+### 2. 폼 컴포넌트 테스트
+
+```typescript
+// components/LoginForm/LoginForm.test.tsx
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm } from './LoginForm';
+
+describe('LoginForm', () => {
+  const mockOnSubmit = jest.fn();
+
+  beforeEach(() => {
+    mockOnSubmit.mockClear();
+  });
+
+  it('renders form fields', () => {
+    render(<LoginForm onSubmit={mockOnSubmit} />);
+    
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+  });
+
+  it('validates required fields', async () => {
+    render(<LoginForm onSubmit={mockOnSubmit} />);
+    
+    const submitButton = screen.getByRole('button', { name: /login/i });
+    fireEvent.click(submitButton);
+    
+    await waitFor(() => {
+      expect(screen.getByText(/email is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/password is required/i)).toBeInTheDocument();
+    });
+    
+    expect(mockOnSubmit).not.toHaveBeenCalled();
+  });
+
+  it('submits form with valid data', async () => {
+    const user = userEvent.setup();
+    render(<LoginForm onSubmit={mockOnSubmit} />);
+    
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    const submitButton = screen.getByRole('button', { name: /login/i });
+    
+    await user.type(emailInput, 'test@example.com');
+    await user.type(passwordInput, 'password123');
+    await user.click(submitButton);
+    
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+    });
+  });
+
+  it('shows error message for invalid email', async () => {
+    const user = userEvent.setup();
+    render(<LoginForm onSubmit={mockOnSubmit} />);
+    
+    const emailInput = screen.getByLabelText(/email/i);
+    await user.type(emailInput, 'invalid-email');
+    await user.tab(); // blur event
+    
+    await waitFor(() => {
+      expect(screen.getByText(/invalid email format/i)).toBeInTheDocument();
+    });
+  });
+});
+```
+
+### 3. 커스텀 훅 테스트
+
+```typescript
+// hooks/useCounter/useCounter.test.ts
+import { renderHook, act } from '@testing-library/react';
+import { useCounter } from './useCounter';
+
+describe('useCounter', () => {
+  it('initializes with default value', () => {
+    const { result } = renderHook(() => useCounter());
+    expect(result.current.count).toBe(0);
+  });
+
+  it('initializes with custom value', () => {
+    const { result } = renderHook(() => useCounter(10));
+    expect(result.current.count).toBe(10);
+  });
+
+  it('increments counter', () => {
+    const { result } = renderHook(() => useCounter());
+    
+    act(() => {
+      result.current.increment();
+    });
+    
+    expect(result.current.count).toBe(1);
+  });
+
+  it('decrements counter', () => {
+    const { result } = renderHook(() => useCounter(5));
+    
+    act(() => {
+      result.current.decrement();
+    });
+    
+    expect(result.current.count).toBe(4);
+  });
+
+  it('resets counter', () => {
+    const { result } = renderHook(() => useCounter(5));
+    
+    act(() => {
+      result.current.increment();
+      result.current.reset();
+    });
+    
+    expect(result.current.count).toBe(0);
+  });
+});
+```
+
+## API 테스트
+
+### 1. API 함수 테스트
+
+```typescript
+// api/userApi.test.ts
+import { fetchUser, createUser, updateUser } from './userApi';
+import { server } from '../../mocks/server';
+import { rest } from 'msw';
+
+describe('userApi', () => {
+  describe('fetchUser', () => {
+    it('fetches user successfully', async () => {
+      const mockUser = { id: '1', name: 'John Doe', email: 'john@example.com' };
+      
+      server.use(
+        rest.get('/api/users/:id', (req, res, ctx) => {
+          return res(ctx.json(mockUser));
+        })
+      );
+      
+      const result = await fetchUser('1');
+      expect(result).toEqual(mockUser);
+    });
+
+    it('throws error when user not found', async () => {
+      server.use(
+        rest.get('/api/users/:id', (req, res, ctx) => {
+          return res(ctx.status(404));
+        })
+      );
+      
+      await expect(fetchUser('999')).rejects.toThrow('User not found');
+    });
+  });
+
+  describe('createUser', () => {
+    it('creates user successfully', async () => {
+      const newUser = { name: 'Jane Doe', email: 'jane@example.com' };
+      const createdUser = { id: '2', ...newUser };
+      
+      server.use(
+        rest.post('/api/users', (req, res, ctx) => {
+          return res(ctx.json(createdUser));
+        })
+      );
+      
+      const result = await createUser(newUser);
+      expect(result).toEqual(createdUser);
+    });
+  });
+});
+```
+
+### 2. MSW를 사용한 API 모킹
+
+```typescript
+// mocks/handlers.ts
+import { rest } from 'msw';
+
+export const handlers = [
+  rest.get('/api/users', (req, res, ctx) => {
+    return res(
+      ctx.json([
+        { id: '1', name: 'John Doe', email: 'john@example.com' },
+        { id: '2', name: 'Jane Doe', email: 'jane@example.com' },
+      ])
+    );
+  }),
+
+  rest.get('/api/users/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    
+    if (id === '1') {
+      return res(
+        ctx.json({ id: '1', name: 'John Doe', email: 'john@example.com' })
+      );
+    }
+    
+    return res(ctx.status(404));
+  }),
+
+  rest.post('/api/users', (req, res, ctx) => {
+    const { name, email } = req.body as any;
+    
+    return res(
+      ctx.json({ id: Date.now().toString(), name, email })
+    );
+  }),
+];
+
+// mocks/server.ts
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
+
+export const server = setupServer(...handlers);
+```
+
+## 유틸리티 함수 테스트
+
+### 1. 순수 함수 테스트
+
+```typescript
+// utils/format.test.ts
+import { formatDate, formatCurrency, formatPhoneNumber } from './format';
+
+describe('format', () => {
+  describe('formatDate', () => {
+    it('formats date correctly', () => {
+      const date = new Date('2023-12-25');
+      expect(formatDate(date)).toBe('2023년 12월 25일');
+    });
+
+    it('handles invalid date', () => {
+      expect(formatDate(new Date('invalid'))).toBe('Invalid Date');
+    });
+  });
+
+  describe('formatCurrency', () => {
+    it('formats currency correctly', () => {
+      expect(formatCurrency(1000)).toBe('₩1,000');
+      expect(formatCurrency(1234567)).toBe('₩1,234,567');
+    });
+
+    it('handles zero and negative values', () => {
+      expect(formatCurrency(0)).toBe('₩0');
+      expect(formatCurrency(-1000)).toBe('-₩1,000');
+    });
+  });
+
+  describe('formatPhoneNumber', () => {
+    it('formats phone number correctly', () => {
+      expect(formatPhoneNumber('01012345678')).toBe('010-1234-5678');
+      expect(formatPhoneNumber('0212345678')).toBe('02-1234-5678');
+    });
+
+    it('handles invalid phone number', () => {
+      expect(formatPhoneNumber('123')).toBe('123');
+      expect(formatPhoneNumber('')).toBe('');
+    });
+  });
+});
+```
+
+### 2. 비동기 함수 테스트
+
+```typescript
+// utils/api.test.ts
+import { debounce, retry } from './api';
+
+describe('api utils', () => {
+  describe('debounce', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('debounces function calls', () => {
+      const mockFn = jest.fn();
+      const debouncedFn = debounce(mockFn, 300);
+
+      debouncedFn();
+      debouncedFn();
+      debouncedFn();
+
+      expect(mockFn).not.toHaveBeenCalled();
+
+      jest.advanceTimersByTime(300);
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('retry', () => {
+    it('retries failed function', async () => {
+      let attempts = 0;
+      const mockFn = jest.fn().mockImplementation(() => {
+        attempts++;
+        if (attempts < 3) {
+          throw new Error('Failed');
+        }
+        return 'success';
+      });
+
+      const result = await retry(mockFn, 3, 100);
+      expect(result).toBe('success');
+      expect(mockFn).toHaveBeenCalledTimes(3);
+    });
+
+    it('throws error after max retries', async () => {
+      const mockFn = jest.fn().mockRejectedValue(new Error('Failed'));
+
+      await expect(retry(mockFn, 3, 100)).rejects.toThrow('Failed');
+      expect(mockFn).toHaveBeenCalledTimes(3);
+    });
+  });
+});
+```
+
+## 통합 테스트
+
+### 1. 페이지 컴포넌트 테스트
+
+```typescript
+// pages/UserList/UserList.test.tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { UserList } from './UserList';
+
+const createTestQueryClient = () => new QueryClient({
+  defaultOptions: {
+    queries: { retry: false },
+    mutations: { retry: false },
+  },
+});
+
+describe('UserList', () => {
+  let queryClient: QueryClient;
+
+  beforeEach(() => {
+    queryClient = createTestQueryClient();
+  });
+
+  it('renders user list', async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <UserList />
+      </QueryClientProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+    });
+  });
+
+  it('shows loading state', () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <UserList />
+      </QueryClientProvider>
+    );
+
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
+
+  it('shows error state', async () => {
+    server.use(
+      rest.get('/api/users', (req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <UserList />
+      </QueryClientProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/error/i)).toBeInTheDocument();
+    });
+  });
+});
+```
+
+## 개발 가이드라인
+
+### 1. 테스트 작성 원칙
+- **AAA 패턴**: Arrange, Act, Assert 구조 사용
+- **명확한 테스트명**: 테스트의 의도가 명확한 이름 사용
+- **독립성**: 각 테스트는 독립적으로 실행 가능해야 함
+- **가독성**: 테스트 코드도 프로덕션 코드만큼 깔끔하게 작성
+
+### 2. 테스트 커버리지
+- **80% 이상**: 전체 코드 커버리지 80% 이상 유지
+- **핵심 로직**: 비즈니스 로직과 에러 케이스 우선 테스트
+- **엣지 케이스**: 경계값과 예외 상황 테스트
+
+### 3. 모킹 전략
+- **외부 의존성**: API, 브라우저 API 등 외부 의존성 모킹
+- **MSW 활용**: API 테스트를 위한 MSW 사용
+- **적절한 모킹**: 과도한 모킹 지양
+
+### 4. 성능 고려사항
+- **빠른 실행**: 테스트 실행 시간 최소화
+- **병렬 실행**: 가능한 경우 병렬 실행 활용
+- **메모리 관리**: 테스트 후 정리 작업 수행
+
+## 참고 문서
+- [Jest 공식 문서](https://jestjs.io/docs/getting-started)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [MSW (Mock Service Worker)](https://mswjs.io/docs/)
+description:
+globs:
+alwaysApply: false
+---
