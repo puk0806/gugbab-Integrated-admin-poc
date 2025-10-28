@@ -41,7 +41,6 @@
   - **icons**: 아이콘 웹폰트 패키지
   - **tsconfig**: 프로젝트 ts 설정 패키지
   - **ui-sass**: Sass UI 라이브러리
-  - **ui-vanilla-extract**: Vanilla Extract UI 라이브러리
   - **utils**: 공통 유틸리티 패키지
   - **types**: Api Type 패키지
 

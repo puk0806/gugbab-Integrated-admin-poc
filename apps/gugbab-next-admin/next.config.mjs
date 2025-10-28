@@ -8,8 +8,8 @@ const __dirname = new URL('.', import.meta.url).pathname;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactCompiler: true,
   experimental: {
-    reactCompiler: true,
     serverActions: {
       enabled: true,
     },
