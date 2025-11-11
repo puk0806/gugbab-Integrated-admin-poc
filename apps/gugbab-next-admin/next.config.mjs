@@ -1,41 +1,19 @@
 import path from 'path';
-import { URL } from 'url';
-// import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
+import { fileURLToPath } from 'url';
 
-const __dirname = new URL('.', import.meta.url).pathname;
-
-// const withVanillaExtract = createVanillaExtractPlugin();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-  experimental: {
-    serverActions: {
-      enabled: true,
-    },
-  },
   reactStrictMode: false,
-  // rewrites() {
-  //   return [
-  //     {
-  //       source: '/proxy/:path*',
-  //       destination: `${process.env.NEXT_PUBLIC_FRONT_URL}/:path*`,
-  //     },
-  //   ];
-  // },
-  sassOptions: {
-    includePaths: [
-      path.join(__dirname, 'styles'),
-      path.join(__dirname, 'node_modules/@gugbab-integrated-admin-poc/ui-sass'),
-    ],
-  },
   transpilePackages: ['@gugbab-integrated-admin-poc/ui-sass'],
   output: 'standalone',
-  webpack: config => {
-    config.resolve.alias['~'] = path.resolve(__dirname + '/src');
-    return config;
+  turbopack: {
+    // Next.js 16: Turbopack root를 명시적으로 지정
+    root: path.join(__dirname, '..', '..'),
   },
 };
 
-// export default withVanillaExtract(nextConfig);
 export default nextConfig;

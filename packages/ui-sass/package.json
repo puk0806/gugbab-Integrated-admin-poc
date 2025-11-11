@@ -29,8 +29,8 @@
     "postbuild": "sh ./scripts/postbuild.sh"
   },
   "peerDependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "dependencies": {
     "@gugbab-integrated-admin-poc/utils": "workspace:*",

@@ -1,0 +1,94 @@
+# Next.js 16 개발 가이드라인
+
+## Next.js 16 주요 변경사항
+
+### 1. Turbopack 기본화 및 파일 시스템 캐시
+- Turbopack이 개발/빌드 모두에서 **기본 번들러**로 승격되었습니다.
+- 개발 재시작 시 컴파일 속도를 향상시키는 `turbopackFileSystemCacheForDev` 옵션이 추가되었습니다.
+  ```typescript
+  // next.config.ts
+  const nextConfig = {
+    experimental: {
+      turbopackFileSystemCacheForDev: true,
+    },
+  };
+
+  export default nextConfig;
+  ```
+- webpack을 유지하려면 `next dev --webpack`, `next build --webpack` 명령을 사용합니다.
+
+### 2. React Compiler 및 React 19.2 지원
+- React Compiler 통합이 **안정화**되었습니다. `reactCompiler: true` 설정으로 자동 메모이제이션을 활성화할 수 있습니다.
+- React 19.2(View Transitions, `useEffectEvent`, `<Activity/>`)를 기본 지원합니다. 컴파일러 사용 시 Babel 플러그인 설치가 필요합니다.
+  ```bash
+  npm install babel-plugin-react-compiler@latest
+  ```
+
+### 3. 캐싱 API 업데이트
+- `revalidateTag()`가 **cacheLife 프로필** 인자를 필수로 요구합니다.
+  ```typescript
+  import { revalidateTag } from 'next/cache';
+
+  export async function refreshBlog() {
+    revalidateTag('blog-posts', 'max');
+  }
+  ```
+- Server Actions에서 즉시 반영이 필요한 경우 신규 `updateTag()`를 사용합니다.
+  ```typescript
+  'use server';
+  import { updateTag } from 'next/cache';
+
+  export async function updateProfile(userId: string) {
+    await db.users.update(userId);
+    updateTag(`user-${userId}`);
+  }
+  ```
+- 캐시를 건드리지 않고 데이터만 갱신해야 할 때는 `refresh()` API를 활용합니다.
+
+### 4. Cache Components 및 PPR 통합
+- `experimental.ppr` 플래그가 제거되고 Cache Components 프로그래밍 모델로 통합됩니다.
+- PPR 의존 프로젝트는 `experimental.cacheComponents` 설정으로 점진적 전환을 준비해야 합니다.
+
+### 5. 라우팅 및 프리패치 개선
+- 레이아웃 중복 제거, 증분 프리패치 등으로 **네비게이션 성능이 향상**되었습니다.
+- 프리패치 요청 수는 늘 수 있으나 총 전송량은 감소합니다. 데이터 태그 무효화 시 자동 재프리패치가 동작합니다.
+
+### 6. 설정 및 동작 변경
+- `middleware.ts`가 `proxy.ts`로 대체 예정(감가상각). 새 프로젝트는 즉시 적용을 고려합니다.
+- `next lint` 명령이 제거되었으며 ESLint/ Biome을 직접 실행해야 합니다.
+- `experimental.turbopack` 설정이 최상위 `turbopack`으로 이동했고, `images` 관련 기본값(캐시 TTL, 사이즈, 퀄리티 등)이 조정되었습니다.
+- 모든 병렬 라우트 슬롯에 `default.js` 파일이 필수입니다.
+- `cookies()`, `headers()`, `draftMode()`, `params`, `searchParams`는 계속해서 **비동기 API**이므로 `await` 사용이 필수입니다.
+
+## 개발 가이드라인
+
+### 1. 비동기 API 사용 규칙
+- 레이아웃/페이지/라우터에서 `await params`, `await searchParams`, `await cookies()` 등 비동기 호출을 준수합니다.
+- Server Components에서 비동기 로직 사용 시 에러 처리를 위해 `try/catch`를 래핑합니다.
+
+### 2. 캐싱 전략
+- 정적 데이터는 `revalidateTag(tag, 'max')` 또는 Cache Components를 이용해 SWR 패턴을 구성합니다.
+- 즉시 반영이 필요한 폼/액션은 `updateTag()`를, 캐시 비의존 데이터는 `refresh()`를 사용합니다.
+- `images` 관련 기본 TTL(4시간) 및 리다이렉트 제한(기본 3회)을 검토해 서비스 요구사항에 맞게 조정합니다.
+
+### 3. 성능 최적화
+- Turbopack 기본화를 활용해 **Fast Refresh** 및 **빌드 속도**를 확인하고, 필요 시 파일 시스템 캐시를 활성화합니다.
+- React Compiler 활성화 시 빌드 시간이 증가할 수 있으므로 핵심 경로부터 점진적으로 적용합니다.
+
+### 4. 마이그레이션 체크리스트
+- [ ] `next` 버전을 `16.x`로 업데이트하고 lockfile 재생성
+- [ ] `revalidateTag()` 호출부에 cacheLife 인자 추가
+- [ ] Cache Components/PPR 사용 여부 점검 및 설정 이전
+- [ ] `next lint` 의존 스크립트 제거 또는 대체
+- [ ] 이미지 설정(`images.minimumCacheTTL`, `images.remotePatterns`, `images.qualities`) 재검토
+- [ ] 병렬 라우트에 `default.js` 존재 여부 확인
+- [ ] Server Actions에서 필요한 경우 `updateTag()`, `refresh()` 적용
+
+## 참고 문서
+- [Next.js 16 업그레이드 가이드](https://nextjs.org/docs/app/guides/upgrading/version-16)
+- [Next.js 16 (beta) 블로그 발표](https://nextjs.org/blog/next-16-beta)
+- [@next/codemod CLI 문서](https://nextjs.org/docs/app/building-your-application/upgrading/codemods)
+description:
+globs:
+alwaysApply: false
+---

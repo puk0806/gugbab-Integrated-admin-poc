@@ -198,6 +198,16 @@ pnpm changeset:version
 
 ---
 
+## Next.js 16 업그레이드 메모
+
+- 현재 `apps/gugbab-next-admin`은 **Next.js 16 (beta)** 기반이며 Turbopack이 기본 번들러로 동작합니다. webpack을 유지하려면 `next dev --webpack`, `next build --webpack` 명령을 사용하세요.
+- `revalidateTag()` 호출 시 `revalidateTag(tag, cacheLife)` 형태로 **cacheLife 프로필 인자**를 반드시 전달해야 합니다. 즉시 반영이 필요한 경우 Server Actions에서 `updateTag()` 또는 `refresh()`를 활용하세요.
+- PPR 기능은 Cache Components로 통합되었습니다. 필요 시 `experimental.cacheComponents` 설정을 검토하고 병렬 라우트 슬롯마다 `default.js` 파일을 명시적으로 추가하세요.
+- React Compiler가 안정화되어 `reactCompiler: true` 설정으로 자동 메모이제이션을 활용할 수 있지만 빌드 시간이 증가할 수 있으므로 핵심 경로부터 점진적으로 적용하세요.
+- 자세한 변경 사항과 마이그레이션 단계는 [Next.js 16 업그레이드 가이드](https://nextjs.org/docs/app/guides/upgrading/version-16)와 [Next.js 16 (beta) 블로그 발표](https://nextjs.org/blog/next-16-beta)를 참조하세요.
+
+---
+
 ## Git Commit Naming
 
 ### 구조

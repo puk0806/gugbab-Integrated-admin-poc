@@ -11,8 +11,8 @@
   "dependencies": {
     "@gugbab-integrated-admin-poc/ui-sass": "workspace:*",
     "@gugbab-integrated-admin-poc/icons": "workspace:*",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.51.1"
   },
   "devDependencies": {

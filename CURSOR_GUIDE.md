@@ -22,9 +22,9 @@
 - Next.js App Router 기반 관리자 시스템 개발 가이드라인
 - Feature-based 구조, 컴포넌트 개발 규칙, API 개발 규칙
 
-#### 4. **nextjs-15-docs.mdc** (Next.js 15 문서)
-- Next.js 15 주요 변경사항 및 새로운 기능
-- Async Request APIs, 캐싱 시맨틱 변경, React 19 지원
+#### 4. **nextjs-16-docs.mdc** (Next.js 16 문서)
+- Next.js 16 주요 변경사항 및 새로운 기능
+- Turbopack 기본화, Cache Components, 새로운 캐싱 API
 
 #### 5. **react-19-docs.mdc** (React 19 문서)
 - React 19 새로운 기능: 액션, 낙관적 업데이트, 리소스 사전 로드
@@ -78,12 +78,12 @@
 
 ### 수동 호출
 - `@ruleName`으로 특정 규칙을 수동으로 호출할 수 있습니다
-- 예: `@nextjs-15-docs`로 Next.js 15 관련 가이드라인 호출
+- 예: `@nextjs-16-docs`로 Next.js 16 관련 가이드라인 호출
 
 ## 📚 주요 기술 문서
 
 ### 프레임워크 및 라이브러리
-- **[Next.js 15](https://nextjs.org/blog/next-15)** - Next.js 15 주요 변경사항 및 새로운 기능
+- **[Next.js 16 (beta)](https://nextjs.org/blog/next-16-beta)** - Next.js 16 주요 변경사항 및 새로운 기능
 - **[React 19](https://ko.react.dev/blog/2024/12/05/react-19)** - React 19 새로운 기능 및 업그레이드 가이드
 - **[Feature-Sliced Design](https://feature-sliced.design/kr/docs/get-started/overview)** - 프로젝트 아키텍처 패턴
 
@@ -102,8 +102,8 @@
 ## 📋 기술 문서 목록
 
 ### 프레임워크 및 라이브러리
-- **[Next.js 15](https://nextjs.org/blog/next-15)** - Next.js 15 주요 변경사항 및 새로운 기능
-- **[Next.js 15 업그레이드 가이드](https://nextjs.org/docs/upgrading)** - Next.js 14에서 15로 업그레이드 방법
+- **[Next.js 16 (beta)](https://nextjs.org/blog/next-16-beta)** - Next.js 16 주요 변경사항 및 새로운 기능
+- **[Next.js 16 업그레이드 가이드](https://nextjs.org/docs/app/guides/upgrading/version-16)** - Next.js 15에서 16으로 업그레이드 방법
 - **[@next/codemod CLI 문서](https://nextjs.org/docs/app/building-your-application/upgrading/codemods)** - 자동 코드 마이그레이션 도구
 - **[React 19](https://ko.react.dev/blog/2024/12/05/react-19)** - React 19 새로운 기능 및 업그레이드 가이드
 - **[Feature-Sliced Design](https://feature-sliced.design/kr/docs/get-started/overview)** - 프로젝트 아키텍처 패턴
@@ -139,10 +139,10 @@
 4. **UI 컴포넌트**: `@ui-components` 규칙 참조
 5. **테스트 작성**: `@jest-testing` 규칙 참조
 
-### Next.js 15 마이그레이션
-1. **변경사항 확인**: `@nextjs-15-docs` 규칙 참조
+### Next.js 16 마이그레이션
+1. **변경사항 확인**: `@nextjs-16-docs` 규칙 참조
 2. **React 19 업그레이드**: `@react-19-docs` 규칙 참조
-3. **자동 마이그레이션**: `npx @next/codemod@canary next-async-request-api .`
+3. **자동 마이그레이션**: `npx @next/codemod@canary upgrade beta`
 
 ### 데이터 그리드 구현
 1. **AG Grid 설정**: `@ag-grid` 규칙 참조

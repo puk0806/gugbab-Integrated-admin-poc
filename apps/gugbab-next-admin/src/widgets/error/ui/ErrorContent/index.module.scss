@@ -10,9 +10,7 @@
   padding: 40px 0;
   border-block: 1px solid palette.$Secondary-Navy;
 
-  :global {
-    .typography {
-      text-align: center;
-    }
+  :global(.typography) {
+    text-align: center;
   }
 }
